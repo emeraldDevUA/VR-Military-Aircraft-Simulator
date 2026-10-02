@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public struct Engine
 {
@@ -54,6 +56,9 @@ public class PlayerControllerScript : MonoBehaviour
     {
         engine = new Engine(130000, 0.8);
         engine.enableAfterburner = true;
+        
+	List<Dictionary<string, object>> data = CSV_Utils.Read("Airfoils/NACA64A204");
+
     }
 
     // Update is called once per frame
