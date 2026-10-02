@@ -2,49 +2,19 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public struct Engine
-{
-
-    public Engine(double thrust, double throttle)
-    {
-        maxThrust = thrust;
-        innerThrottle = throttle;
-        enableAfterburner = false;
-    }
-
-    public double maxThrust { get; private set; }
-    
-    public double innerThrottle { get; set; }
-
-    public bool enableAfterburner { get;  set; }
-
-    public double computePropulsionForce()
-    {
-        double afterburner_multipler = enableAfterburner ? 1 : 0.5;
-
-        return -innerThrottle * maxThrust * afterburner_multipler;
-    }
-}
-
-
-
-
-
 
 public class PlayerControllerScript : MonoBehaviour
 {
     [Header("References")]
     public Transform cameraPoint;
-    public Camera playerCamera; // renamed from "camera" - that name shadows Component.camera and is deprecated
+    public Camera playerCamera;
     public Rigidbody rigidbody;
 
     [Header("Movement")]
     public float moveSpeed = 5f;
     public float rotationSpeed = 10f;
 
-
     private Engine engine;
-
 
     public float mouseSensitivity = 3f;
 
@@ -54,7 +24,7 @@ public class PlayerControllerScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        engine = new Engine(130000, 0.8);
+        engine = new Engine(75000, 0.8);
         engine.enableAfterburner = true;
         
 	List<Dictionary<string, object>> data = CSV_Utils.Read("Airfoils/NACA64A204");
