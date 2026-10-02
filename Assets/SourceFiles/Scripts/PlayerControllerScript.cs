@@ -27,7 +27,12 @@ public class PlayerControllerScript : MonoBehaviour
         engine = new Engine(75000, 0.8);
         engine.enableAfterburner = true;
         
-	List<Dictionary<string, object>> data = CSV_Utils.Read("Airfoils/NACA64A204");
+	    List<Dictionary<string, object>> data = CSV_Utils.Read("Airfoils/NACA64A204");
+
+        foreach (var row in data)
+        {
+            Debug.Log($"Alpha: {row["alpha"]}, CL: {row["cl"]}, CD: {row["cd"]}");
+        }
 
     }
 
