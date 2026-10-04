@@ -29,7 +29,8 @@ public struct Engine
 
 public struct Wing{
 
-    public Wing(double area, double activation, Vector3 wingNormal, Vector3 displacement){
+    public Wing(double area, double activation, double span, double flap_ratio,
+                Vector3 wingNormal, Vector3 displacement){
         m_area = area;
         m_activation = activation;
         m_wingNormal = wingNormal;
@@ -44,7 +45,14 @@ public struct Wing{
 
     public Vector3 m_displacement{get; set;}
 
-    public double computeForce(){
+    public double computeForce(Rigidbody rigidBody){
+        Vector3 localVelocity =
+        rigidBody.transform.InverseTransformDirection(
+            rigidBody.linearVelocity
+        );
+        double speed = localVelocity.magnitude;
+
+
         return 0.0;
     }
 }

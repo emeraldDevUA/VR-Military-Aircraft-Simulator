@@ -22,11 +22,26 @@ class Airplane{
 
     // airbrake -- state
 
+    // Probably rigid body too
 
 
     public Airplane(){
 
 
     }
+
+
+    public void computeForce(Rigidbody rigidBody)
+    {
+
+    }
+
+
+
+    public void computeTorque(Rigidbody rigidBody)
+    {
+
+    }
+
 
 }
