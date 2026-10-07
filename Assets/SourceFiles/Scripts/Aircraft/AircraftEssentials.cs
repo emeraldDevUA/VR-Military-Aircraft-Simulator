@@ -74,20 +74,20 @@ public struct Wing{
        // m_wingNormal must be a unit vector in LOCAL space (e.g. Vector3.up)
        float aoa = Mathf.Asin(Mathf.Clamp(Vector3.Dot(dragDir, m_wingNormal), -1f, 1f)) * Mathf.Rad2Deg;
 
-       Point coeffs = m_airfoil.SampleByAlpha((double)aoa);
-       float liftCoeff = (float)coeffs.X;
-       float dragCoeff = (float)coeffs.Y;
+       Point coefficients = m_airfoil.SampleByAlpha((double)aoa);
+       float liftCoefficient = (float)coefficients.X;
+       float dragCoefficient = (float)coefficients.Y;
 
        if (m_flapRatio > 0f)
-           liftCoeff += (float)Mathf.Sqrt((float)m_flapRatio) * (float)m_airfoil.MaxCl * (float)m_controlInput;
+           liftCoefficient += (float)Mathf.Sqrt((float)m_flapRatio) * (float)m_airfoil.MaxCl * (float)m_controlInput;
 
-       float inducedDragCoeff = (float)((liftCoeff * liftCoeff) / (Mathf.PI * m_aspectRatio * m_efficiencyFactor));
-       dragCoeff += inducedDragCoeff;
+       float inducedDragCoefficient= (float)((liftCoefficient * liftCoefficient) / (Mathf.PI * m_aspectRatio * m_efficiencyFactor));
+       dragCoefficient += inducedDragCoefficient;
 
        float airDensity = 1.225f; // replace with an altitude-based lookup
        float dynamicPressure = 0.5f * (float) (planeSpeed * planeSpeed * airDensity * m_area);
 
-       Vector3 localForce = (liftDir * liftCoeff + dragDir * dragCoeff) * dynamicPressure;
+       Vector3 localForce = (liftDir * liftCoefficient + dragDir * dragCoefficient) * dynamicPressure;
        return rb.transform.TransformDirection(localForce);   // back to world space
    }
 }
