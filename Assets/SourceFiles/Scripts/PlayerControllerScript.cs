@@ -19,7 +19,7 @@ public class PlayerControllerScript : MonoBehaviour
     public float mouseSensitivity = 3f;
 
     private float cameraPitch = 0f;
-
+    private List<Wing> wings;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -28,11 +28,29 @@ public class PlayerControllerScript : MonoBehaviour
         engine.enableAfterburner = true;
         
 	    List<Dictionary<string, object>> data = CSV_Utils.Read("Airfoils/NACA64A204");
-
+        Airfoil naca64a204 = new Airfoil(data);
         foreach (var row in data)
         {
             Debug.Log($"Alpha: {row["alpha"]}, CL: {row["cl"]}, CD: {row["cd"]}");
         }
+
+        // Unity is X = right, Y = up, Z = forward.
+        // The original C++ used X = forward, Z = right, so I swapped the components:
+        // original (x, y, z) -> Unity (z, y, x)
+        float wingOffset = -1.0f;
+        float tailOffset = -6.6f;
+
+       wings = new List<Wing>
+       {
+           new Wing(area: 6.96f, controlInput: 0f, span: 2.50f, flapRatio: 0.10f,
+                    wingNormal: Vector3.up,    displacement: new Vector3(-2.7f,  0.0f, wingOffset), airfoil: naca64a204), // left wing
+           new Wing(area: 6.96f, controlInput: 0f, span: 2.50f, flapRatio: 0.10f,
+                    wingNormal: Vector3.up,    displacement: new Vector3(+2.7f,  0.0f, wingOffset), airfoil: naca64a204), // right wing
+           new Wing(area: 6.54f, controlInput: 0f, span: 2.70f, flapRatio: 1.00f,
+                    wingNormal: Vector3.up,    displacement: new Vector3( 0.0f, -0.1f, tailOffset), airfoil: naca64a204),   // elevator
+           new Wing(area: 5.31f, controlInput: 0f, span: 3.10f, flapRatio: 0.15f,
+                    wingNormal: Vector3.right, displacement: new Vector3( 0.0f,  0.0f, tailOffset), airfoil: naca64a204),   // rudder
+       };
 
     }
 
@@ -85,6 +103,9 @@ public class PlayerControllerScript : MonoBehaviour
 
         float thrust = (float)engine.computePropulsionForce();
         rigidbody.AddForce(transform.right * thrust);
+
+        foreach (var wing in wings)
+            wing.Apply(rigidbody);
     }
 
 }

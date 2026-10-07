@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-
 public struct Engine
 {
     public Engine(double thrust, double throttle)
@@ -27,67 +26,80 @@ public struct Engine
 }
 
 
-public struct Wing{
+public class Wing
+{
+    private readonly Airfoil m_airfoil;
+    private readonly Vector3 m_displacement;   // center of pressure, in the aircraft's local space
+    private readonly Vector3 m_wingNormal;     // unit vector, local space
+    private readonly Vector3 m_spanAxis;       // unit vector, local space
+    private readonly float m_area;
+    private readonly float m_chord;
+    private readonly float m_wingspan;
+    private readonly float m_aspectRatio;
+    private readonly float m_flapRatio;
 
-    public Wing(double area, double controlInput, double span, double flapRatio,
-                Vector3 wingNormal, Vector3 displacement, Airfoil airfoil){
-        m_area = area;
-        m_controlInput = controlInput;
-        m_wingNormal = wingNormal;
-        m_displacement = displacement;
-        m_airfoil = airfoil;
-        m_flapRatio = flapRatio;
-        m_aspectRatio = 1;
-        m_efficiencyFactor = 1;
+    public float EfficiencyFactor { get; set; } = 1f;
+
+    private float m_controlInput;
+    public float ControlInput                  // [-1, 1]
+    {
+        get => m_controlInput;
+        set => m_controlInput = Mathf.Clamp(value, -1f, 1f);
     }
 
-    public double m_area{get; set;}
-    // [1; -1]
-    public double m_controlInput{get; set;}
+    public Wing(float area, float controlInput, float span, float flapRatio,
+                Vector3 wingNormal, Vector3 displacement, Airfoil airfoil)
+    {
+        m_airfoil = airfoil;
+        m_displacement = displacement;
+        m_area = area;
+        m_chord = area / span;
+        m_wingspan = span;
+        m_wingNormal = wingNormal.normalized;
+        m_spanAxis = Vector3.Cross(m_wingNormal, Vector3.forward).normalized;
+        m_aspectRatio = (span * span) / area;
+        m_flapRatio = flapRatio;
+        ControlInput = controlInput;
+    }
 
-    public Vector3 m_wingNormal{get; set;}
+    public Vector3 ComputeForce(Rigidbody rb)
+    {
+        Transform t = rb.transform;
 
-    public Vector3 m_displacement{get; set;}
+        // Velocity at the wing's position, expressed in the aircraft's local frame
+        Vector3 worldPoint = t.TransformPoint(m_displacement);
+        Vector3 v = t.InverseTransformDirection(rb.GetPointVelocity(worldPoint));
 
-    public Airfoil m_airfoil{get; set;}
+        // Remove spanwise flow
+        Vector3 vPlane = Vector3.ProjectOnPlane(v, m_spanAxis);
+        float planeSpeed = vPlane.magnitude;
+        if (planeSpeed < 1e-4f) return Vector3.zero;
 
-    public double m_flapRatio{get; set;}
+        Vector3 flowDir = vPlane / planeSpeed;
+        Vector3 dragDir = -flowDir;
+        Vector3 liftDir = Vector3.Cross(flowDir, m_spanAxis);
 
-    public double m_aspectRatio{get; set;}
+        float aoa = Mathf.Asin(Mathf.Clamp(Vector3.Dot(dragDir, m_wingNormal), -1f, 1f)) * Mathf.Rad2Deg;
 
-    public double m_efficiencyFactor{get; set;}
+        Point coeffs = m_airfoil.SampleByAlpha(aoa);
+        float liftCoeff = (float)coeffs.X;
+        float dragCoeff = (float)coeffs.Y;
 
-   public Vector3 ComputeForce(Rigidbody rb)
-   {
-       // Velocity at the wing, expressed in the wing's local frame
-       Vector3 v = rb.transform.InverseTransformDirection(rb.GetPointVelocity(rb.transform.position));
+        if (m_flapRatio > 0f)
+            liftCoeff += Mathf.Sqrt(m_flapRatio) * (float)m_airfoil.MaxCl * m_controlInput;
 
-       // Remove spanwise flow (local span axis = +X)
-       Vector3 vPlane = Vector3.ProjectOnPlane(v, Vector3.right);
-       float planeSpeed = vPlane.magnitude;
-       if (planeSpeed < 1e-4f) return Vector3.zero;
+        dragCoeff += (liftCoeff * liftCoeff) / (Mathf.PI * m_aspectRatio * EfficiencyFactor);
 
-       Vector3 flowDir = vPlane / planeSpeed;          // direction of motion
-       Vector3 dragDir = -flowDir;
-       Vector3 liftDir = Vector3.Cross(flowDir, Vector3.right);
+        float airDensity = 1.225f; // replace with an altitude-based lookup
+        float dynamicPressure = 0.5f * planeSpeed * planeSpeed * airDensity * m_area;
 
-       // m_wingNormal must be a unit vector in LOCAL space (e.g. Vector3.up)
-       float aoa = Mathf.Asin(Mathf.Clamp(Vector3.Dot(dragDir, m_wingNormal), -1f, 1f)) * Mathf.Rad2Deg;
+        Vector3 localForce = (liftDir * liftCoeff + dragDir * dragCoeff) * dynamicPressure;
+        return t.TransformDirection(localForce);
+    }
 
-       Point coefficients = m_airfoil.SampleByAlpha((double)aoa);
-       float liftCoefficient = (float)coefficients.X;
-       float dragCoefficient = (float)coefficients.Y;
-
-       if (m_flapRatio > 0f)
-           liftCoefficient += (float)Mathf.Sqrt((float)m_flapRatio) * (float)m_airfoil.MaxCl * (float)m_controlInput;
-
-       float inducedDragCoefficient= (float)((liftCoefficient * liftCoefficient) / (Mathf.PI * m_aspectRatio * m_efficiencyFactor));
-       dragCoefficient += inducedDragCoefficient;
-
-       float airDensity = 1.225f; // replace with an altitude-based lookup
-       float dynamicPressure = 0.5f * (float) (planeSpeed * planeSpeed * airDensity * m_area);
-
-       Vector3 localForce = (liftDir * liftCoefficient + dragDir * dragCoefficient) * dynamicPressure;
-       return rb.transform.TransformDirection(localForce);   // back to world space
-   }
+    // Convenience: apply at the wing's center of pressure (torque comes for free)
+    public void Apply(Rigidbody rb)
+    {
+        rb.AddForceAtPosition(ComputeForce(rb), rb.transform.TransformPoint(m_displacement));
+    }
 }
