@@ -80,7 +80,6 @@ public class Wing
         Vector3 liftDir = Vector3.Cross(flowDir, m_spanAxis);
 
         float aoa = Mathf.Asin(Mathf.Clamp(Vector3.Dot(dragDir, m_wingNormal), -1f, 1f)) * Mathf.Rad2Deg;
-
         Point coeffs = m_airfoil.SampleByAlpha(aoa);
         float liftCoeff = (float)coeffs.X;
         float dragCoeff = (float)coeffs.Y;
@@ -93,6 +92,10 @@ public class Wing
         float airDensity = 1.225f; // replace with an altitude-based lookup
         float dynamicPressure = 0.5f * planeSpeed * planeSpeed * airDensity * m_area;
 
+
+        LastAoA = aoa;
+        LastLift = t.TransformDirection(liftDir * liftCoeff * dynamicPressure);
+        LastDrag = t.TransformDirection(dragDir * dragCoeff * dynamicPressure);
         Vector3 localForce = (liftDir * liftCoeff + dragDir * dragCoeff) * dynamicPressure;
         return t.TransformDirection(localForce);
     }
@@ -101,5 +104,19 @@ public class Wing
     public void Apply(Rigidbody rb)
     {
         rb.AddForceAtPosition(ComputeForce(rb), rb.transform.TransformPoint(m_displacement));
+    }
+
+    public Vector3 LastLift { get; private set; }
+    public Vector3 LastDrag { get; private set; }
+    public float LastAoA { get; private set; }
+
+    public void DrawDebug(Rigidbody rb, float scale = 0.1f)
+    {
+        Vector3 p = (m_displacement);
+
+        Debug.DrawRay(p, LastLift * scale, Color.green, Time.fixedDeltaTime);          // lift
+        Debug.DrawRay(p, LastDrag * scale, Color.red, Time.fixedDeltaTime);            // drag
+        Debug.DrawRay(p, (LastLift + LastDrag) * scale, Color.yellow, Time.fixedDeltaTime); // total
+        Debug.DrawRay(p, rb.transform.TransformDirection(m_wingNormal) * 0.5f, Color.cyan, Time.fixedDeltaTime); // wing normal
     }
 }

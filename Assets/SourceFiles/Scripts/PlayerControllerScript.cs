@@ -48,8 +48,8 @@ public class PlayerControllerScript : MonoBehaviour
                     wingNormal: Vector3.up,    displacement: new Vector3(+2.7f,  0.0f, wingOffset), airfoil: naca64a204), // right wing
            new Wing(area: 6.54f, controlInput: 0f, span: 2.70f, flapRatio: 1.00f,
                     wingNormal: Vector3.up,    displacement: new Vector3( 0.0f, -0.1f, tailOffset), airfoil: naca64a204),   // elevator
-           new Wing(area: 5.31f, controlInput: 0f, span: 3.10f, flapRatio: 0.15f,
-                    wingNormal: Vector3.right, displacement: new Vector3( 0.0f,  0.0f, tailOffset), airfoil: naca64a204),   // rudder
+//            new Wing(area: 5.31f, controlInput: 0f, span: 3.10f, flapRatio: 0.15f,
+//                     wingNormal: Vector3.right, displacement: new Vector3( 0.0f,  0.0f, tailOffset), airfoil: naca64a204),   // rudder
        };
 
     }
@@ -104,8 +104,14 @@ public class PlayerControllerScript : MonoBehaviour
         float thrust = (float)engine.computePropulsionForce();
         rigidbody.AddForce(transform.right * thrust);
 
-        foreach (var wing in wings)
+        foreach (var wing in wings){
             wing.Apply(rigidbody);
+            Debug.Log($"speed={rigidbody.linearVelocity.magnitude:F1} lift={wing.LastLift.magnitude:F0} drag={wing.LastDrag.magnitude:F0} aoa={wing.LastAoA:F1}");
+            wing.DrawDebug(rigidbody);
+            }
+
+
     }
+
 
 }
