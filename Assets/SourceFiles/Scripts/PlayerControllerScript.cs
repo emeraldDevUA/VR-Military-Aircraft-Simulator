@@ -29,6 +29,14 @@ public class PlayerControllerScript : MonoBehaviour
         
 	    List<Dictionary<string, object>> data = CSV_Utils.Read("Airfoils/NACA64A204");
         Airfoil naca64a204 = new Airfoil(data);
+
+
+        List<Dictionary<string, object>> data2 = CSV_Utils.Read("Airfoils/NACA2412");
+        Airfoil naca2412 = new Airfoil(data2);
+
+        List<Dictionary<string, object>> data3 = CSV_Utils.Read("Airfoils/NACA2412");
+        Airfoil naca0012 = new Airfoil(data3);
+
         foreach (var row in data)
         {
             Debug.Log($"Alpha: {row["alpha"]}, CL: {row["cl"]}, CD: {row["cd"]}");
@@ -43,13 +51,13 @@ public class PlayerControllerScript : MonoBehaviour
        wings = new List<Wing>
        {
            new Wing(area: 6.96f, controlInput: 0f, span: 2.50f, flapRatio: 0.10f,
-                    wingNormal: Vector3.up,    displacement: new Vector3(-2.7f,  0.0f, wingOffset), airfoil: naca64a204), // left wing
+                    wingNormal: Vector3.up,    displacement: new Vector3(-2.7f,  0.0f, wingOffset), airfoil: naca2412), // left wing
            new Wing(area: 6.96f, controlInput: 0f, span: 2.50f, flapRatio: 0.10f,
-                    wingNormal: Vector3.up,    displacement: new Vector3(+2.7f,  0.0f, wingOffset), airfoil: naca64a204), // right wing
+                    wingNormal: Vector3.up,    displacement: new Vector3(+2.7f,  0.0f, wingOffset), airfoil: naca2412), // right wing
            new Wing(area: 6.54f, controlInput: 0f, span: 2.70f, flapRatio: 1.00f,
                     wingNormal: Vector3.up,    displacement: new Vector3( 0.0f, -0.1f, tailOffset), airfoil: naca64a204),   // elevator
 //            new Wing(area: 5.31f, controlInput: 0f, span: 3.10f, flapRatio: 0.15f,
-//                     wingNormal: Vector3.right, displacement: new Vector3( 0.0f,  0.0f, tailOffset), airfoil: naca64a204),   // rudder
+//                     wingNormal: Vector3.right, displacement: new Vector3( 0.0f,  0.0f, tailOffset), airfoil: naca0012),   // rudder
        };
 
     }
