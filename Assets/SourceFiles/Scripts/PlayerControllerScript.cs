@@ -24,7 +24,14 @@ public class PlayerControllerScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        engine = new Engine(75000, 0.8);
+Debug.Log($"inertia={rigidbody.inertiaTensor} rot={rigidbody.inertiaTensorRotation.eulerAngles} com={rigidbody.centerOfMass} mass={rigidbody.mass}");
+        rigidbody.linearVelocity = new Vector3(-20, 0, 0);
+        rigidbody.centerOfMass = Vector3.zero;                 // matches the C++ frame: wings 1 m behind, tail 6.6 m behind
+        rigidbody.inertiaTensorRotation = Quaternion.identity; // principal axes aligned with the body
+        rigidbody.inertiaTensor = new Vector3(13922f, 72382f, 63130f); // keep your values
+        rigidbody.centerOfMass = new Vector3(-0.7f, 0f, 0f); // 0.3 m ahead of the wings: stable, small trim needed
+//         rigidbody.transform.position = new Vector3(0, -20, 0);
+        engine = new Engine(75000, 0.5);
         engine.enableAfterburner = true;
         
 	    List<Dictionary<string, object>> data = CSV_Utils.Read("Airfoils/NACA64A204");
@@ -51,13 +58,13 @@ public class PlayerControllerScript : MonoBehaviour
        wings = new List<Wing>
        {
            new Wing(area: 6.96f, controlInput: 0f, span: 2.50f, flapRatio: 0.10f,
-                    wingNormal: Vector3.up,    displacement: new Vector3(-2.7f,  0.0f, wingOffset), airfoil: naca2412), // left wing
+                    wingNormal: Vector3.up,    displacement: new Vector3(wingOffset, 0.0f, -2.35f), airfoil: naca2412), // left wing
            new Wing(area: 6.96f, controlInput: 0f, span: 2.50f, flapRatio: 0.10f,
-                    wingNormal: Vector3.up,    displacement: new Vector3(+2.7f,  0.0f, wingOffset), airfoil: naca2412), // right wing
+                    wingNormal: Vector3.up,    displacement: new Vector3(wingOffset, 0.0f, +2.35f), airfoil: naca2412), // right wing
            new Wing(area: 6.54f, controlInput: 0f, span: 2.70f, flapRatio: 1.00f,
-                    wingNormal: Vector3.up,    displacement: new Vector3( 0.0f, -0.1f, tailOffset), airfoil: naca64a204),   // elevator
-//            new Wing(area: 5.31f, controlInput: 0f, span: 3.10f, flapRatio: 0.15f,
-//                     wingNormal: Vector3.right, displacement: new Vector3( 0.0f,  0.0f, tailOffset), airfoil: naca0012),   // rudder
+                    wingNormal: Vector3.up,    displacement: new Vector3(tailOffset, -0.1f, 0.0f), airfoil: naca64a204),   // elevator
+           new Wing(area: 5.31f, controlInput: 0f, span: 3.10f, flapRatio: 0.15f,
+                    wingNormal: Vector3.right, displacement: new Vector3(tailOffset,  0.0f, 0.0f), airfoil: naca0012),   // rudder
        };
 
     }
@@ -106,20 +113,27 @@ public class PlayerControllerScript : MonoBehaviour
           }
     }
 
-    void FixedUpdate()
+void FixedUpdate()
+{
+    float thrust = (float)engine.computePropulsionForce();
+    rigidbody.AddForce(transform.right * thrust);
+
+    Vector3 totalLift = Vector3.zero;
+
+    foreach (var wing in wings)
     {
+        wing.Apply(rigidbody);
+        totalLift += wing.LastLift;
 
-        float thrust = (float)engine.computePropulsionForce();
-        rigidbody.AddForce(transform.right * thrust);
-
-        foreach (var wing in wings){
-            wing.Apply(rigidbody);
-            Debug.Log($"speed={rigidbody.linearVelocity.magnitude:F1} lift={wing.LastLift.magnitude:F0} drag={wing.LastDrag.magnitude:F0} aoa={wing.LastAoA:F1}");
-            wing.DrawDebug(rigidbody);
-            }
-
-
+        wing.DrawDebug(rigidbody);
     }
 
+    if(rigidbody.linearVelocity.magnitude > 20){
+//        wings[2].ControlInput = 0.3f;
+    }
+    Debug.Log($"speed={rigidbody.linearVelocity.magnitude:F1} " +
+              $"totalLift={totalLift.magnitude:F0} " +
+              $"liftY={totalLift.y:F0} weight={rigidbody.mass * Physics.gravity.magnitude:F0}");
+}
 
 }

@@ -47,6 +47,8 @@ public class Wing
         set => m_controlInput = Mathf.Clamp(value, -1f, 1f);
     }
 
+static readonly Vector3 ChordAxis = Vector3.right;   // aircraft forward in local space
+
     public Wing(float area, float controlInput, float span, float flapRatio,
                 Vector3 wingNormal, Vector3 displacement, Airfoil airfoil)
     {
@@ -56,8 +58,8 @@ public class Wing
         m_chord = area / span;
         m_wingspan = span;
         m_wingNormal = wingNormal.normalized;
-        m_spanAxis = Vector3.Cross(m_wingNormal, Vector3.forward).normalized;
-        m_aspectRatio = (span * span) / area;
+
+        m_spanAxis = Vector3.Cross(m_wingNormal, ChordAxis).normalized;        m_aspectRatio = (span * span) / area;
         m_flapRatio = flapRatio;
         ControlInput = controlInput;
     }
@@ -77,10 +79,14 @@ public class Wing
 
         Vector3 flowDir = vPlane / planeSpeed;
         Vector3 dragDir = -flowDir;
-        Vector3 liftDir = Vector3.Cross(flowDir, m_spanAxis);
 
-        float aoa = Mathf.Asin(Mathf.Clamp(Vector3.Dot(dragDir, m_wingNormal), -1f, 1f)) * Mathf.Rad2Deg;
+        Vector3 liftDir = Vector3.Cross(Vector3.Cross(dragDir, m_wingNormal), dragDir).normalized;
+
+
+        float aoa =  Mathf.Asin(Mathf.Clamp(Vector3.Dot(dragDir, m_wingNormal), -1f, 1f)) * Mathf.Rad2Deg;
+
         Point coeffs = m_airfoil.SampleByAlpha(aoa);
+
         float liftCoeff = (float)coeffs.X;
         float dragCoeff = (float)coeffs.Y;
 
