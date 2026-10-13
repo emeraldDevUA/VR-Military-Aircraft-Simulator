@@ -10,6 +10,7 @@ public class PlayerControllerScript : MonoBehaviour
     public Camera playerCamera;
     public Rigidbody rigidbody;
 
+    
     [Header("Movement")]
     public float moveSpeed = 5f;
     public float rotationSpeed = 10f;
@@ -20,7 +21,16 @@ public class PlayerControllerScript : MonoBehaviour
 
     private float cameraPitch = 0f;
     private List<Wing> wings;
+    public InputSource source;
 
+
+	void Awake()
+	{
+	    source = GetComponent<InputSource>();
+	    if (source == null)
+		Debug.LogError("PlayerControllerScript needs an InputSource on the same GameObject.", this);
+	}
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -64,9 +74,10 @@ Debug.Log($"inertia={rigidbody.inertiaTensor} rot={rigidbody.inertiaTensorRotati
            new Wing(area: 6.54f, controlInput: 0f, span: 2.70f, flapRatio: 1.00f,
                     wingNormal: Vector3.up,    displacement: new Vector3(tailOffset, -0.1f, 0.0f), airfoil: naca64a204),   // elevator
            new Wing(area: 5.31f, controlInput: 0f, span: 3.10f, flapRatio: 0.15f,
-                    wingNormal: Vector3.right, displacement: new Vector3(tailOffset,  0.0f, 0.0f), airfoil: naca0012),   // rudder
+                    wingNormal: Vector3.right, displacement: new Vector3(-tailOffset,  0.0f, 0.0f), airfoil: naca0012),   // rudder
        };
-
+		
+	
     }
 
     // Update is called once per frame
@@ -96,13 +107,7 @@ Debug.Log($"inertia={rigidbody.inertiaTensor} rot={rigidbody.inertiaTensorRotati
         float inputX = 0f;
         float inputZ = 0f;
 
-      
-        
-        if (Input.GetKey(KeyCode.W)) transformVector.x -= 2f;
-        if (Input.GetKey(KeyCode.S)) transformVector.x += 1f;
-        if (Input.GetKey(KeyCode.D)) transformVector.z += 1f;
-        if (Input.GetKey(KeyCode.A)) transformVector.z -= 1f;
-
+    
   
 
         if (transformVector.sqrMagnitude > 0.001f)
@@ -115,25 +120,20 @@ Debug.Log($"inertia={rigidbody.inertiaTensor} rot={rigidbody.inertiaTensorRotati
 
 void FixedUpdate()
 {
+    // Feed the latest input into the control surfaces every physics step
+    wings[0].ControlInput =  source.input.aileron;
+    wings[1].ControlInput = -source.input.aileron;
+    wings[2].ControlInput =  source.input.elevator;
+    wings[3].ControlInput =  source.input.rudder;
+
     float thrust = (float)engine.computePropulsionForce();
     rigidbody.AddForce(transform.right * thrust);
-
-    Vector3 totalLift = Vector3.zero;
 
     foreach (var wing in wings)
     {
         wing.Apply(rigidbody);
-        totalLift += wing.LastLift;
-
         wing.DrawDebug(rigidbody);
     }
-
-    if(rigidbody.linearVelocity.magnitude > 20){
-//        wings[2].ControlInput = 0.3f;
-    }
-    Debug.Log($"speed={rigidbody.linearVelocity.magnitude:F1} " +
-              $"totalLift={totalLift.magnitude:F0} " +
-              $"liftY={totalLift.y:F0} weight={rigidbody.mass * Physics.gravity.magnitude:F0}");
 }
 
 }
