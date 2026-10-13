@@ -1,29 +1,25 @@
+using UnityEngine;
 
+[System.Serializable]
+public class FlightInput
+{
+    // Axes (-1 to 1)
+    public float aileron;    // roll
+    public float elevator;   // pitch
+    public float rudder;     // yaw
 
-class Joystick{
-    public int num_axis{get; set;}
-    public int num_hats{get; set;}
-    public int num_buttons{get; set;}
+    // 0 to 1
+    public float throttle;
 
-    float aileron{get; set;}
-    float elevator{get; set;}
-    float rudder{get; set;}
+    // -1 to 1
+    public float trim;
 
-    float throttle{get; set;}
-    float trim{get; set;}
+    // Device info (optional)
+    public int numAxes, numHats, numButtons;
 
-
-    public Joystick(){
-        num_axis = 0;
-        num_hats = 0;
-        num_buttons = 0;
-
-        aileron = 0f;
-        elevator = 0f;
-        rudder = 0f;
-
+    public void Clear()
+    {
+        aileron = elevator = rudder = trim = 0f;
         throttle = 0f;
-        trim = 0f;
     }
-
 }

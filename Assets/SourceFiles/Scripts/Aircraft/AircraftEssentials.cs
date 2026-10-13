@@ -51,7 +51,8 @@ static readonly Vector3 ChordAxis = Vector3.right;   // aircraft forward in loca
 
     public Wing(float area, float controlInput, float span, float flapRatio,
                 Vector3 wingNormal, Vector3 displacement, Airfoil airfoil)
-    {
+    {   
+    	m_spanAxis = Vector3.Cross(m_wingNormal, ChordAxis).normalized;        
         m_airfoil = airfoil;
         m_displacement = displacement;
         m_area = area;
@@ -59,7 +60,7 @@ static readonly Vector3 ChordAxis = Vector3.right;   // aircraft forward in loca
         m_wingspan = span;
         m_wingNormal = wingNormal.normalized;
 
-        m_spanAxis = Vector3.Cross(m_wingNormal, ChordAxis).normalized;        m_aspectRatio = (span * span) / area;
+        m_aspectRatio = (span * span) / area;
         m_flapRatio = flapRatio;
         ControlInput = controlInput;
     }
@@ -118,11 +119,11 @@ static readonly Vector3 ChordAxis = Vector3.right;   // aircraft forward in loca
 
     public void DrawDebug(Rigidbody rb, float scale = 0.1f)
     {
-        Vector3 p = (m_displacement);
+	Vector3 p = rb.transform.TransformPoint(m_displacement);
 
         Debug.DrawRay(p, LastLift * scale, Color.green, Time.fixedDeltaTime);          // lift
         Debug.DrawRay(p, LastDrag * scale, Color.red, Time.fixedDeltaTime);            // drag
         Debug.DrawRay(p, (LastLift + LastDrag) * scale, Color.yellow, Time.fixedDeltaTime); // total
-        Debug.DrawRay(p, rb.transform.TransformDirection(m_wingNormal) * 0.5f, Color.cyan, Time.fixedDeltaTime); // wing normal
+        Debug.DrawRay(p, rb.transform.TransformDirection(m_wingNormal) * 0.5f, Color.violet, Time.fixedDeltaTime); // wing normal
     }
 }

@@ -452,7 +452,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 3.72, y: 0.25, z: 0.21}
   m_Center: {x: 0, y: 0, z: 0}
@@ -1055,7 +1055,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 3.72, y: 0.25, z: 0.21}
   m_Center: {x: 0, y: 0, z: 0}
@@ -1185,6 +1185,7 @@ MonoBehaviour:
   moveSpeed: 5
   rotationSpeed: 10
   mouseSensitivity: 3
+  source: {fileID: 0}
 --- !u!54 &1325423608
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1196,7 +1197,7 @@ Rigidbody:
   m_Mass: 3527
   m_LinearDamping: 0
   m_AngularDamping: 0.1
-  m_CenterOfMass: {x: -3.45, y: -0.5, z: 0}
+  m_CenterOfMass: {x: -3.45, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
   m_IncludeLayers:
@@ -1205,13 +1206,13 @@ Rigidbody:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_ImplicitCom: 0
+  m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!138 &1325423609
 FixedJoint:
   m_ObjectHideFlags: 0
@@ -1244,6 +1245,44 @@ FixedJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &1325423611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1325423605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc351ffe2f92dc81499dbe4bfbf581e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InputSource
+  input:
+    aileron: 0
+    elevator: 0
+    rudder: 0
+    throttle: 0
+    trim: 0
+    numAxes: 0
+    numHats: 0
+    numButtons: 0
+  mode: 0
+  aileronAxis: Aileron
+  elevatorAxis: Elevator
+  rudderAxis: Rudder
+  throttleAxis: Throttle
+  deadzone: 0.08
+  invertElevator: 1
+  invertThrottle: 0
+  throttleIsBipolar: 1
+  throttleRate: 0.5
+  trimRate: 0.2
+  throttleUp: 304
+  throttleDown: 306
+  rudderLeft: 113
+  rudderRight: 101
+  trimUp: 114
+  trimDown: 102
 --- !u!1 &1340209249 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4203998734936909504, guid: f46af007dc105c541a71bae6dc0ea31c, type: 3}
@@ -1700,6 +1739,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f46af007dc105c541a71bae6dc0ea31c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1325423610}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f46af007dc105c541a71bae6dc0ea31c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1325423611}
     - targetCorrespondingSourceObject: {fileID: -6232938155110646506, guid: f46af007dc105c541a71bae6dc0ea31c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 182380442}
@@ -2765,13 +2807,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8642888237890314047}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.004809026, y: -0, z: -0, w: 0.99998844}
   m_LocalPosition: {x: 0, y: -6.17, z: 0}
   m_LocalScale: {x: 1875.8, y: 11.51, z: 113.23}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0.551, y: 0, z: 0}
 --- !u!65 &4270279629518649393
 BoxCollider:
   m_ObjectHideFlags: 0
