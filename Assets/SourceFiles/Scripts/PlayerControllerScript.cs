@@ -35,13 +35,14 @@ public class PlayerControllerScript : MonoBehaviour
     void Start()
     {
 Debug.Log($"inertia={rigidbody.inertiaTensor} rot={rigidbody.inertiaTensorRotation.eulerAngles} com={rigidbody.centerOfMass} mass={rigidbody.mass}");
-        rigidbody.linearVelocity = new Vector3(-20, 0, 0);
+        rigidbody.linearVelocity = new Vector3(-100, 0, 0);
         rigidbody.centerOfMass = Vector3.zero;                 // matches the C++ frame: wings 1 m behind, tail 6.6 m behind
         rigidbody.inertiaTensorRotation = Quaternion.identity; // principal axes aligned with the body
-        rigidbody.inertiaTensor = new Vector3(13922f, 72382f, 63130f); // keep your values
+        rigidbody.inertiaTensor = new Vector3(35174.2f, 182376f, 152167f); // keep your values
+        rigidbody.mass = 9500f;
         rigidbody.centerOfMass = new Vector3(-0.7f, 0f, 0f); // 0.3 m ahead of the wings: stable, small trim needed
-//         rigidbody.transform.position = new Vector3(0, -20, 0);
-        engine = new Engine(75000, 0.5);
+        //rigidbody.transform.position = new Vector3(0, -150, 0);
+        engine = new Engine(75000, 1.0);
         engine.enableAfterburner = true;
         
 	    List<Dictionary<string, object>> data = CSV_Utils.Read("Airfoils/NACA64A204");

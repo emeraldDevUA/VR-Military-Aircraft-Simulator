@@ -2809,7 +2809,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.004809026, y: -0, z: -0, w: 0.99998844}
   m_LocalPosition: {x: 0, y: -6.17, z: 0}
-  m_LocalScale: {x: 1875.8, y: 11.51, z: 113.23}
+  m_LocalScale: {x: 1875.8, y: 11.51, z: 834.3413}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
