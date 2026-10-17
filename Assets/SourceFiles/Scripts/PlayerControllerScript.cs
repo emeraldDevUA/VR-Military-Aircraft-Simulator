@@ -108,8 +108,6 @@ Debug.Log($"inertia={rigidbody.inertiaTensor} rot={rigidbody.inertiaTensorRotati
         float inputX = 0f;
         float inputZ = 0f;
 
-    
-  
 
         if (transformVector.sqrMagnitude > 0.001f)
         {
