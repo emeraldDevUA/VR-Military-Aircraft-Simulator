@@ -83,7 +83,6 @@ static readonly Vector3 ChordAxis = Vector3.right;   // aircraft forward in loca
 
         Vector3 liftDir = Vector3.Cross(Vector3.Cross(dragDir, m_wingNormal), dragDir).normalized;
 
-
         float aoa =  Mathf.Asin(Mathf.Clamp(Vector3.Dot(dragDir, m_wingNormal), -1f, 1f)) * Mathf.Rad2Deg;
 
         Point coeffs = m_airfoil.SampleByAlpha(aoa);
