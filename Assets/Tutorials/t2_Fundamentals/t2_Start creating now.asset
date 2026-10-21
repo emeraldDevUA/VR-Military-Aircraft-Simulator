@@ -1,5 +1,1107 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9205876541657501254
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5b43af98cf241a48618341008f648cb, type: 3}
+  m_Name: MediaParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.MediaParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 1
+    m_UnmaskedViews:
+    - m_SelectorType: 1
+      m_ViewType:
+        m_TypeName: 
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.SceneView, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls: []
+    - m_SelectorType: 1
+      m_ViewType:
+        m_TypeName: 
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.GameView, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls: []
+    - m_SelectorType: 1
+      m_ViewType:
+        m_TypeName: 
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.SceneHierarchyWindow, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls: []
+    - m_SelectorType: 0
+      m_ViewType:
+        m_TypeName: UnityEditor.Toolbar, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.SceneHierarchyWindow, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls:
+      - m_SelectorMode: 5
+        m_SelectorMatchType: 0
+        m_GUIContent:
+          m_Text: 
+          m_Image: {fileID: 0}
+          m_Tooltip: 
+          m_TextWithWhitespace: 
+        m_ControlName: 
+        m_PropertyPath: 
+        m_TargetType:
+          m_TypeName: 
+        m_GUIStyleName: 
+        m_ObjectReference:
+          m_SceneObjectReference:
+            m_SceneGuid: 
+            m_GameObjectGuid: 
+            m_SerializedComponentType:
+              m_TypeName: 
+            m_ComponentIndex: 0
+            m_AssetObject: {fileID: 0}
+            m_Prefab: {fileID: 0}
+          m_FutureObjectReference: {fileID: 0}
+        m_VisualElementClassName: 
+        m_VisualElementName: Play
+        m_VisualElementTypeName: 
+    MaskPreset: {fileID: 0}
+  Media:
+    m_ContentType: 1
+    m_Image: {fileID: 0}
+    m_VideoClip: {fileID: 32900000, guid: bad8788ab67631f458d2ddf72a88e802, type: 3}
+    m_Url: 
+    m_AutoStart: 0
+    m_Loop: 0
+--- !u!114 &-8771261278792045331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff771ccdf4150419d9ff4d342b069aae, type: 3}
+  m_Name: 8_Rotate_the_stairs
+  m_EditorClassIdentifier: 
+  <IndexInTutorial>k__BackingField: 8
+  Title:
+    m_Untranslated: Rotate the stairs
+  m_LegacyParagraphs:
+    m_Items: []
+  m_PageParagraphs:
+  - {fileID: -314424078514179060}
+  - {fileID: -262426783285617487}
+  - {fileID: -3201304387736023805}
+  m_CameraSettings:
+    m_CameraMode: 0
+    m_FocusMode: 0
+    m_Orthographic: 0
+    m_Size: 0
+    m_Pivot: {x: 0, y: 0, z: 0}
+    m_Rotation: {x: 0, y: 0, z: 0, w: 1}
+    m_FrameObject:
+      m_SceneGuid: 
+      m_GameObjectGuid: 
+      m_SerializedComponentType:
+        m_TypeName: 
+      m_ComponentIndex: 0
+      m_AssetObject: {fileID: 0}
+      m_Prefab: {fileID: 0}
+    m_Enabled: 0
+  NextButton:
+    m_Untranslated: Next
+  DoneButton:
+    m_Untranslated: Done
+  m_CompletedSound: {fileID: 0}
+  m_FaqEntries: []
+  m_AutoAdvance: 0
+  Showing:
+    m_PersistentCalls:
+      m_Calls: []
+  Shown:
+    m_PersistentCalls:
+      m_Calls: []
+  Staying:
+    m_PersistentCalls:
+      m_Calls: []
+  CriteriaValidated:
+    m_PersistentCalls:
+      m_Calls: []
+  MaskingSettingsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  NonMaskingSettingsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBeforePageShown:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnAfterPageShown:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnTutorialPageStay:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBeforeTutorialQuit:
+    m_PersistentCalls:
+      m_Calls: []
+  m_NextButton: Next
+  m_DoneButton: Done
+--- !u!114 &-8442305971120837089
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5b43af98cf241a48618341008f648cb, type: 3}
+  m_Name: MediaParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.MediaParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 1
+    m_UnmaskedViews:
+    - m_SelectorType: 1
+      m_ViewType:
+        m_TypeName: 
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.SceneView, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls: []
+    MaskPreset: {fileID: 0}
+  Media:
+    m_ContentType: 1
+    m_Image: {fileID: 0}
+    m_VideoClip: {fileID: 32900000, guid: c64325762dabfb1478abf235a56bcc12, type: 3}
+    m_Url: 
+    m_AutoStart: 0
+    m_Loop: 0
+--- !u!114 &-7372033740306997952
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5b43af98cf241a48618341008f648cb, type: 3}
+  m_Name: MediaParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.MediaParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 1
+    m_UnmaskedViews: []
+    MaskPreset: {fileID: 0}
+  Media:
+    m_ContentType: 0
+    m_Image: {fileID: 2800000, guid: ee64a6b5933dd4020ad8232fea261ced, type: 3}
+    m_VideoClip: {fileID: 0}
+    m_Url: 
+    m_AutoStart: 1
+    m_Loop: 1
+--- !u!114 &-7081572021664565571
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 935228c0fd2628c4db5028980babef0b, type: 3}
+  m_Name: NarrativeParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.NarrativeParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 0
+    m_UnmaskedViews: []
+    MaskPreset: {fileID: 0}
+  Text:
+    m_Untranslated: "You now know the fundamentals of working in 3D, well done! \n\nYou
+      might not feel confident yet, but that's OK. It'll take time and practice to
+      really feel comfortable using the skills you just learned. \n\nTo continue
+      your learning journey, begin the next tutorial: \"Explore the possibilities.\""
+--- !u!114 &-6218593117435713287
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 935228c0fd2628c4db5028980babef0b, type: 3}
+  m_Name: NarrativeParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.NarrativeParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 0
+    m_UnmaskedViews: []
+    MaskPreset: {fileID: 0}
+  Text:
+    m_Untranslated: 'When you select a GameObject using the <b>Move</b> tool, you''ll
+      see three axis arrow handles appear on top of it.
+
+
+      You can click and
+      drag these handles to move the GameObject along each of the three dimensions
+      (X, Y, and Z). '
+--- !u!114 &-6154631092988974595
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 456c7c2b477e4253b9e4faf9ed4b18a9, type: 3}
+  m_Name: InstructionsParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.InstructionsParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 0
+    m_UnmaskedViews: []
+    MaskPreset: {fileID: 0}
+  Title:
+    m_Untranslated: INSTRUCTIONS
+  Text:
+    m_Untranslated: "<b>1</b>.  Select the <b>Add (+)</b> button in the upper-left
+      corner of the <b>Hierarchy</b> window.\n\n<b>2</b>.  From the menu, select
+      <b>3D Object</b> > <b>Cube</b>.\n\nA new GameObject named \u201CCube\u201D
+      appears in the <b>Hierarchy</b> window and the <b>Scene</b> view.\n\n<b>3</b>. 
+      Save your scene!\n"
+  m_CriteriaCompletion: 0
+  m_Criteria:
+    m_Items: []
+--- !u!114 &-6057319891386630932
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 935228c0fd2628c4db5028980babef0b, type: 3}
+  m_Name: NarrativeParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.NarrativeParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 0
+    m_UnmaskedViews: []
+    MaskPreset: {fileID: 0}
+  Text:
+    m_Untranslated: 'You can change the surface appearance of GameObjects using <b>materials</b>.
+      <br><br>We''ve provided some materials you can use to customize the white ground
+      in this scene. '
+--- !u!114 &-5868665290398596980
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5b43af98cf241a48618341008f648cb, type: 3}
+  m_Name: MediaParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.MediaParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 1
+    m_UnmaskedViews:
+    - m_SelectorType: 1
+      m_ViewType:
+        m_TypeName: 
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.ProjectBrowser, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls: []
+    - m_SelectorType: 1
+      m_ViewType:
+        m_TypeName: 
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.SceneView, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls: []
+    - m_SelectorType: 1
+      m_ViewType:
+        m_TypeName: 
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.ProjectBrowser, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls: []
+    - m_SelectorType: 1
+      m_ViewType:
+        m_TypeName: 
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.InspectorWindow, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls: []
+    MaskPreset: {fileID: 0}
+  Media:
+    m_ContentType: 1
+    m_Image: {fileID: 0}
+    m_VideoClip: {fileID: 32900000, guid: 867e81898c07dbd498002222510e274c, type: 3}
+    m_Url: 
+    m_AutoStart: 0
+    m_Loop: 0
+--- !u!114 &-5810976016605031166
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 935228c0fd2628c4db5028980babef0b, type: 3}
+  m_Name: NarrativeParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.NarrativeParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 0
+    m_UnmaskedViews: []
+    MaskPreset: {fileID: 0}
+  Text:
+    m_Untranslated: "The robot is not currently able to reach the second star on
+      the orange box. \n\nYou'll need to move the smaller orange box closer to help
+      the robot reach the star. \n\nFollow the instructions below to get a closer
+      look at the orange boxes."
+--- !u!114 &-5751489762432400961
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 456c7c2b477e4253b9e4faf9ed4b18a9, type: 3}
+  m_Name: InstructionsParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.InstructionsParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 0
+    m_UnmaskedViews: []
+    MaskPreset: {fileID: 0}
+  Title:
+    m_Untranslated: INSTRUCTIONS
+  Text:
+    m_Untranslated: '<b>1</b>.  Watch the video above.
+
+
+      <b>2</b>.  In the
+      <b>Project</b> window, open the folder <b>Assets</b> > <b>Skyboxes</b>.
+
+
+      <b>3</b>. 
+      Select any skybox to preview it in the <b>Inspector</b> window.
+
+
+      <b>4</b>. 
+      Drag any skybox material to the sky area in the scene.
+
+'
+  m_CriteriaCompletion: 0
+  m_Criteria:
+    m_Items: []
+--- !u!114 &-5533285140316985911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff771ccdf4150419d9ff4d342b069aae, type: 3}
+  m_Name: 4_Get_closer_to_the_orange_boxes
+  m_EditorClassIdentifier: 
+  <IndexInTutorial>k__BackingField: 4
+  Title:
+    m_Untranslated: Get closer to the orange boxes
+  m_LegacyParagraphs:
+    m_Items: []
+  m_PageParagraphs:
+  - {fileID: -5396283618426061018}
+  - {fileID: -5810976016605031166}
+  - {fileID: -2840567928787162613}
+  m_CameraSettings:
+    m_CameraMode: 1
+    m_FocusMode: 0
+    m_Orthographic: 0
+    m_Size: 27.051926
+    m_Pivot: {x: 1.9616259, y: 5.6994987, z: -6.1729803}
+    m_Rotation: {x: 0.32174635, y: 0.4936641, z: -0.20307909, w: 0.7820095}
+    m_FrameObject:
+      m_SceneGuid: 
+      m_GameObjectGuid: 
+      m_SerializedComponentType:
+        m_TypeName: 
+      m_ComponentIndex: 0
+      m_AssetObject: {fileID: 0}
+      m_Prefab: {fileID: 0}
+    m_Enabled: 1
+  NextButton:
+    m_Untranslated: Next
+  DoneButton:
+    m_Untranslated: Done
+  m_CompletedSound: {fileID: 0}
+  m_FaqEntries: []
+  m_AutoAdvance: 0
+  Showing:
+    m_PersistentCalls:
+      m_Calls: []
+  Shown:
+    m_PersistentCalls:
+      m_Calls: []
+  Staying:
+    m_PersistentCalls:
+      m_Calls: []
+  CriteriaValidated:
+    m_PersistentCalls:
+      m_Calls: []
+  MaskingSettingsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  NonMaskingSettingsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBeforePageShown:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnAfterPageShown:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnTutorialPageStay:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBeforeTutorialQuit:
+    m_PersistentCalls:
+      m_Calls: []
+  m_NextButton: Next
+  m_DoneButton: Done
+--- !u!114 &-5396283618426061018
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5b43af98cf241a48618341008f648cb, type: 3}
+  m_Name: MediaParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.MediaParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 1
+    m_UnmaskedViews:
+    - m_SelectorType: 1
+      m_ViewType:
+        m_TypeName: 
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.SceneView, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls: []
+    MaskPreset: {fileID: 0}
+  Media:
+    m_ContentType: 1
+    m_Image: {fileID: 0}
+    m_VideoClip: {fileID: 32900000, guid: 2fb9a9347b87cbd47b1543a0e4ae8c9c, type: 3}
+    m_Url: 
+    m_AutoStart: 0
+    m_Loop: 0
+--- !u!114 &-4520855630464898791
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5b43af98cf241a48618341008f648cb, type: 3}
+  m_Name: MediaParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.MediaParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 1
+    m_UnmaskedViews:
+    - m_SelectorType: 1
+      m_ViewType:
+        m_TypeName: 
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.ProjectBrowser, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls: []
+    - m_SelectorType: 1
+      m_ViewType:
+        m_TypeName: 
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.InspectorWindow, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls: []
+    - m_SelectorType: 1
+      m_ViewType:
+        m_TypeName: 
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.SceneView, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls: []
+    MaskPreset: {fileID: 0}
+  Media:
+    m_ContentType: 1
+    m_Image: {fileID: 2800000, guid: bc4564b1093d7694f9dce1b2a00ed485, type: 3}
+    m_VideoClip: {fileID: 32900000, guid: 0c9116a7581975a42a82fd5e5c16ac4f, type: 3}
+    m_Url: 
+    m_AutoStart: 0
+    m_Loop: 0
+--- !u!114 &-3610410237969436600
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5b43af98cf241a48618341008f648cb, type: 3}
+  m_Name: MediaParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.MediaParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 1
+    m_UnmaskedViews:
+    - m_SelectorType: 1
+      m_ViewType:
+        m_TypeName: 
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.SceneHierarchyWindow, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls: []
+    - m_SelectorType: 1
+      m_ViewType:
+        m_TypeName: 
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.SceneView, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls: []
+    MaskPreset: {fileID: 0}
+  Media:
+    m_ContentType: 1
+    m_Image: {fileID: 0}
+    m_VideoClip: {fileID: 32900000, guid: d4c7825f613903e469beb1e0a0f23109, type: 3}
+    m_Url: 
+    m_AutoStart: 0
+    m_Loop: 0
+--- !u!114 &-3201304387736023805
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 456c7c2b477e4253b9e4faf9ed4b18a9, type: 3}
+  m_Name: InstructionsParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.InstructionsParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 0
+    m_UnmaskedViews: []
+    MaskPreset: {fileID: 0}
+  Title:
+    m_Untranslated: INSTRUCTIONS
+  Text:
+    m_Untranslated: "<b>1</b>.  In either the <b>Hierarchy</b> window or the <b>Scene</b>
+      view, select the <b>Stairs</b> GameObject. \n\n<b>2</b>.  Select the <b>Rotate</b>
+      tool from the <b>Tool</b> overlay.\n\n<b>3</b>.  Select and drag the handles
+      of the <b>Rotate</b> gizmo to rotate the stairs so they\u2019re the right way
+      up and at the correct angle.\n\n<b>Tip</b>: Click and drag in a straight line
+      instead of trying to rotate around the GameObject.\n\n<b>4</b>.  Enter Play
+      mode and have the robot collect the third star.\n\n<b>5</b>.  Remember to save
+      your scene as you make changes.\n"
+  m_CriteriaCompletion: 0
+  m_Criteria:
+    m_Items: []
+--- !u!114 &-3164409616450416516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff771ccdf4150419d9ff4d342b069aae, type: 3}
+  m_Name: 9_Add_a_primitive_cube
+  m_EditorClassIdentifier: 
+  <IndexInTutorial>k__BackingField: 9
+  Title:
+    m_Untranslated: Add a primitive cube
+  m_LegacyParagraphs:
+    m_Items: []
+  m_PageParagraphs:
+  - {fileID: -3610410237969436600}
+  - {fileID: 2608227934413955447}
+  - {fileID: -6154631092988974595}
+  m_CameraSettings:
+    m_CameraMode: 1
+    m_FocusMode: 0
+    m_Orthographic: 0
+    m_Size: 10
+    m_Pivot: {x: -12.346857, y: 8.357996, z: 9.487676}
+    m_Rotation: {x: 0.14274156, y: 0.40086132, z: -0.063385144, w: 0.90272975}
+    m_FrameObject:
+      m_SceneGuid: 
+      m_GameObjectGuid: 
+      m_SerializedComponentType:
+        m_TypeName: 
+      m_ComponentIndex: 0
+      m_AssetObject: {fileID: 0}
+      m_Prefab: {fileID: 0}
+    m_Enabled: 1
+  NextButton:
+    m_Untranslated: Next
+  DoneButton:
+    m_Untranslated: Done
+  m_CompletedSound: {fileID: 0}
+  m_FaqEntries: []
+  m_AutoAdvance: 0
+  Showing:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: TutorialCallbacks, Assembly-CSharp-Editor
+        m_MethodName: EnableChildObjects
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Hidden_Area_1
+          m_BoolArgument: 0
+        m_CallState: 1
+  Shown:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: TutorialCallbacks, Assembly-CSharp-Editor
+        m_MethodName: FrameObjectWithTag
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Cube_Spawn_Point_1
+          m_BoolArgument: 0
+        m_CallState: 1
+  Staying:
+    m_PersistentCalls:
+      m_Calls: []
+  CriteriaValidated:
+    m_PersistentCalls:
+      m_Calls: []
+  MaskingSettingsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  NonMaskingSettingsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBeforePageShown:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnAfterPageShown:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnTutorialPageStay:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBeforeTutorialQuit:
+    m_PersistentCalls:
+      m_Calls: []
+  m_NextButton: Next
+  m_DoneButton: Done
+--- !u!114 &-2840567928787162613
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 456c7c2b477e4253b9e4faf9ed4b18a9, type: 3}
+  m_Name: InstructionsParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.InstructionsParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 0
+    m_UnmaskedViews: []
+    MaskPreset: {fileID: 0}
+  Title:
+    m_Untranslated: INSTRUCTIONS
+  Text:
+    m_Untranslated: "<b>1</b>.  Click somewhere in the <b>Scene</b> view, then use
+      the left and right arrow keys to move the view from side to side.\n\n<b>2</b>. 
+      Use the up and down arrow keys to zoom in and out. \n\n<b>3</b>.  Use a combination
+      of all the arrow keys to get a good view of the orange boxes.  \n"
+  m_CriteriaCompletion: 0
+  m_Criteria:
+    m_Items: []
+--- !u!114 &-2652109041978101587
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 935228c0fd2628c4db5028980babef0b, type: 3}
+  m_Name: NarrativeParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.NarrativeParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 0
+    m_UnmaskedViews: []
+    MaskPreset: {fileID: 0}
+  Text:
+    m_Untranslated: Your skybox looks great! Use the following techniques to look
+      around and admire the skybox in all directions.
+--- !u!114 &-867391033310487450
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 935228c0fd2628c4db5028980babef0b, type: 3}
+  m_Name: NarrativeParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.NarrativeParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 0
+    m_UnmaskedViews: []
+    MaskPreset: {fileID: 0}
+  Text:
+    m_Untranslated: 'You can use special materials called <b>skyboxes</b> to change
+      the sky in the scene.
+
+
+      Let''s change the skybox now. '
+--- !u!114 &-656090211160001596
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 456c7c2b477e4253b9e4faf9ed4b18a9, type: 3}
+  m_Name: InstructionsParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.InstructionsParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 0
+    m_UnmaskedViews: []
+    MaskPreset: {fileID: 0}
+  Title:
+    m_Untranslated: INSTRUCTIONS
+  Text:
+    m_Untranslated: "<b>1</b>.  Select the <b>Cube</b> GameObject you just added.\n\n<b>2</b>. 
+      Select the <b>Scale</b> tool from the <b>Tool</b> overlay.\n\n<b>3</b>.  Select
+      and drag the handles of the <b>Scale</b> gizmo to change the dimensions of
+      the cube. \n\n<b>4</b>.  Use the <b>Move</b>, <b>Rotate</b>, and <b>Scale</b>
+      tools to change the cube into a ramp to the other platform.\n\n<b>Important</b>:
+      Transforming a cube can be very frustrating, especially when you\u2019re just
+      getting the hang of the <b>Move</b>, <b>Rotate</b>, and <b>Scale</b> tools,
+      but it\u2019s worth testing out your skills.\n\n<b>5</b>.  Enter Play mode
+      and have the robot collect the last star.\n\n<b>6</b>.  When you\u2019re finished,
+      don\u2019t forget to exit Play mode."
+  m_CriteriaCompletion: 0
+  m_Criteria:
+    m_Items: []
+--- !u!114 &-314424078514179060
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5b43af98cf241a48618341008f648cb, type: 3}
+  m_Name: MediaParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.MediaParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 1
+    m_UnmaskedViews:
+    - m_SelectorType: 1
+      m_ViewType:
+        m_TypeName: 
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.SceneHierarchyWindow, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls: []
+    - m_SelectorType: 1
+      m_ViewType:
+        m_TypeName: 
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.SceneView, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls: []
+    - m_SelectorType: 1
+      m_ViewType:
+        m_TypeName: 
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.GameView, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls: []
+    - m_SelectorType: 1
+      m_ViewType:
+        m_TypeName: 
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: 
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls: []
+    - m_SelectorType: 0
+      m_ViewType:
+        m_TypeName: UnityEditor.Toolbar, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.ProjectBrowser, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls:
+      - m_SelectorMode: 5
+        m_SelectorMatchType: 0
+        m_GUIContent:
+          m_Text: 
+          m_Image: {fileID: 0}
+          m_Tooltip: 
+          m_TextWithWhitespace: 
+        m_ControlName: 
+        m_PropertyPath: 
+        m_TargetType:
+          m_TypeName: 
+        m_GUIStyleName: 
+        m_ObjectReference:
+          m_SceneObjectReference:
+            m_SceneGuid: 
+            m_GameObjectGuid: 
+            m_SerializedComponentType:
+              m_TypeName: 
+            m_ComponentIndex: 0
+            m_AssetObject: {fileID: 0}
+            m_Prefab: {fileID: 0}
+          m_FutureObjectReference: {fileID: 0}
+        m_VisualElementClassName: 
+        m_VisualElementName: Play
+        m_VisualElementTypeName: 
+    MaskPreset: {fileID: 0}
+  Media:
+    m_ContentType: 1
+    m_Image: {fileID: 0}
+    m_VideoClip: {fileID: 32900000, guid: 32b80aa13bb3e374f8eca538c4bc5c03, type: 3}
+    m_Url: 
+    m_AutoStart: 0
+    m_Loop: 0
+--- !u!114 &-268451114920415747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff771ccdf4150419d9ff4d342b069aae, type: 3}
+  m_Name: 5_Select_the_Move_tool
+  m_EditorClassIdentifier: 
+  <IndexInTutorial>k__BackingField: 5
+  Title:
+    m_Untranslated: Select the Move tool
+  m_LegacyParagraphs:
+    m_Items: []
+  m_PageParagraphs:
+  - {fileID: 6535809225684609564}
+  - {fileID: 4154269856994290060}
+  - {fileID: 7452773893945467586}
+  m_CameraSettings:
+    m_CameraMode: 0
+    m_FocusMode: 0
+    m_Orthographic: 0
+    m_Size: 0
+    m_Pivot: {x: 0, y: 0, z: 0}
+    m_Rotation: {x: 0, y: 0, z: 0, w: 1}
+    m_FrameObject:
+      m_SceneGuid: 
+      m_GameObjectGuid: 
+      m_SerializedComponentType:
+        m_TypeName: 
+      m_ComponentIndex: 0
+      m_AssetObject: {fileID: 0}
+      m_Prefab: {fileID: 0}
+    m_Enabled: 0
+  NextButton:
+    m_Untranslated: Next
+  DoneButton:
+    m_Untranslated: Done
+  m_CompletedSound: {fileID: 0}
+  m_FaqEntries: []
+  m_AutoAdvance: 0
+  Showing:
+    m_PersistentCalls:
+      m_Calls: []
+  Shown:
+    m_PersistentCalls:
+      m_Calls: []
+  Staying:
+    m_PersistentCalls:
+      m_Calls: []
+  CriteriaValidated:
+    m_PersistentCalls:
+      m_Calls: []
+  MaskingSettingsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  NonMaskingSettingsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBeforePageShown:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnAfterPageShown:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnTutorialPageStay:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBeforeTutorialQuit:
+    m_PersistentCalls:
+      m_Calls: []
+  m_NextButton: Next
+  m_DoneButton: Done
+--- !u!114 &-262426783285617487
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 935228c0fd2628c4db5028980babef0b, type: 3}
+  m_Name: NarrativeParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.NarrativeParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 0
+    m_UnmaskedViews: []
+    MaskPreset: {fileID: 0}
+  Text:
+    m_Untranslated: "Let\u2019s rotate the stairs so that they\u2019re the right
+      way up and at the correct angle.\n\n<b>Reminder</b>: You can always undo an
+      action with <b>Ctrl+Z</b> (macOS: <b>Cmd+Z</b>)."
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12,13 +1114,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f107dc6d4c984c45bdafd3bb15f98f0, type: 3}
   m_Name: t2_Start creating now
   m_EditorClassIdentifier: 
+  m_Version: 1
   TutorialTitle:
     m_Untranslated: The 3D fundamentals
-  m_ProgressTrackingEnabled: 1
   m_LessonId: 8e5f7a12-526b-45cc-9210-4babcd4bc180
-  m_Version: 1
-  m_ReturnToPreviousScenes: 0
+  m_Pages:
+    m_Items:
+    - {fileID: 1380951403478771389}
+    - {fileID: 3583679265753422125}
+    - {fileID: 8630522190221887994}
+    - {fileID: 8454553730803268176}
+    - {fileID: -5533285140316985911}
+    - {fileID: -268451114920415747}
+    - {fileID: 8779595377666337361}
+    - {fileID: 6225351554398188119}
+    - {fileID: -8771261278792045331}
+    - {fileID: -3164409616450416516}
+    - {fileID: 1327203367871415984}
+    - {fileID: 6608019534173424863}
   m_SceneManagementBehavior: 1
+  m_ReturnToPreviousScenes: 0
   m_Scenes: []
   m_DefaultSceneCameraSettings:
     m_CameraMode: 0
@@ -36,25 +1151,9 @@ MonoBehaviour:
       m_AssetObject: {fileID: 0}
       m_Prefab: {fileID: 0}
     m_Enabled: 0
+  m_ProgressTrackingEnabled: 1
   m_WindowLayout: {fileID: 0}
-  m_Pages:
-    m_Items:
-    - {fileID: 11400000, guid: 01609422f7b3f9544b8af022b239020b, type: 2}
-    - {fileID: 11400000, guid: db2df8ed3b9b1c34ab37c133e34ce7b3, type: 2}
-    - {fileID: 11400000, guid: f887899778dc4ba4a8a828def157cf70, type: 2}
-    - {fileID: 11400000, guid: ea62241553a5c7249a940c916ed2b33a, type: 2}
-    - {fileID: 11400000, guid: 1c3c20fc40c834c9d8d6e746932136ab, type: 2}
-    - {fileID: 11400000, guid: a061b759ce81f0541a3ee10d91dc03f2, type: 2}
-    - {fileID: 11400000, guid: ed101923fedf54946a514f79776d361f, type: 2}
-    - {fileID: 11400000, guid: af1afcf345d441f42804f525138f2a4a, type: 2}
-    - {fileID: 11400000, guid: 4112c1ae292ae54419b97f722a7e3588, type: 2}
-    - {fileID: 11400000, guid: fa678c9c9127048398b62d9172d9d847, type: 2}
-    - {fileID: 11400000, guid: cc728cfdc9a374c4fa847ead9c929785, type: 2}
-    - {fileID: 11400000, guid: 9b01cfd5474d34b6395215b03589d8ad, type: 2}
   CompletionDialog: {fileID: 0}
-  Modified:
-    m_PersistentCalls:
-      m_Calls: []
   Initiated:
     m_PersistentCalls:
       m_Calls: []
@@ -72,3 +1171,1127 @@ MonoBehaviour:
       m_Calls: []
   m_Scene: {fileID: 0}
   m_TutorialTitle: 
+  m_FaqEntries: []
+--- !u!114 &850012501380576628
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 456c7c2b477e4253b9e4faf9ed4b18a9, type: 3}
+  m_Name: InstructionsParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.InstructionsParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 0
+    m_UnmaskedViews: []
+    MaskPreset: {fileID: 0}
+  Title:
+    m_Untranslated: INSTRUCTIONS
+  Text:
+    m_Untranslated: "<b>1</b>.  In the <b>Project</b> window, open the <b>Assets</b>
+      > <b>Materials</b> folder.\n\n<b>2</b>.  Select any material and look at its
+      preview in the <b>Inspector</b> window.\n\n<b>Important</b>: Single-click,
+      don't double-click the material.\n\n<b>3</b>.  From the <b>Project</b> window,
+      drag your selected material onto the white ground in the <b>Scene</b> view.\n\n<b>Note</b>:
+      While a material loads, the GameObject you're applying it to might be highlighted
+      in blue. \n"
+  m_CriteriaCompletion: 0
+  m_Criteria:
+    m_Items: []
+--- !u!114 &1327203367871415984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff771ccdf4150419d9ff4d342b069aae, type: 3}
+  m_Name: 10_Turn_a_cube_into_a_ramp
+  m_EditorClassIdentifier: 
+  <IndexInTutorial>k__BackingField: 10
+  Title:
+    m_Untranslated: Turn a cube into a ramp
+  m_LegacyParagraphs:
+    m_Items: []
+  m_PageParagraphs:
+  - {fileID: 8862904920136396344}
+  - {fileID: 3823576391525418354}
+  - {fileID: -656090211160001596}
+  m_CameraSettings:
+    m_CameraMode: 1
+    m_FocusMode: 1
+    m_Orthographic: 0
+    m_Size: 10.577178
+    m_Pivot: {x: -11.730838, y: 8.349657, z: 8.140062}
+    m_Rotation: {x: 0.14992698, y: 0.4867828, z: -0.0852263, w: 0.8563318}
+    m_FrameObject:
+      m_SceneGuid: 
+      m_GameObjectGuid: 
+      m_SerializedComponentType:
+        m_TypeName: 
+      m_ComponentIndex: 0
+      m_AssetObject: {fileID: 0}
+      m_Prefab: {fileID: 5985728095146728873, guid: 0f3716b60a18b45a6b8ff2bc7e299ff3, type: 3}
+    m_Enabled: 0
+  NextButton:
+    m_Untranslated: Next
+  DoneButton:
+    m_Untranslated: Done
+  m_CompletedSound: {fileID: 0}
+  m_FaqEntries: []
+  m_AutoAdvance: 0
+  Showing:
+    m_PersistentCalls:
+      m_Calls: []
+  Shown:
+    m_PersistentCalls:
+      m_Calls: []
+  Staying:
+    m_PersistentCalls:
+      m_Calls: []
+  CriteriaValidated:
+    m_PersistentCalls:
+      m_Calls: []
+  MaskingSettingsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  NonMaskingSettingsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBeforePageShown:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnAfterPageShown:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnTutorialPageStay:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBeforeTutorialQuit:
+    m_PersistentCalls:
+      m_Calls: []
+  m_NextButton: Next
+  m_DoneButton: Done
+--- !u!114 &1380951403478771389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff771ccdf4150419d9ff4d342b069aae, type: 3}
+  m_Name: 0_The_3D_fundamentals
+  m_EditorClassIdentifier: 
+  <IndexInTutorial>k__BackingField: 0
+  Title:
+    m_Untranslated: The 3D fundamentals
+  m_LegacyParagraphs:
+    m_Items: []
+  m_PageParagraphs:
+  - {fileID: -7372033740306997952}
+  - {fileID: 2617556559709126981}
+  - {fileID: 4878109596466281322}
+  m_CameraSettings:
+    m_CameraMode: 1
+    m_FocusMode: 0
+    m_Orthographic: 0
+    m_Size: 14.70745
+    m_Pivot: {x: 1.805318, y: 4.137619, z: 0.2858776}
+    m_Rotation: {x: 0.16783315, y: 0.6847665, z: -0.16669177, w: 0.68930453}
+    m_FrameObject:
+      m_SceneGuid: 
+      m_GameObjectGuid: 
+      m_SerializedComponentType:
+        m_TypeName: 
+      m_ComponentIndex: 0
+      m_AssetObject: {fileID: 0}
+      m_Prefab: {fileID: 0}
+    m_Enabled: 1
+  NextButton:
+    m_Untranslated: Next
+  DoneButton:
+    m_Untranslated: Done
+  m_CompletedSound: {fileID: 0}
+  m_FaqEntries: []
+  m_AutoAdvance: 0
+  Showing:
+    m_PersistentCalls:
+      m_Calls: []
+  Shown:
+    m_PersistentCalls:
+      m_Calls: []
+  Staying:
+    m_PersistentCalls:
+      m_Calls: []
+  CriteriaValidated:
+    m_PersistentCalls:
+      m_Calls: []
+  MaskingSettingsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  NonMaskingSettingsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBeforePageShown:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnAfterPageShown:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnTutorialPageStay:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBeforeTutorialQuit:
+    m_PersistentCalls:
+      m_Calls: []
+  m_NextButton: Next
+  m_DoneButton: Done
+--- !u!114 &1597643385176081830
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 456c7c2b477e4253b9e4faf9ed4b18a9, type: 3}
+  m_Name: InstructionsParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.InstructionsParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 0
+    m_UnmaskedViews: []
+    MaskPreset: {fileID: 0}
+  Title:
+    m_Untranslated: INSTRUCTIONS
+  Text:
+    m_Untranslated: "<b>1</b>.  In the top-left corner of the <b>Scene</b> view,
+      select the <b>View</b> tool (hand) from the <b>Tool</b> overlay.\n\n<b>2</b>. 
+      In the <b>Scene</b> view, left-click and drag with your mouse to pan your view
+      from side to side. \n\nThis allows you to move around in 3D space.\n\n<b>3</b>. 
+      Instead of clicking as you typically would, right-click and drag with your
+      mouse or touchpad to look around. \n\nThis allows you to stay in one spot and
+      rotate your view.\n\n<b>Note</b>: If you're using a laptop and touchpad, the
+      way you right-click will vary."
+  m_CriteriaCompletion: 0
+  m_Criteria:
+    m_Items: []
+--- !u!114 &2608227934413955447
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 935228c0fd2628c4db5028980babef0b, type: 3}
+  m_Name: NarrativeParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.NarrativeParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 0
+    m_UnmaskedViews: []
+    MaskPreset: {fileID: 0}
+  Text:
+    m_Untranslated: "There's one more star to collect in this scene; to reach it,
+      you'll need a ramp. \n\nYou'll start with a simple cube, known as a <b>primitive</b>
+      GameObject. Later, you'll transform that cube into a ramp.\n\nFollow the instructions
+      below to add a primitive cube to your scene. \n"
+--- !u!114 &2617556559709126981
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 935228c0fd2628c4db5028980babef0b, type: 3}
+  m_Name: NarrativeParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.NarrativeParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 0
+    m_UnmaskedViews: []
+    MaskPreset: {fileID: 0}
+  Text:
+    m_Untranslated: "You're now familiar with the basic parts of the Unity Editor.\n\nIn
+      this tutorial, you'll learn to navigate in 3D space and manipulate GameObjects
+      in a scene. \n\nLet's get started."
+--- !u!114 &3583679265753422125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff771ccdf4150419d9ff4d342b069aae, type: 3}
+  m_Name: 1_Change_a_material
+  m_EditorClassIdentifier: 
+  <IndexInTutorial>k__BackingField: 1
+  Title:
+    m_Untranslated: Change a material
+  m_LegacyParagraphs:
+    m_Items: []
+  m_PageParagraphs:
+  - {fileID: -4520855630464898791}
+  - {fileID: -6057319891386630932}
+  - {fileID: 850012501380576628}
+  m_CameraSettings:
+    m_CameraMode: 0
+    m_FocusMode: 0
+    m_Orthographic: 0
+    m_Size: 0
+    m_Pivot: {x: 0, y: 0, z: 0}
+    m_Rotation: {x: 0, y: 0, z: 0, w: 1}
+    m_FrameObject:
+      m_SceneGuid: 
+      m_GameObjectGuid: 
+      m_SerializedComponentType:
+        m_TypeName: 
+      m_ComponentIndex: 0
+      m_AssetObject: {fileID: 0}
+      m_Prefab: {fileID: 0}
+    m_Enabled: 0
+  NextButton:
+    m_Untranslated: Next
+  DoneButton:
+    m_Untranslated: Done
+  m_CompletedSound: {fileID: 0}
+  m_FaqEntries: []
+  m_AutoAdvance: 0
+  Showing:
+    m_PersistentCalls:
+      m_Calls: []
+  Shown:
+    m_PersistentCalls:
+      m_Calls: []
+  Staying:
+    m_PersistentCalls:
+      m_Calls: []
+  CriteriaValidated:
+    m_PersistentCalls:
+      m_Calls: []
+  MaskingSettingsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  NonMaskingSettingsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBeforePageShown:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnAfterPageShown:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnTutorialPageStay:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBeforeTutorialQuit:
+    m_PersistentCalls:
+      m_Calls: []
+  m_NextButton: Next
+  m_DoneButton: Done
+--- !u!114 &3823576391525418354
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 935228c0fd2628c4db5028980babef0b, type: 3}
+  m_Name: NarrativeParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.NarrativeParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 0
+    m_UnmaskedViews: []
+    MaskPreset: {fileID: 0}
+  Text:
+    m_Untranslated: Next, you'll use the <b>Scale</b> tool to stretch out the cube
+      and turn it into a ramp.
+--- !u!114 &3866818112740247507
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5b43af98cf241a48618341008f648cb, type: 3}
+  m_Name: MediaParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.MediaParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 1
+    m_UnmaskedViews:
+    - m_SelectorType: 1
+      m_ViewType:
+        m_TypeName: 
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.SceneView, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls: []
+    - m_SelectorType: 1
+      m_ViewType:
+        m_TypeName: 
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.GameView, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls: []
+    - m_SelectorType: 1
+      m_ViewType:
+        m_TypeName: 
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.SceneHierarchyWindow, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls: []
+    - m_SelectorType: 1
+      m_ViewType:
+        m_TypeName: 
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.ProjectBrowser, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls: []
+    MaskPreset: {fileID: 0}
+  Media:
+    m_ContentType: 1
+    m_Image: {fileID: 0}
+    m_VideoClip: {fileID: 32900000, guid: 1b7fecb6c85b37d4899291a21cb5f7d5, type: 3}
+    m_Url: 
+    m_AutoStart: 0
+    m_Loop: 0
+--- !u!114 &4154269856994290060
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 935228c0fd2628c4db5028980babef0b, type: 3}
+  m_Name: NarrativeParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.NarrativeParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 0
+    m_UnmaskedViews: []
+    MaskPreset: {fileID: 0}
+  Text:
+    m_Untranslated: "Unity provides tools to move, rotate, and scale the GameObjects
+      in your scene. \n\nYou'll use the <b>Move</b> tool to move the orange box. "
+--- !u!114 &4450592182432876828
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5b43af98cf241a48618341008f648cb, type: 3}
+  m_Name: MediaParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.MediaParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 1
+    m_UnmaskedViews: []
+    MaskPreset: {fileID: 0}
+  Media:
+    m_ContentType: 0
+    m_Image: {fileID: 2800000, guid: dd8c5448ea5894afbb7ba30e1f838719, type: 3}
+    m_VideoClip: {fileID: 0}
+    m_Url: 
+    m_AutoStart: 1
+    m_Loop: 1
+--- !u!114 &4878109596466281322
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 456c7c2b477e4253b9e4faf9ed4b18a9, type: 3}
+  m_Name: InstructionsParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.InstructionsParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 0
+    m_UnmaskedViews: []
+    MaskPreset: {fileID: 0}
+  Title:
+    m_Untranslated: GET STARTED
+  Text:
+    m_Untranslated: Select <b>Next</b>, below, to continue.
+  m_CriteriaCompletion: 0
+  m_Criteria:
+    m_Items: []
+--- !u!114 &6068856719604309560
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 456c7c2b477e4253b9e4faf9ed4b18a9, type: 3}
+  m_Name: InstructionsParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.InstructionsParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 0
+    m_UnmaskedViews: []
+    MaskPreset: {fileID: 0}
+  Title:
+    m_Untranslated: INSTRUCTIONS
+  Text:
+    m_Untranslated: '<b>1</b>.  In the <b>Hierarchy</b> window, select the <b>02_Box_Orange</b>
+      GameObject.
+
+
+      <b>2</b>.  Drag the blue and red handles (the arrowheads)
+      of the <b>Move</b> gizmo to position the smaller orange box close to the larger
+      box.
+
+
+      <b>3</b>.  Enter Play mode and have the robot collect the second
+      star.
+
+
+      <b>4</b>.  When you''re finished, exit Play mode and save the
+      scene.'
+  m_CriteriaCompletion: 0
+  m_Criteria:
+    m_Items: []
+--- !u!114 &6225351554398188119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff771ccdf4150419d9ff4d342b069aae, type: 3}
+  m_Name: 7_Add_stairs_to_the_scene
+  m_EditorClassIdentifier: 
+  <IndexInTutorial>k__BackingField: 7
+  Title:
+    m_Untranslated: Add stairs to the scene
+  m_LegacyParagraphs:
+    m_Items: []
+  m_PageParagraphs:
+  - {fileID: 3866818112740247507}
+  - {fileID: 8959275975916884232}
+  - {fileID: 9093286637800105136}
+  m_CameraSettings:
+    m_CameraMode: 1
+    m_FocusMode: 0
+    m_Orthographic: 0
+    m_Size: 10.577178
+    m_Pivot: {x: 3.3240862, y: 1.2079144, z: 3.2838569}
+    m_Rotation: {x: 0.1459012, y: 0.82098335, z: -0.24126267, w: 0.49648175}
+    m_FrameObject:
+      m_SceneGuid: 
+      m_GameObjectGuid: 
+      m_SerializedComponentType:
+        m_TypeName: 
+      m_ComponentIndex: 0
+      m_AssetObject: {fileID: 0}
+      m_Prefab: {fileID: 0}
+    m_Enabled: 1
+  NextButton:
+    m_Untranslated: Next
+  DoneButton:
+    m_Untranslated: Done
+  m_CompletedSound: {fileID: 0}
+  m_FaqEntries: []
+  m_AutoAdvance: 0
+  Showing:
+    m_PersistentCalls:
+      m_Calls: []
+  Shown:
+    m_PersistentCalls:
+      m_Calls: []
+  Staying:
+    m_PersistentCalls:
+      m_Calls: []
+  CriteriaValidated:
+    m_PersistentCalls:
+      m_Calls: []
+  MaskingSettingsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  NonMaskingSettingsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBeforePageShown:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnAfterPageShown:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnTutorialPageStay:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBeforeTutorialQuit:
+    m_PersistentCalls:
+      m_Calls: []
+  m_NextButton: Next
+  m_DoneButton: Done
+--- !u!114 &6535809225684609564
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5b43af98cf241a48618341008f648cb, type: 3}
+  m_Name: MediaParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.MediaParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 1
+    m_UnmaskedViews:
+    - m_SelectorType: 1
+      m_ViewType:
+        m_TypeName: 
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.SceneView, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls: []
+    MaskPreset: {fileID: 0}
+  Media:
+    m_ContentType: 0
+    m_Image: {fileID: 2800000, guid: eaa2575294b0844f99781207cf1129af, type: 3}
+    m_VideoClip: {fileID: 0}
+    m_Url: 
+    m_AutoStart: 1
+    m_Loop: 1
+--- !u!114 &6608019534173424863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff771ccdf4150419d9ff4d342b069aae, type: 3}
+  m_Name: 11_Continue_to_the_next_tutorial
+  m_EditorClassIdentifier: 
+  <IndexInTutorial>k__BackingField: 11
+  Title:
+    m_Untranslated: Continue to the next tutorial
+  m_LegacyParagraphs:
+    m_Items: []
+  m_PageParagraphs:
+  - {fileID: 4450592182432876828}
+  - {fileID: -7081572021664565571}
+  m_CameraSettings:
+    m_CameraMode: 1
+    m_FocusMode: 0
+    m_Orthographic: 0
+    m_Size: 10
+    m_Pivot: {x: -12.4570465, y: 9.553827, z: 25.669626}
+    m_Rotation: {x: 0.06390505, y: 0.9168377, z: -0.16335686, w: 0.35866714}
+    m_FrameObject:
+      m_SceneGuid: 
+      m_GameObjectGuid: 
+      m_SerializedComponentType:
+        m_TypeName: 
+      m_ComponentIndex: 0
+      m_AssetObject: {fileID: 0}
+      m_Prefab: {fileID: 0}
+    m_Enabled: 1
+  NextButton:
+    m_Untranslated: Next
+  DoneButton:
+    m_Untranslated: Done
+  m_CompletedSound: {fileID: 0}
+  m_FaqEntries: []
+  m_AutoAdvance: 0
+  Showing:
+    m_PersistentCalls:
+      m_Calls: []
+  Shown:
+    m_PersistentCalls:
+      m_Calls: []
+  Staying:
+    m_PersistentCalls:
+      m_Calls: []
+  CriteriaValidated:
+    m_PersistentCalls:
+      m_Calls: []
+  MaskingSettingsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  NonMaskingSettingsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBeforePageShown:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnAfterPageShown:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnTutorialPageStay:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBeforeTutorialQuit:
+    m_PersistentCalls:
+      m_Calls: []
+  m_NextButton: Next
+  m_DoneButton: Done
+--- !u!114 &7452773893945467586
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 456c7c2b477e4253b9e4faf9ed4b18a9, type: 3}
+  m_Name: InstructionsParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.InstructionsParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 0
+    m_UnmaskedViews: []
+    MaskPreset: {fileID: 0}
+  Title:
+    m_Untranslated: INSTRUCTIONS
+  Text:
+    m_Untranslated: 'In the upper-left corner of the <b>Scene</b> view, select the
+      <b>Move</b> tool from the <b>Tool</b> overlay.
+
+
+      In the next step, you''ll
+      use this tool to move the orange box.
+
+'
+  m_CriteriaCompletion: 0
+  m_Criteria:
+    m_Items: []
+--- !u!114 &8454553730803268176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff771ccdf4150419d9ff4d342b069aae, type: 3}
+  m_Name: 3_Look_around
+  m_EditorClassIdentifier: 
+  <IndexInTutorial>k__BackingField: 3
+  Title:
+    m_Untranslated: Look around
+  m_LegacyParagraphs:
+    m_Items: []
+  m_PageParagraphs:
+  - {fileID: -8442305971120837089}
+  - {fileID: -2652109041978101587}
+  - {fileID: 1597643385176081830}
+  m_CameraSettings:
+    m_CameraMode: 0
+    m_FocusMode: 0
+    m_Orthographic: 0
+    m_Size: 0
+    m_Pivot: {x: 0, y: 0, z: 0}
+    m_Rotation: {x: 0, y: 0, z: 0, w: 1}
+    m_FrameObject:
+      m_SceneGuid: 
+      m_GameObjectGuid: 
+      m_SerializedComponentType:
+        m_TypeName: 
+      m_ComponentIndex: 0
+      m_AssetObject: {fileID: 0}
+      m_Prefab: {fileID: 0}
+    m_Enabled: 0
+  NextButton:
+    m_Untranslated: Next
+  DoneButton:
+    m_Untranslated: Done
+  m_CompletedSound: {fileID: 0}
+  m_FaqEntries: []
+  m_AutoAdvance: 0
+  Showing:
+    m_PersistentCalls:
+      m_Calls: []
+  Shown:
+    m_PersistentCalls:
+      m_Calls: []
+  Staying:
+    m_PersistentCalls:
+      m_Calls: []
+  CriteriaValidated:
+    m_PersistentCalls:
+      m_Calls: []
+  MaskingSettingsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  NonMaskingSettingsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBeforePageShown:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnAfterPageShown:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnTutorialPageStay:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBeforeTutorialQuit:
+    m_PersistentCalls:
+      m_Calls: []
+  m_NextButton: Next
+  m_DoneButton: Done
+--- !u!114 &8630522190221887994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff771ccdf4150419d9ff4d342b069aae, type: 3}
+  m_Name: 2_Change_the_skybox
+  m_EditorClassIdentifier: 
+  <IndexInTutorial>k__BackingField: 2
+  Title:
+    m_Untranslated: Change the skybox
+  m_LegacyParagraphs:
+    m_Items: []
+  m_PageParagraphs:
+  - {fileID: -5868665290398596980}
+  - {fileID: -867391033310487450}
+  - {fileID: -5751489762432400961}
+  m_CameraSettings:
+    m_CameraMode: 1
+    m_FocusMode: 0
+    m_Orthographic: 0
+    m_Size: 12.980536
+    m_Pivot: {x: 3.4939651, y: 17.702139, z: 1.1101073}
+    m_Rotation: {x: -0.059967246, y: 0.6897107, z: 0.0575003, w: 0.7193034}
+    m_FrameObject:
+      m_SceneGuid: 
+      m_GameObjectGuid: 
+      m_SerializedComponentType:
+        m_TypeName: 
+      m_ComponentIndex: 0
+      m_AssetObject: {fileID: 0}
+      m_Prefab: {fileID: 0}
+    m_Enabled: 1
+  NextButton:
+    m_Untranslated: Next
+  DoneButton:
+    m_Untranslated: Done
+  m_CompletedSound: {fileID: 0}
+  m_FaqEntries: []
+  m_AutoAdvance: 0
+  Showing:
+    m_PersistentCalls:
+      m_Calls: []
+  Shown:
+    m_PersistentCalls:
+      m_Calls: []
+  Staying:
+    m_PersistentCalls:
+      m_Calls: []
+  CriteriaValidated:
+    m_PersistentCalls:
+      m_Calls: []
+  MaskingSettingsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  NonMaskingSettingsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBeforePageShown:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnAfterPageShown:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnTutorialPageStay:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBeforeTutorialQuit:
+    m_PersistentCalls:
+      m_Calls: []
+  m_NextButton: Next
+  m_DoneButton: Done
+--- !u!114 &8779595377666337361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff771ccdf4150419d9ff4d342b069aae, type: 3}
+  m_Name: 6_Move_the_orange_box
+  m_EditorClassIdentifier: 
+  <IndexInTutorial>k__BackingField: 6
+  Title:
+    m_Untranslated: Move the orange box
+  m_LegacyParagraphs:
+    m_Items: []
+  m_PageParagraphs:
+  - {fileID: -9205876541657501254}
+  - {fileID: -6218593117435713287}
+  - {fileID: 6068856719604309560}
+  m_CameraSettings:
+    m_CameraMode: 1
+    m_FocusMode: 0
+    m_Orthographic: 0
+    m_Size: 35.268917
+    m_Pivot: {x: 47.005512, y: -30.459286, z: 11.870099}
+    m_Rotation: {x: 0.2650235, y: 0.5160826, z: -0.1717524, w: 0.7961962}
+    m_FrameObject:
+      m_SceneGuid: 
+      m_GameObjectGuid: 
+      m_SerializedComponentType:
+        m_TypeName: 
+      m_ComponentIndex: 0
+      m_AssetObject: {fileID: 0}
+      m_Prefab: {fileID: 0}
+    m_Enabled: 1
+  NextButton:
+    m_Untranslated: Next
+  DoneButton:
+    m_Untranslated: Done
+  m_CompletedSound: {fileID: 0}
+  m_FaqEntries: []
+  m_AutoAdvance: 0
+  Showing:
+    m_PersistentCalls:
+      m_Calls: []
+  Shown:
+    m_PersistentCalls:
+      m_Calls: []
+  Staying:
+    m_PersistentCalls:
+      m_Calls: []
+  CriteriaValidated:
+    m_PersistentCalls:
+      m_Calls: []
+  MaskingSettingsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  NonMaskingSettingsChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBeforePageShown:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnAfterPageShown:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnTutorialPageStay:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnBeforeTutorialQuit:
+    m_PersistentCalls:
+      m_Calls: []
+  m_NextButton: Next
+  m_DoneButton: Done
+--- !u!114 &8862904920136396344
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5b43af98cf241a48618341008f648cb, type: 3}
+  m_Name: MediaParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.MediaParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 1
+    m_UnmaskedViews:
+    - m_SelectorType: 1
+      m_ViewType:
+        m_TypeName: 
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.SceneHierarchyWindow, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls: []
+    - m_SelectorType: 1
+      m_ViewType:
+        m_TypeName: 
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.SceneView, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls: []
+    - m_SelectorType: 1
+      m_ViewType:
+        m_TypeName: 
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.GameView, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls: []
+    - m_SelectorType: 0
+      m_ViewType:
+        m_TypeName: UnityEditor.Toolbar, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_OpenAndFocus: 0
+      m_EditorWindowType:
+        m_TypeName: UnityEditor.GameView, UnityEditor.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
+      m_AlternateEditorWindowTypes:
+        m_Items: []
+      m_MaskType: 0
+      m_MaskSizeModifier: 0
+      m_UnmaskedControls:
+      - m_SelectorMode: 5
+        m_SelectorMatchType: 0
+        m_GUIContent:
+          m_Text: 
+          m_Image: {fileID: 0}
+          m_Tooltip: 
+          m_TextWithWhitespace: 
+        m_ControlName: 
+        m_PropertyPath: 
+        m_TargetType:
+          m_TypeName: 
+        m_GUIStyleName: 
+        m_ObjectReference:
+          m_SceneObjectReference:
+            m_SceneGuid: 
+            m_GameObjectGuid: 
+            m_SerializedComponentType:
+              m_TypeName: 
+            m_ComponentIndex: 0
+            m_AssetObject: {fileID: 0}
+            m_Prefab: {fileID: 0}
+          m_FutureObjectReference: {fileID: 0}
+        m_VisualElementClassName: 
+        m_VisualElementName: Play
+        m_VisualElementTypeName: 
+    MaskPreset: {fileID: 0}
+  Media:
+    m_ContentType: 1
+    m_Image: {fileID: 0}
+    m_VideoClip: {fileID: 32900000, guid: 00313d13dfa6c3f4791a7d65e845ae54, type: 3}
+    m_Url: 
+    m_AutoStart: 0
+    m_Loop: 0
+--- !u!114 &8959275975916884232
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 935228c0fd2628c4db5028980babef0b, type: 3}
+  m_Name: NarrativeParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.NarrativeParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 0
+    m_UnmaskedViews: []
+    MaskPreset: {fileID: 0}
+  Text:
+    m_Untranslated: "Let\u2019s add some stairs to allow the robot to get the third
+      star on top of the red box.\n\nWe\u2019ve provided you with a set of stairs
+      in the <b>Assets</b> folder.\n"
+--- !u!114 &9093286637800105136
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 456c7c2b477e4253b9e4faf9ed4b18a9, type: 3}
+  m_Name: InstructionsParagraph
+  m_EditorClassIdentifier: Unity.Tutorials.Editor::Unity.Tutorials.Editor.Paragraphs.InstructionsParagraph
+  m_MaskingSettings:
+    m_MaskingEnabled: 0
+    m_UnmaskedViews: []
+    MaskPreset: {fileID: 0}
+  Title:
+    m_Untranslated: INSTRUCTIONS
+  Text:
+    m_Untranslated: '<b>1</b>.  Watch the video above.
+
+
+      <b>2</b>.  In the
+      <b>Project</b> window, open the <b>Assets</b> > <b>Prefabs</b> folder.
+
+
+      <b>Important</b>:
+      Single-click, don''t double-click, the stairs asset (<a href="https://learn.unity.com/tutorial/671be8afedbc2a0105a17c0e#671bf065edbc2a0105919b3b">Help</a>).
+
+
+      <b>3</b>. 
+      In the <b>Project</b> window, select the <b>Stairs</b> GameObject and drag
+      it onto the ground in the <b>Scene</b> view.
+
+
+      <b>Note</b>: Don''t worry
+      that the stairs are on their side; you''ll fix that later!
+
+'
+  m_CriteriaCompletion: 0
+  m_Criteria:
+    m_Items: []

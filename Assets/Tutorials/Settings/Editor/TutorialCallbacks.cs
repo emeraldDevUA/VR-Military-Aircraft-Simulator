@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using UnityEngine.Rendering.Universal;
-using Unity.Tutorials.Core.Editor;
+
 using UnityEngine.SceneManagement;
 using System.Reflection;
 
@@ -25,7 +25,7 @@ public class TutorialCallbacks : ScriptableObject
     /// <returns>The created asset</returns>
     public static ScriptableObject CreateAndShowAsset(string assetPath = null)
     {
-        assetPath = assetPath ?? $"{TutorialEditorUtils.GetActiveFolderPath()}/{DefaultFileName}.asset";
+        assetPath = assetPath ?? $"{Unity.Tutorials.Editor.TutorialEditorUtils.GetActiveFolderPath()}/{DefaultFileName}.asset";
         var asset = CreateInstance<TutorialCallbacks>();
         AssetDatabase.CreateAsset(asset, AssetDatabase.GenerateUniqueAssetPath(assetPath));
         EditorUtility.FocusProjectWindow(); // needed in order to make the selection of newly created asset to really work
@@ -104,9 +104,9 @@ public class TutorialCallbacks : ScriptableObject
     // ****************************
     // Added by VB with help from Guillaume
     // Used in Welcome Dialog to start tutorials from buttons.
-    public void StartTutorial(Tutorial tutorial)
+    public void StartTutorial(Unity.Tutorials.Editor.Tutorial tutorial)
     {
-        TutorialWindowUtils.StartTutorial(tutorial);
+        Unity.Tutorials.Editor.TutorialWindowUtils.StartTutorial(tutorial);
     }
 
     // ****************************

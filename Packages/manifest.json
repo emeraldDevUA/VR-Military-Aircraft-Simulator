@@ -1,10 +1,10 @@
 {
   "dependencies": {
-    "com.unity.cinemachine": "3.1.2",
-    "com.unity.inputsystem": "1.17.0",
-    "com.unity.learn.iet-framework": "5.0.2",
-    "com.unity.multiplayer.center": "1.0.1",
-    "com.unity.render-pipelines.universal": "17.3.0",
+    "com.unity.cinemachine": "3.1.7",
+    "com.unity.inputsystem": "1.20.0",
+    "com.unity.learn.iet-framework": "6.0.7",
+    "com.unity.multiplayer.center": "2.0.1",
+    "com.unity.render-pipelines.universal": "17.6.0",
     "com.unity.modules.accessibility": "1.0.0",
     "com.unity.modules.adaptiveperformance": "1.0.0",
     "com.unity.modules.ai": "1.0.0",
@@ -36,7 +36,6 @@
     "com.unity.modules.vectorgraphics": "1.0.0",
     "com.unity.modules.vehicles": "1.0.0",
     "com.unity.modules.video": "1.0.0",
-    "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
     "com.unity.modules.xr": "1.0.0"
   }

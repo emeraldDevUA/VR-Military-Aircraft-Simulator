@@ -3,7 +3,7 @@ using UnityEngine;
 #if UNITY_EDITOR
 using Unity.EditorCoroutines.Editor;
 using UnityEditor;
-using Unity.Tutorials.Core.Editor;
+
 #endif
 
 [CreateAssetMenu(fileName = "ApplyCustomThemeHelper", menuName = "Scriptable Objects/ApplyCustomThemeHelper")]
@@ -19,9 +19,9 @@ public class ApplyCustomThemeHelper : ScriptableObject
     {
         yield return null;
 
-        TutorialWindow.Instance.rootVisualElement.styleSheets.Add(EditorGUIUtility.isProSkin ?
-            TutorialProjectSettings.Instance.TutorialStyle.DarkThemeStyleSheet :
-            TutorialProjectSettings.Instance.TutorialStyle.LightThemeStyleSheet);
+        Unity.Tutorials.Editor.TutorialWindow.Instance.rootVisualElement.styleSheets.Add(EditorGUIUtility.isProSkin ?
+            Unity.Tutorials.Editor.TutorialProjectSettings.Instance.TutorialStyle.DarkThemeStyleSheet :
+            Unity.Tutorials.Editor.TutorialProjectSettings.Instance.TutorialStyle.LightThemeStyleSheet);
     }
 #endif
 }
