@@ -20,6 +20,30 @@ class HeatOrb{
         m_type = type;
         m_intensity = intensity;
     }
+
+
+    public float GetHeatValue(InfraredHomingSystem homingSystem)
+    {
+        Vector3 offset = m_position - homingSystem.m_position;
+
+        float distanceSqr = offset.sqrMagnitude;
+        float distanceFactor = 1.0f / Mathf.Max(distanceSqr, 0.01f);
+        float directionalFactor = 1.0f;
+
+        if (m_type == OrbType.UniDirectional)
+        {
+            Vector3 directionToOrb = offset.normalized;
+            Vector3 heatDirection = m_direction.normalized;
+
+            float dotProduct = Vector3.Dot(heatDirection, directionToOrb);
+
+            directionalFactor = Mathf.Max(0.0f, dotProduct);
+        }
+
+        return m_intensity * directionalFactor * distanceFactor;
+    }
+
+
 }
 
 
@@ -36,7 +60,7 @@ class RadarOrb{
         m_area = area;
     }
 
-
+    // random noise will depend in its magnitude on area and distance
     public Vector3 getNoisyData(){
         return m_position + UnityEngine.Random.insideUnitSphere;
     }

@@ -25,6 +25,7 @@ abstract class HomingSystem
 {
     private string m_homingMode = "";
 
+    public Vector3 m_position{ get; set;} = new Vector3(0,0,0);
     public HomingSystem()
     {
     }
