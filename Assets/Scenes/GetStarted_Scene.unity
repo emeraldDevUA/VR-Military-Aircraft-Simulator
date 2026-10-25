@@ -1181,11 +1181,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerControllerScript
   cameraPoint: {fileID: 2025868246}
   playerCamera: {fileID: 874155057}
-  rigidbody: {fileID: 1325423608}
-  moveSpeed: 5
-  rotationSpeed: 10
+  rb: {fileID: 1325423608}
   mouseSensitivity: 3
-  source: {fileID: 0}
+  mass: 9500
+  centerOfMass: {x: -0.7, y: 0, z: 0}
+  inertiaTensor: {x: 35174.2, y: 182376, z: 152167}
+  engineThrust: 75000
+  elevatorIncidenceDeg: -7
+  startTrim: -0.4
+  startAltitude: 100
+  startAoADeg: 4.5
+  startSpeed: 150
+  logState: 1
+  applyAero: 1
+  debugRayScale: 0.0002
 --- !u!54 &1325423608
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1213,38 +1222,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!138 &1325423609
-FixedJoint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1325423605}
-  serializedVersion: 1
-  m_ConnectedBody: {fileID: 1200514917}
-  m_ConnectedArticulationBody: {fileID: 0}
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 1
-  m_MassScale: 1
-  m_ConnectedMassScale: 1
---- !u!138 &1325423610
-FixedJoint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1325423605}
-  serializedVersion: 1
-  m_ConnectedBody: {fileID: 754460033}
-  m_ConnectedArticulationBody: {fileID: 0}
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 1
-  m_MassScale: 1
-  m_ConnectedMassScale: 1
 --- !u!114 &1325423611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1649,19 +1626,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: f46af007dc105c541a71bae6dc0ea31c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 928
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f46af007dc105c541a71bae6dc0ea31c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.6431854
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f46af007dc105c541a71bae6dc0ea31c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -30
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f46af007dc105c541a71bae6dc0ea31c, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f46af007dc105c541a71bae6dc0ea31c, type: 3}
       propertyPath: m_LocalRotation.x
@@ -1669,7 +1646,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f46af007dc105c541a71bae6dc0ea31c, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f46af007dc105c541a71bae6dc0ea31c, type: 3}
       propertyPath: m_LocalRotation.z
@@ -1681,7 +1658,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f46af007dc105c541a71bae6dc0ea31c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f46af007dc105c541a71bae6dc0ea31c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -1733,12 +1710,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f46af007dc105c541a71bae6dc0ea31c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1325423608}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f46af007dc105c541a71bae6dc0ea31c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1325423609}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f46af007dc105c541a71bae6dc0ea31c, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1325423610}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f46af007dc105c541a71bae6dc0ea31c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1325423611}

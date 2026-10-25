@@ -63,9 +63,14 @@ public class InputSource : MonoBehaviour
 
     void ReadKeyboard()
     {
-        // Built-in axes: Horizontal = A/D or arrows, Vertical = W/S or arrows
-        input.aileron  = Input.GetAxis("Horizontal");
-        input.elevator = Input.GetAxis("Vertical");
+        // Read the keys directly. The built-in "Horizontal"/"Vertical" axes also read any connected
+        // joystick (e.g. the HOTAS X), which would feed a constant stick offset into the flight model.
+        float ailTarget = (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow) ? 1f : 0f)
+                        - (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow) ? 1f : 0f);
+        float eleTarget = (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow) ? 1f : 0f)
+                        - (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow) ? 1f : 0f);
+        input.aileron  = Mathf.MoveTowards(input.aileron,  ailTarget, 4f * Time.deltaTime);
+        input.elevator = Mathf.MoveTowards(input.elevator, eleTarget, 4f * Time.deltaTime);
 
         float rud = 0f;
         if (Input.GetKey(rudderRight)) rud += 1f;

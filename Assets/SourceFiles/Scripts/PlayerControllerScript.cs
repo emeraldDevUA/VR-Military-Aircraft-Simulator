@@ -57,7 +57,7 @@ public class PlayerControllerScript : MonoBehaviour
         rb.centerOfMass = centerOfMass;
         rb.inertiaTensorRotation = Quaternion.identity;   // principal axes = body axes
         rb.inertiaTensor = inertiaTensor;
-        rb.maxLinearVelocity = 500f;                      // default cap is 100 m/s
+        rb.maxLinearVelocity = 120f;                      // default cap is 100 m/s
 
         // The model assumes local +X is forward, so start level and facing +X
         Vector3 startPos = new Vector3(0f, startAltitude, 0f);
@@ -79,8 +79,8 @@ public class PlayerControllerScript : MonoBehaviour
 
         // ---- Airfoils ----
         Airfoil naca64a204 = new Airfoil(CSV_Utils.Read("Airfoils/NACA64A204"));
-        Airfoil naca2412 = new Airfoil(CSV_Utils.Read("Airfoils/NACA2412"));
-        Airfoil naca0012 = new Airfoil(CSV_Utils.Read("Airfoils/NACA0012"));
+        Airfoil naca2412   = new Airfoil(CSV_Utils.Read("Airfoils/NACA2412"));
+        Airfoil naca0012   = new Airfoil(CSV_Utils.Read("Airfoils/NACA0012"));
 
         // ---- Wings ----
         // Local frame: X = forward, Y = up, Z = LEFT (Unity is left-handed).
@@ -121,7 +121,7 @@ public class PlayerControllerScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (source == null || wings == null || rb == null) return;
+        if (source == null || wings == null|| rb == null) return;
 
         // Pitch rate BEFORE any aero force this step: shows whether something else spins the plane
         if (step < 6)
@@ -130,16 +130,15 @@ public class PlayerControllerScript : MonoBehaviour
 
         // Feed the latest input into the control surfaces every physics step
         FlightInput inp = source.input;
-        wings[LeftWing].ControlInput = inp.aileron;
+        wings[LeftWing].ControlInput  =  inp.aileron;
         wings[RightWing].ControlInput = -inp.aileron;
-        wings[Elevator].ControlInput = inp.elevator + inp.trim;
-        wings[Rudder].ControlInput = inp.rudder;
+        wings[Elevator].ControlInput  =  inp.elevator + inp.trim;
+        wings[Rudder].ControlInput    =  inp.rudder;
 
         // Thrust along the aircraft's forward axis (local +X)
         if (applyAero)
         {
-            float thrust = (float)engine.computePropulsionForce();
-            lastThrust = thrust;
+            float thrust = (float)engine.computePropulsionForce();   // Engine's sign is backwards for this frame (log showed -150000)
             lastThrust = thrust;
             rb.AddForce(transform.right * thrust);
 
@@ -180,6 +179,7 @@ public class PlayerControllerScript : MonoBehaviour
                   $"elev={wings[Elevator].LastAoA:F1} rudder={wings[Rudder].LastAoA:F1}\n" +
                   $"Mz wings={mz[LeftWing] + mz[RightWing]:F0} elev={mz[Elevator]:F0}  " +
                   $"liftY={liftY:F0} weight={rb.mass * Physics.gravity.magnitude:F0}\n" +
+                  $"in: ail={source.input.aileron:F2} ele={source.input.elevator:F2} rud={source.input.rudder:F2} trim={source.input.trim:F2}\n" +
                   $"thrust={lastThrust:F0} dragX={dragX:F0} CL wing={wings[LeftWing].LastCl:F2} " +
                   $"CD wing={wings[LeftWing].LastCd:F3} CD elev={wings[Elevator].LastCd:F3}");
     }
