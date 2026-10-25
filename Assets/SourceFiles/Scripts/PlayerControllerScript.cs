@@ -90,13 +90,18 @@ public class PlayerControllerScript : MonoBehaviour
         float tailOffset = -6.6f;
         float inc = elevatorIncidenceDeg * Mathf.Deg2Rad;
         Vector3 elevatorNormal = new Vector3(-Mathf.Sin(inc), Mathf.Cos(inc), 0f);
+        
+        float wingSpanFull = 2f * (2.35f + 2.5f * 0.5f);        // 7.2 m tip to tip
+        float wingAR       = wingSpanFull * wingSpanFull / (2f * 6.96f);   // ~3.7
 
         wings = new List<Wing>
         {
             new Wing(area: 6.96f, controlInput: 0f, span: 2.50f, flapRatio: 0.10f,
-                     wingNormal: Vector3.up,   displacement: new Vector3(wingOffset, 0f, +2.35f), airfoil: naca2412),   // left
+                     wingNormal: Vector3.up, displacement: new Vector3(wingOffset, 0f, +2.35f),
+                     airfoil: naca2412, aspectRatio: wingAR),
             new Wing(area: 6.96f, controlInput: 0f, span: 2.50f, flapRatio: 0.10f,
-                     wingNormal: Vector3.up,   displacement: new Vector3(wingOffset, 0f, -2.35f), airfoil: naca2412),   // right
+                     wingNormal: Vector3.up, displacement: new Vector3(wingOffset, 0f, -2.35f),
+                     airfoil: naca2412, aspectRatio: wingAR),  // right
             new Wing(area: 6.54f, controlInput: 0f, span: 2.70f, flapRatio: 1.00f,
                      wingNormal: elevatorNormal, displacement: new Vector3(tailOffset, -0.1f, 0f),  airfoil: naca64a204), // elevator
             new Wing(area: 5.31f, controlInput: 0f, span: 3.10f, flapRatio: 0.15f,

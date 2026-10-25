@@ -21,7 +21,7 @@ public struct Engine
     {
         double afterburner_multiplier = enableAfterburner ? 2 : 1;
 
-        return -innerThrottle * maxThrust * afterburner_multiplier;
+        return innerThrottle * maxThrust * afterburner_multiplier;
     }
 }
 
@@ -61,7 +61,7 @@ public class Wing
     public Vector3 Displacement => m_displacement;
 
     public Wing(float area, float controlInput, float span, float flapRatio,
-                Vector3 wingNormal, Vector3 displacement, Airfoil airfoil)
+                Vector3 wingNormal, Vector3 displacement, Airfoil airfoil, float aspectRatio = 0f)
     {
         m_airfoil = airfoil;
         m_displacement = displacement;
@@ -73,7 +73,7 @@ public class Wing
         m_wingNormal = wingNormal.normalized;
         m_spanAxis = Vector3.Cross(m_wingNormal, ChordAxis).normalized;
 
-        m_aspectRatio = (span * span) / area;
+        m_aspectRatio = aspectRatio > 0f ? aspectRatio : (span * span) / area;
         m_flapRatio = flapRatio;
         ControlInput = controlInput;
     }
