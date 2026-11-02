@@ -20,7 +20,7 @@ public class PlayerControllerScript : MonoBehaviour
     public Vector3 inertiaTensor = new Vector3(35174.2f, 182376f, 152167f); // X = roll, Y = yaw, Z = pitch
     public float engineThrust = 75000f;
     public float elevatorIncidenceDeg = -7f;   // stabilizer mounting angle; negative = leading edge down
-    public float startTrim = -0.4f;      // initial elevator trim; negative = nose up. Tune live on the InputSource's 'trim'
+    public float startTrim = 0f;         // initial elevator trim; negative = nose up (the -7 deg stabilizer incidence already trims level flight)
 
     [Header("Start state")]
     public float startAltitude = 100f;
@@ -30,6 +30,7 @@ public class PlayerControllerScript : MonoBehaviour
     [Header("Debug")]
     public bool logState = true;
     public bool applyAero = true;        // untick to test the rigidbody without any aerodynamic force
+    public bool drawDebugRays = true;
     public float debugRayScale = 0.0002f;
 
     private Engine engine;
@@ -57,7 +58,8 @@ public class PlayerControllerScript : MonoBehaviour
         rb.centerOfMass = centerOfMass;
         rb.inertiaTensorRotation = Quaternion.identity;   // principal axes = body axes
         rb.inertiaTensor = inertiaTensor;
-        rb.maxLinearVelocity = 120f;                      // default cap is 100 m/s
+        rb.maxLinearVelocity = 500f;
+        rb.interpolation = RigidbodyInterpolation.Interpolate;   // smooth the visual between physics steps
 
         // The model assumes local +X is forward, so start level and facing +X
         Vector3 startPos = new Vector3(0f, startAltitude, 0f);
@@ -87,21 +89,16 @@ public class PlayerControllerScript : MonoBehaviour
         // Wings sit 1 m behind the origin (0.3 m behind the COM at x = -0.7: stable),
         // tail surfaces 6.6 m behind.
         float wingOffset = -1.0f;
-        float tailOffset = -6.6f;
+        float tailOffset = -4f;
         float inc = elevatorIncidenceDeg * Mathf.Deg2Rad;
         Vector3 elevatorNormal = new Vector3(-Mathf.Sin(inc), Mathf.Cos(inc), 0f);
-        
-        float wingSpanFull = 2f * (2.35f + 2.5f * 0.5f);        // 7.2 m tip to tip
-        float wingAR       = wingSpanFull * wingSpanFull / (2f * 6.96f);   // ~3.7
 
         wings = new List<Wing>
         {
             new Wing(area: 6.96f, controlInput: 0f, span: 2.50f, flapRatio: 0.10f,
-                     wingNormal: Vector3.up, displacement: new Vector3(wingOffset, 0f, +2.35f),
-                     airfoil: naca2412, aspectRatio: wingAR),
+                     wingNormal: Vector3.up,   displacement: new Vector3(wingOffset, 0f, +2.35f), airfoil: naca2412),   // left
             new Wing(area: 6.96f, controlInput: 0f, span: 2.50f, flapRatio: 0.10f,
-                     wingNormal: Vector3.up, displacement: new Vector3(wingOffset, 0f, -2.35f),
-                     airfoil: naca2412, aspectRatio: wingAR),  // right
+                     wingNormal: Vector3.up,   displacement: new Vector3(wingOffset, 0f, -2.35f), airfoil: naca2412),   // right
             new Wing(area: 6.54f, controlInput: 0f, span: 2.70f, flapRatio: 1.00f,
                      wingNormal: elevatorNormal, displacement: new Vector3(tailOffset, -0.1f, 0f),  airfoil: naca64a204), // elevator
             new Wing(area: 5.31f, controlInput: 0f, span: 3.10f, flapRatio: 0.15f,
@@ -124,9 +121,19 @@ public class PlayerControllerScript : MonoBehaviour
         }
     }
 
+    // Debug rays are drawn once per rendered frame at the CURRENT pose, using the forces from the last
+    // physics step. Drawing them in FixedUpdate put them one step (2.4 m at 120 m/s) behind the plane.
+    void LateUpdate()
+    {
+        if (!drawDebugRays || wings == null || rb == null) return;
+        // WHITE ray = physics "forward" (+X). It must leave the nose of your mesh.
+        Debug.DrawRay(rb.transform.position, rb.transform.right * 10f, Color.white);
+        foreach (var wing in wings) wing.DrawDebug(rb, debugRayScale);
+    }
+
     void FixedUpdate()
     {
-        if (source == null || wings == null|| rb == null) return;
+        if (source == null || wings == null ||  rb == null) return;
 
         // Pitch rate BEFORE any aero force this step: shows whether something else spins the plane
         if (step < 6)
@@ -143,14 +150,13 @@ public class PlayerControllerScript : MonoBehaviour
         // Thrust along the aircraft's forward axis (local +X)
         if (applyAero)
         {
-            float thrust = (float)engine.computePropulsionForce();   // Engine's sign is backwards for this frame (log showed -150000)
+            float thrust = Mathf.Abs((float)engine.computePropulsionForce());   // always forward, whatever sign Engine uses
             lastThrust = thrust;
-            rb.AddForce(transform.right * thrust);
+            rb.AddForce(rb.rotation * Vector3.right * thrust);
 
             foreach (var wing in wings)
             {
                 wing.Apply(rb);
-                wing.DrawDebug(rb, debugRayScale);
             }
         }
 

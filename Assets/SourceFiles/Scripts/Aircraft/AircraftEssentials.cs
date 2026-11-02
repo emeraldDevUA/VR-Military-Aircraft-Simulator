@@ -25,7 +25,6 @@ public struct Engine
     }
 }
 
-
 /// <summary>
 /// One lifting surface. All vectors are in the aircraft's LOCAL space:
 ///   X = forward, Y = up, Z = LEFT (Unity is left-handed).
@@ -61,7 +60,7 @@ public class Wing
     public Vector3 Displacement => m_displacement;
 
     public Wing(float area, float controlInput, float span, float flapRatio,
-                Vector3 wingNormal, Vector3 displacement, Airfoil airfoil, float aspectRatio = 0f)
+                Vector3 wingNormal, Vector3 displacement, Airfoil airfoil)
     {
         m_airfoil = airfoil;
         m_displacement = displacement;
@@ -73,18 +72,18 @@ public class Wing
         m_wingNormal = wingNormal.normalized;
         m_spanAxis = Vector3.Cross(m_wingNormal, ChordAxis).normalized;
 
-        m_aspectRatio = aspectRatio > 0f ? aspectRatio : (span * span) / area;
+        m_aspectRatio = (span * span) / area;
         m_flapRatio = flapRatio;
         ControlInput = controlInput;
     }
 
     public Vector3 ComputeForce(Rigidbody rb)
     {
-        Transform t = rb.transform;
-
-        // Velocity at the wing's position, expressed in the aircraft's local frame
-        Vector3 worldPoint = t.TransformPoint(m_displacement);
-        Vector3 v = t.InverseTransformDirection(rb.GetPointVelocity(worldPoint));
+        // Use the physics body's own pose, not the Transform: with Rigidbody interpolation the Transform
+        // lags the body, which would put the lever arms in the wrong place.
+        Quaternion rot = rb.rotation;
+        Vector3 worldPoint = rb.position + rot * m_displacement;
+        Vector3 v = Quaternion.Inverse(rot) * rb.GetPointVelocity(worldPoint);
 
         // Remove spanwise flow
         Vector3 vPlane = Vector3.ProjectOnPlane(v, m_spanAxis);
@@ -119,11 +118,11 @@ public class Wing
         LastAoA = aoa;
         LastCl = liftCoeff;
         LastCd = dragCoeff;
-        LastLift = t.TransformDirection(liftDir * liftCoeff * dynamicPressure);
-        LastDrag = t.TransformDirection(dragDir * dragCoeff * dynamicPressure);
+        LastLift = rot * (liftDir * liftCoeff * dynamicPressure);
+        LastDrag = rot * (dragDir * dragCoeff * dynamicPressure);
 
         Vector3 localForce = (liftDir * liftCoeff + dragDir * dragCoeff) * dynamicPressure;
-        Vector3 worldForce = t.TransformDirection(localForce);
+        Vector3 worldForce = rot * localForce;
 
         // A single NaN in the force permanently corrupts the rigidbody, so never pass one on
         if (float.IsNaN(worldForce.x) || float.IsNaN(worldForce.y) || float.IsNaN(worldForce.z))
@@ -135,16 +134,16 @@ public class Wing
     /// <summary>Applies the force at the center of pressure (torque comes for free).</summary>
     public void Apply(Rigidbody rb)
     {
-        rb.AddForceAtPosition(ComputeForce(rb), rb.transform.TransformPoint(m_displacement));
+        rb.AddForceAtPosition(ComputeForce(rb), rb.position + rb.rotation * m_displacement);
     }
 
     public void DrawDebug(Rigidbody rb, float scale = 0.0002f)
     {
         Vector3 p = rb.transform.TransformPoint(m_displacement);
 
-        Debug.DrawRay(p, LastLift * scale, Color.green, Time.fixedDeltaTime);                  // lift
-        Debug.DrawRay(p, LastDrag * scale, Color.red, Time.fixedDeltaTime);                    // drag
-        Debug.DrawRay(p, (LastLift + LastDrag) * scale, Color.yellow, Time.fixedDeltaTime);    // total
-        Debug.DrawRay(p, rb.transform.TransformDirection(m_wingNormal) * 0.5f, Color.cyan, Time.fixedDeltaTime); // wing normal
+        Debug.DrawRay(p, LastLift * scale, Color.green);                  // lift
+        Debug.DrawRay(p, LastDrag * scale, Color.red);                    // drag
+        Debug.DrawRay(p, (LastLift + LastDrag) * scale, Color.yellow);    // total
+        Debug.DrawRay(p, rb.transform.TransformDirection(m_wingNormal) * 0.5f, Color.cyan); // wing normal
     }
 }
