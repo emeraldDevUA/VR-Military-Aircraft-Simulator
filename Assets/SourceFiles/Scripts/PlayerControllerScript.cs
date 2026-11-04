@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-[RequireComponent(typeof(InputSource))]
+[RequireComponent(typeof(InputSource))] 
 public class PlayerControllerScript : MonoBehaviour
 {
     [Header("References")]
@@ -19,8 +19,14 @@ public class PlayerControllerScript : MonoBehaviour
     public Vector3 centerOfMass = new Vector3(-0.7f, 0f, 0f);       // local; X = forward
     public Vector3 inertiaTensor = new Vector3(35174.2f, 182376f, 152167f); // X = roll, Y = yaw, Z = pitch
     public float engineThrust = 75000f;
-    public float elevatorIncidenceDeg = -7f;   // stabilizer mounting angle; negative = leading edge down
-    public float startTrim = 0f;         // initial elevator trim; negative = nose up (the -7 deg stabilizer incidence already trims level flight)
+    public float elevatorIncidenceDeg = -9f;   // stabilizer mounting angle; negative = leading edge down
+    public float initialTrim = 0f;       // elevator trim at start; negative = nose up (the -7 deg stabilizer incidence already trims level flight)
+
+    [Header("Rate damping (stability augmentation)")]
+    public bool rateDamping = true;      // untick to compare with the bare airframe
+    public float rollDamping  = 5e4f;    // N*m per rad/s about the forward axis
+    public float pitchDamping = 3e5f;    // N*m per rad/s about the wing axis
+    public float yawDamping   = 3e5f;    // N*m per rad/s about the vertical axis
 
     [Header("Start state")]
     public float startAltitude = 100f;
@@ -52,7 +58,7 @@ public class PlayerControllerScript : MonoBehaviour
     void Start()
     {
         // ---- Rigidbody setup (order matters: mass first, inertia last) ----
-        if (source != null) source.input.trim = startTrim;
+        if (source != null) source.input.trim = initialTrim;
 
         rb.mass = mass;
         rb.centerOfMass = centerOfMass;
@@ -74,7 +80,7 @@ public class PlayerControllerScript : MonoBehaviour
 
         Debug.Log($"SETUP mass={rb.mass} com={rb.centerOfMass} inertia={rb.inertiaTensor} " +
                   $"inertiaRot={rb.inertiaTensorRotation.eulerAngles} lossyScale={transform.lossyScale} (must be 1,1,1) " +
-                  $"linDamping={rb.linearDamping} angDamping={rb.angularDamping}");
+                  $"linDamping={rb.linearDamping} angDamping={rb.angularDamping} maxLinVel={rb.maxLinearVelocity}");
 
         engine = new Engine(engineThrust, 1.0);
         engine.enableAfterburner = true;
@@ -89,7 +95,7 @@ public class PlayerControllerScript : MonoBehaviour
         // Wings sit 1 m behind the origin (0.3 m behind the COM at x = -0.7: stable),
         // tail surfaces 6.6 m behind.
         float wingOffset = -1.0f;
-        float tailOffset = -4f;
+        float tailOffset = -6.6f;
         float inc = elevatorIncidenceDeg * Mathf.Deg2Rad;
         Vector3 elevatorNormal = new Vector3(-Mathf.Sin(inc), Mathf.Cos(inc), 0f);
 
@@ -133,7 +139,7 @@ public class PlayerControllerScript : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (source == null || wings == null ||  rb == null) return;
+        if (source == null || wings == null  || rb == null) return;
 
         // Pitch rate BEFORE any aero force this step: shows whether something else spins the plane
         if (step < 6)
@@ -153,10 +159,17 @@ public class PlayerControllerScript : MonoBehaviour
             float thrust = Mathf.Abs((float)engine.computePropulsionForce());   // always forward, whatever sign Engine uses
             lastThrust = thrust;
             rb.AddForce(rb.rotation * Vector3.right * thrust);
-
             foreach (var wing in wings)
             {
                 wing.Apply(rb);
+            }
+
+            if (rateDamping)
+            {
+                // local angular velocity: x = roll, y = yaw, z = pitch
+                Vector3 wl = Quaternion.Inverse(rb.rotation) * rb.angularVelocity;
+                Vector3 damp = new Vector3(-rollDamping * wl.x, -yawDamping * wl.y, -pitchDamping * wl.z);
+                rb.AddTorque(rb.rotation * damp);
             }
         }
 
@@ -169,7 +182,8 @@ public class PlayerControllerScript : MonoBehaviour
     {
         Vector3 vLocal = transform.InverseTransformDirection(rb.linearVelocity);
         Vector3 wLocal = transform.InverseTransformDirection(rb.angularVelocity);
-        float pitchDeg = Mathf.Asin(Mathf.Clamp(transform.right.y, -1f, 1f)) * Mathf.Rad2Deg; // nose above horizon
+        float pitchDeg = Mathf.Asin(Mathf.Clamp(transform.right.y, -1f, 1f)) * Mathf.Rad2Deg;   // nose above horizon
+        float bankDeg = Mathf.Asin(Mathf.Clamp(transform.forward.y, -1f, 1f)) * Mathf.Rad2Deg;   // + = right bank
 
         float liftY = 0f;
         foreach (var w in wings) liftY += w.LastLift.y;
@@ -185,7 +199,7 @@ public class PlayerControllerScript : MonoBehaviour
             mz[i] = transform.InverseTransformDirection(torque).z;
         }
 
-        Debug.Log($"t={Time.fixedTime:F2} pitch={pitchDeg:F1}deg q={wLocal.z:F2} vLocal={vLocal}\n" +
+        Debug.Log($"t={Time.fixedTime:F2} pitch={pitchDeg:F1}deg p={wLocal.x:F2} q={wLocal.z:F2} r={wLocal.y:F2} bank={bankDeg:F0} |v|={rb.linearVelocity.magnitude:F1} vmax={rb.maxLinearVelocity:F0} vLocal={vLocal}\n" +
                   $"AoA wingL={wings[LeftWing].LastAoA:F1} wingR={wings[RightWing].LastAoA:F1} " +
                   $"elev={wings[Elevator].LastAoA:F1} rudder={wings[Rudder].LastAoA:F1}\n" +
                   $"Mz wings={mz[LeftWing] + mz[RightWing]:F0} elev={mz[Elevator]:F0}  " +
