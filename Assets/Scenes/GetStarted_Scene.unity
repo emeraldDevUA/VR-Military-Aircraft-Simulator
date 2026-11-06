@@ -1238,7 +1238,7 @@ Transform:
   m_GameObject: {fileID: 67945113}
   serializedVersion: 2
   m_LocalRotation: {x: 0.102487445, y: -0.69987315, z: 0.10255726, w: 0.69939685}
-  m_LocalPosition: {x: 6.7, y: 2.65, z: 11.55}
+  m_LocalPosition: {x: 6.5, y: 2.63, z: 11.55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1277,7 +1277,7 @@ MonoBehaviour:
   maxDistance: 2.5
   layerMask:
     serializedVersion: 2
-    m_Bits: 4294967291
+    m_Bits: 51
 --- !u!134 &84147514
 PhysicsMaterial:
   m_ObjectHideFlags: 0
@@ -3481,6 +3481,58 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.0108, y: 0.0135, z: 0.0050000004}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1051323005
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1051323007}
+  - component: {fileID: 1051323006}
+  m_Layer: 0
+  m_Name: FighterHUD_System
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1051323006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051323005}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42fc69bb0d836594eb04e2edca24210e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FighterHudDisplayController
+  flightDataSourceComponent: {fileID: 0}
+  navigationDataSourceComponent: {fileID: 0}
+  navigationSelectionState: {fileID: 0}
+  combiner: {fileID: 0}
+  pilotCamera: {fileID: 0}
+  combinerTintAlpha: 0.12
+  overlayOffsetMeters: 0.004
+  refreshIntervalSeconds: 0.05
+--- !u!4 &1051323007
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1051323005}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1088224278 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8962167596187383403, guid: 277bd2383f6129c43a5db2600498245c, type: 3}
@@ -8015,3 +8067,4 @@ SceneRoots:
   - {fileID: 154703929}
   - {fileID: 28659205}
   - {fileID: 67945117}
+  - {fileID: 1051323007}
