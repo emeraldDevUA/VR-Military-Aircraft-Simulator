@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -12,18 +11,6 @@ public class PlayerControllerScript : MonoBehaviour
     [FormerlySerializedAs("rigidbody")]
     public Rigidbody rb;                 // auto-filled from this GameObject if left empty
 
-    [Header("Orbit Camera")]
-    [Tooltip("Sensitivity of the orbit camera while the left mouse button is held.")]
-    public float mouseSensitivity = 3f;
-    [Tooltip("Starting distance between the camera and the orbit pivot.")]
-    public float orbitDistance = 12f;
-    public float minOrbitDistance = 3f;
-    public float maxOrbitDistance = 40f;
-    [Tooltip("Mouse-wheel zoom speed.")]
-    public float zoomSensitivity = 4f;
-    [Tooltip("Optional smoothing for camera rotation and zoom. Set to 0 for immediate response.")]
-    public float cameraSmoothTime = 12f;
-    public bool invertOrbitY = false;
 
     [Header("Aircraft")]
     public float mass = 9500f;
@@ -32,6 +19,7 @@ public class PlayerControllerScript : MonoBehaviour
     public float engineThrust = 75000f;
     public float elevatorIncidenceDeg = -7f;   // stabilizer mounting angle; negative = leading edge down
     public float initialTrim = 0f;       // elevator trim at start; negative = nose up (the -7 deg stabilizer incidence already trims level flight)
+    public float initialThrottle = 0.2f; // 0..1; thrust is scaled by the throttle (Shift / Ctrl in keyboard mode)
 
     [Header("Rate damping (stability augmentation)")]
     public bool rateDamping = true;      // untick to compare with the bare airframe
@@ -53,10 +41,21 @@ public class PlayerControllerScript : MonoBehaviour
     private Engine engine;
     private List<Wing> wings;
     private InputSource source;
+
+    [Header("Orbit Camera")]
+    public float mouseSensitivity = 3f;
+    public float orbitDistance = 15f;
+    public float minOrbitDistance = 3f;
+    public float maxOrbitDistance = 60f;
+    public float zoomSensitivity = 5f;
+    public float cameraSmoothTime = 10f;
+    public bool invertOrbitY = false;
+
     private float cameraPitch;
     private float cameraYaw;
     private float targetOrbitDistance;
-    private Vector3 cameraLocalOffsetDirection;
+    private bool cameraFollow = true;
+
     private int step;
     private float lastThrust;
 
@@ -73,6 +72,7 @@ public class PlayerControllerScript : MonoBehaviour
     {
         // ---- Rigidbody setup (order matters: mass first, inertia last) ----
         if (source != null) source.input.trim = initialTrim;
+        if (source != null) source.input.throttle = initialThrottle;
 
         rb.mass = mass;
         rb.centerOfMass = centerOfMass;
@@ -91,30 +91,6 @@ public class PlayerControllerScript : MonoBehaviour
                                                 // and AddForceAtPosition computes torque from the wrong place
         rb.linearVelocity = Vector3.right * startSpeed;   // level flight path, nose pitched up by startAoADeg
         rb.angularVelocity = Vector3.zero;
-
-        // The cameraPoint is the orbit pivot (ideally a child of the aircraft).
-        // Keep the camera's authored local offset as the orbit direction.
-        if (cameraPoint != null && playerCamera != null)
-        {
-            Vector3 offset = cameraPoint.InverseTransformPoint(playerCamera.transform.position);
-            if (offset.sqrMagnitude < 0.0001f)
-                offset = new Vector3(0f, 2f, -orbitDistance);
-
-            orbitDistance = Mathf.Clamp(offset.magnitude, minOrbitDistance, maxOrbitDistance);
-            targetOrbitDistance = orbitDistance;
-            cameraLocalOffsetDirection = offset.normalized;
-
-            // Start from the pivot's current local orientation so the scene setup
-            // determines the initial viewing direction.
-            Vector3 initialAngles = cameraPoint.localEulerAngles;
-            cameraYaw = initialAngles.y;
-            cameraPitch = NormalizeAngle(initialAngles.x);
-            cameraPitch = Mathf.Clamp(cameraPitch, -80f, 80f);
-
-            playerCamera.transform.position =
-                cameraPoint.TransformPoint(cameraLocalOffsetDirection * orbitDistance);
-            playerCamera.transform.LookAt(cameraPoint.position, cameraPoint.up);
-        }
 
         Debug.Log($"SETUP mass={rb.mass} com={rb.centerOfMass} inertia={rb.inertiaTensor} " +
                   $"inertiaRot={rb.inertiaTensorRotation.eulerAngles} lossyScale={transform.lossyScale} (must be 1,1,1) " +
@@ -148,68 +124,97 @@ public class PlayerControllerScript : MonoBehaviour
             new Wing(area: 5.31f, controlInput: 0f, span: 3.10f, flapRatio: 0.15f,
                      wingNormal: Vector3.back, displacement: new Vector3(tailOffset, 0f, 0f),     airfoil: naca0012),   // rudder
         };
-    }
 
-    void Update()
-    {
-        if (cameraPoint == null || playerCamera == null) return;
 
-        // Orbit while holding the left mouse button. The aircraft itself is
-        // never rotated by mouse input; only the camera pivot is changed.
-        if (Input.GetMouseButton(0))
+        if (playerCamera != null)
         {
-            cameraYaw += Input.GetAxis("Mouse X") * mouseSensitivity;
-            float yInput = Input.GetAxis("Mouse Y") * mouseSensitivity;
-            cameraPitch += (invertOrbitY ? yInput : -yInput);
-            cameraPitch = Mathf.Clamp(cameraPitch, -80f, 80f);
-        }
+            // Detach camera so aircraft rotation cannot affect it.
+            playerCamera.transform.SetParent(null, true);
 
-        // Mouse wheel zooms toward/away from the orbit pivot.
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-        if (Mathf.Abs(scroll) > 0.0001f)
-        {
-            targetOrbitDistance = Mathf.Clamp(
-                targetOrbitDistance - scroll * zoomSensitivity,
+            Vector3 aircraftOrigin = transform.TransformPoint(Vector3.zero);
+            Vector3 offset = playerCamera.transform.position - aircraftOrigin;
+
+            if (offset.sqrMagnitude < 0.001f)
+                offset = new Vector3(-10f, 5f, -10f);
+
+            orbitDistance = Mathf.Clamp(
+                offset.magnitude,
                 minOrbitDistance,
-                maxOrbitDistance);
+                maxOrbitDistance
+            );
+
+            targetOrbitDistance = orbitDistance;
+
+            Vector3 direction = offset.normalized;
+
+            cameraYaw = Mathf.Atan2(direction.x, -direction.z) * Mathf.Rad2Deg;
+            cameraPitch = Mathf.Asin(direction.y) * Mathf.Rad2Deg;
         }
-
-        Quaternion desiredRotation = Quaternion.Euler(cameraPitch, cameraYaw, 0f);
-        float blend = cameraSmoothTime <= 0f
-            ? 1f
-            : 1f - Mathf.Exp(-cameraSmoothTime * Time.deltaTime);
-
-        cameraPoint.localRotation = Quaternion.Slerp(
-            cameraPoint.localRotation, desiredRotation, blend);
-
-        orbitDistance = Mathf.Lerp(orbitDistance, targetOrbitDistance, blend);
-        Vector3 desiredCameraPosition =
-            cameraPoint.TransformPoint(cameraLocalOffsetDirection * orbitDistance);
-        playerCamera.transform.position = Vector3.Lerp(
-            playerCamera.transform.position, desiredCameraPosition, blend);
-        playerCamera.transform.LookAt(cameraPoint.position, cameraPoint.up);
     }
 
-    static float NormalizeAngle(float angle)
+void Update()
+{
+    if (playerCamera == null) return;
+
+    if (Input.GetKeyDown(KeyCode.C))
     {
-        angle %= 360f;
-        if (angle > 180f) angle -= 360f;
-        return angle;
+        cameraFollow = !cameraFollow;
     }
 
-    // Debug rays are drawn once per rendered frame at the CURRENT pose, using the forces from the last
-    // physics step. Drawing them in FixedUpdate put them one step (2.4 m at 120 m/s) behind the plane.
-    void LateUpdate()
+    if (Input.GetMouseButton(0))
     {
-        if (!drawDebugRays || wings == null || rb == null) return;
-        // WHITE ray = physics "forward" (+X). It must leave the nose of your mesh.
-        Debug.DrawRay(rb.transform.position, rb.transform.right * 10f, Color.white);
-        foreach (var wing in wings) wing.DrawDebug(rb, debugRayScale);
+        cameraYaw += Input.GetAxis("Mouse X") * mouseSensitivity;
+
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity;
+        cameraPitch += invertOrbitY ? mouseY : -mouseY;
+
+        cameraPitch = Mathf.Clamp(cameraPitch, -85f, 85f);
     }
 
+    float scroll = Input.GetAxis("Mouse ScrollWheel");
+
+    targetOrbitDistance = Mathf.Clamp(
+        targetOrbitDistance - scroll * zoomSensitivity,
+        minOrbitDistance,
+        maxOrbitDistance
+    );
+}
+
+void LateUpdate()
+{
+    if (playerCamera == null || !cameraFollow) return;
+
+    Vector3 aircraftOrigin = transform.TransformPoint(Vector3.zero);
+
+    Quaternion orbitRotation = Quaternion.Euler(
+        cameraPitch,
+        cameraYaw,
+        0f
+    );
+
+    Vector3 orbitDirection = orbitRotation * Vector3.back;
+
+    // Fixed distance from the aircraft origin.
+    playerCamera.transform.position =
+        aircraftOrigin + orbitDirection * orbitDistance;
+
+    // Look at the aircraft origin.
+    playerCamera.transform.rotation = Quaternion.LookRotation(
+        aircraftOrigin - playerCamera.transform.position,
+        Vector3.up
+    );
+
+    // Existing debug rays.
+    if (!drawDebugRays || wings == null || rb == null) return;
+
+    Debug.DrawRay(rb.transform.position, rb.transform.right * 10f, Color.white);
+
+    foreach (var wing in wings)
+        wing.DrawDebug(rb, debugRayScale);
+}
     void FixedUpdate()
     {
-        if (source == null || wings == null|| rb == null) return;
+        if (source == null || wings == null || rb == null) return;
 
         // Pitch rate BEFORE any aero force this step: shows whether something else spins the plane
         if (step < 6)
@@ -226,7 +231,7 @@ public class PlayerControllerScript : MonoBehaviour
         // Thrust along the aircraft's forward axis (local +X)
         if (applyAero)
         {
-            float thrust = Mathf.Abs((float)engine.computePropulsionForce());   // always forward, whatever sign Engine uses
+            float thrust = Mathf.Abs((float)engine.computePropulsionForce()) * Mathf.Clamp01(source.input.throttle);   // forward only, scaled by throttle
             lastThrust = thrust;
             rb.AddForce(rb.rotation * Vector3.right * thrust);
             foreach (var wing in wings)
@@ -274,7 +279,7 @@ public class PlayerControllerScript : MonoBehaviour
                   $"elev={wings[Elevator].LastAoA:F1} rudder={wings[Rudder].LastAoA:F1}\n" +
                   $"Mz wings={mz[LeftWing] + mz[RightWing]:F0} elev={mz[Elevator]:F0}  " +
                   $"liftY={liftY:F0} weight={rb.mass * Physics.gravity.magnitude:F0}\n" +
-                  $"in: ail={source.input.aileron:F2} ele={source.input.elevator:F2} rud={source.input.rudder:F2} trim={source.input.trim:F2}\n" +
+                  $"in: ail={source.input.aileron:F2} ele={source.input.elevator:F2} rud={source.input.rudder:F2} trim={source.input.trim:F2} thr={source.input.throttle:F2}\n" +
                   $"thrust={lastThrust:F0} dragX={dragX:F0} CL wing={wings[LeftWing].LastCl:F2} " +
                   $"CD wing={wings[LeftWing].LastCd:F3} CD elev={wings[Elevator].LastCd:F3}");
     }
