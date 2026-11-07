@@ -7,6 +7,16 @@ public class KalmanFilter3D
     readonly Kalman1D fx, fy, fz;
     bool initialized;
 
+    public Vector3 Position => new Vector3(fx.x, fy.x, fz.x);
+    public Vector3 Velocity => new Vector3(fx.v, fy.v, fz.v);
+
+    public Kalman1D X => fx;
+    public Kalman1D Y => fy;
+    public Kalman1D Z => fz;
+    
+    public bool IsInitialized => initialized;
+    static bool IsFinite(float a) => !float.IsNaN(a) && !float.IsInfinity(a);
+    
     public KalmanFilter3D(float sigmaRadar, float sigmaAccel, float maxSpeed)
     {
         fx = new Kalman1D(sigmaRadar, sigmaAccel, maxSpeed);
@@ -38,19 +48,7 @@ public class KalmanFilter3D
         if (!initialized) return;
         fx.Predict(dt); fy.Predict(dt); fz.Predict(dt);
     }
-
-    public bool IsInitialized => initialized;
-
-    static bool IsFinite(float a) => !float.IsNaN(a) && !float.IsInfinity(a);
-
-    public Vector3 Position => new Vector3(fx.x, fy.x, fz.x);
-    public Vector3 Velocity => new Vector3(fx.v, fy.v, fz.v);
-
-    // Access to per-axis filters (diagnostics)
-    public Kalman1D X => fx;
-    public Kalman1D Y => fy;
-    public Kalman1D Z => fz;
-
+    
     // Where the target will be in t seconds: p + v t
     public Vector3 PredictPosition(float t) =>
         new Vector3(fx.PredictPosition(t), fy.PredictPosition(t), fz.PredictPosition(t));

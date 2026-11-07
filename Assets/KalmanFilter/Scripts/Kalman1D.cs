@@ -30,9 +30,9 @@ public class Kalman1D
 
     // Start from the first measurement: position known up to radar noise,
     // velocity unknown -> std = maxSpeed.
-    public void Init(float z)
+    public void Init(float initialMeasurement)
     {
-        x = z;  v = 0f;
+        x = initialMeasurement;  v = 0f;
         p00 = R;  p01 = 0f;  p11 = maxSpeed * maxSpeed;
     }
 
@@ -54,9 +54,9 @@ public class Kalman1D
     // Correction step with H = [1, 0]:
     // y = z - x,  S = p00 + R,  K = [p00, p01] / S
     // s += K y,   P = (I - K H) P
-    public void Correct(float z)
+    public void Correct(float subsequentMeasurement)
     {
-        float y = z - x;
+        float y = subsequentMeasurement - x;
         float s = p00 + R;
         LastInnovation = y;  LastInnovationVar = s;
 
