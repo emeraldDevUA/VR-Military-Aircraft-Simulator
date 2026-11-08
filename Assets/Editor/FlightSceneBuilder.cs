@@ -8,26 +8,27 @@ using UnityEngine;
 
 public static class FlightSceneBuilder
 {
-    const string ScenePath = "Assets/Scenes/Flight_Scene.unity";
-    const string SourceScenePath = "Assets/Scenes/GetStarted_Scene.unity";
-    const string JetPrefabPath = "Assets/Prefabs/F2_Player.prefab";
-    const string SkyboxPath = "Assets/Skyboxes/SkyDay.mat";
-    const string HudGlassPath = "Assets/Materials/F-2-HudGlass.mat";
+    private const string ScenePath = "Assets/Scenes/Flight_Scene.unity";
+    private const string SourceScenePath = "Assets/Scenes/GetStarted_Scene.unity";
+    private const string JetPrefabPath = "Assets/Prefabs/F2_Player.prefab";
+    private const string SkyboxPath = "Assets/Skyboxes/SkyDay.mat";
+    private const string HudGlassPath = "Assets/Materials/F-2-HudGlass.mat";
 
     // Misawa Air Base, 150 m past the runway 10 threshold. Heading is true, derived from both thresholds.
-    const double RunwayLongitude = 141.35213;
-    const double RunwayLatitude = 40.70438;
-    const float RunwayHeading = 95.2f;
+    private const double RunwayLongitude = 141.35213;
+    private const double RunwayLatitude = 40.70438;
+    private const float RunwayHeading = 95.2f;
     // Ellipsoid height, not MSL. Only used if terrain sampling fails.
-    const double FallbackGroundHeight = 70;
-    const float GroundClearance = 0.05f;
+    private const double FallbackGroundHeight = 70;
+    private const float GroundClearance = 0.05f;
 
-    const float F2Length = 15.52f;
-    const float EyeBelowCanopyTop = 0.25f;
-    const float EyeForwardOfCanopyCenter = 0.2f;
+    private const float F2Length = 15.52f;
+    private const float EyeBelowCanopyTop = 0.25f;
+    private const float EyeForwardOfCanopyCenter = 0.2f;
 
-    const long CesiumWorldTerrainAssetId = 1;
-    const long BingAerialAssetId = 2;
+    private const long CesiumWorldTerrainAssetId = 1;
+    // Bing Aerial (asset 2) hangs without reporting an error and stalls terrain refinement.
+    private const long GoogleSatelliteAssetId = 3830182;
 
     [MenuItem("Tools/Flight Sim/Build Flight Scene")]
     public static async void Build()
@@ -53,10 +54,12 @@ public static class FlightSceneBuilder
 
         EditorSceneManager.SaveScene(scene, ScenePath);
         AddToBuildSettings(ScenePath);
+        // The headset streaming app holds focus, and tiles stop loading if the game pauses.
+        PlayerSettings.runInBackground = true;
         Debug.Log($"Flight scene saved to {ScenePath}");
     }
 
-    static GameObject GetOrCreateJetPrefab()
+    private static GameObject GetOrCreateJetPrefab()
     {
         var existing = AssetDatabase.LoadAssetAtPath<GameObject>(JetPrefabPath);
         if (existing != null)
@@ -73,7 +76,7 @@ public static class FlightSceneBuilder
         return PrefabUtility.SaveAsPrefabAsset(jet.gameObject, JetPrefabPath);
     }
 
-    static void CreateSun()
+    private static void CreateSun()
     {
         var go = new GameObject("Sun");
         go.transform.rotation = Quaternion.Euler(50f, -30f, 0f);
@@ -83,21 +86,21 @@ public static class FlightSceneBuilder
         RenderSettings.sun = light;
     }
 
-    static CesiumGeoreference CreateGeoreference()
+    private static CesiumGeoreference CreateGeoreference()
     {
         var georeference = new GameObject("CesiumGeoreference").AddComponent<CesiumGeoreference>();
         georeference.SetOriginLongitudeLatitudeHeight(RunwayLongitude, RunwayLatitude, FallbackGroundHeight);
         return georeference;
     }
 
-    static Cesium3DTileset CreateTerrain(Transform parent)
+    private static Cesium3DTileset CreateTerrain(Transform parent)
     {
         var go = new GameObject("Cesium World Terrain");
         go.transform.SetParent(parent, false);
 
         var tileset = go.AddComponent<Cesium3DTileset>();
         tileset.ionAssetID = CesiumWorldTerrainAssetId;
-        tileset.maximumScreenSpaceError = 16f;
+        tileset.maximumScreenSpaceError = 4f;
         tileset.preloadAncestors = true;
         tileset.preloadSiblings = true;
         tileset.enableFrustumCulling = true;
@@ -105,10 +108,15 @@ public static class FlightSceneBuilder
         tileset.enforceCulledScreenSpaceError = true;
         tileset.culledScreenSpaceError = 64f;
         tileset.maximumSimultaneousTileLoads = 32;
-        tileset.maximumCachedBytes = 1024L * 1024 * 1024;
+        tileset.maximumCachedBytes = 2048L * 1024 * 1024;
         tileset.createPhysicsMeshes = true;
 
-        go.AddComponent<CesiumIonRasterOverlay>().ionAssetID = BingAerialAssetId;
+        var imagery = go.AddComponent<CesiumIonRasterOverlay>();
+        imagery.ionAssetID = GoogleSatelliteAssetId;
+        imagery.maximumScreenSpaceError = 1f;
+        imagery.maximumTextureSize = 4096;
+        imagery.maximumSimultaneousTileLoads = 32;
+        imagery.subTileCacheBytes = 64L * 1024 * 1024;
 
         // Enable to see tile (chunk) boundaries. Needs its own material key or it fights the imagery for slot "0".
         var debugOverlay = go.AddComponent<CesiumDebugColorizeTilesRasterOverlay>();
@@ -118,7 +126,7 @@ public static class FlightSceneBuilder
         return tileset;
     }
 
-    static async Task<double> SampleGroundHeight(Cesium3DTileset terrain)
+    private static async Task<double> SampleGroundHeight(Cesium3DTileset terrain)
     {
         var position = new double3(RunwayLongitude, RunwayLatitude, FallbackGroundHeight);
         CesiumSampleHeightResult result = await terrain.SampleHeightMostDetailed(position);
@@ -129,7 +137,7 @@ public static class FlightSceneBuilder
         return FallbackGroundHeight;
     }
 
-    static void CreateJet(GameObject prefab, Transform parent, double groundHeight)
+    private static void CreateJet(GameObject prefab, Transform parent, double groundHeight)
     {
         var jet = (GameObject)PrefabUtility.InstantiatePrefab(prefab, parent);
         jet.name = "F-2";
@@ -157,7 +165,7 @@ public static class FlightSceneBuilder
     }
 
     // Returns the lowest point of the scaled model relative to its pivot.
-    static float ScaleToLength(GameObject jet, float length)
+    private static float ScaleToLength(GameObject jet, float length)
     {
         Renderer[] renderers = jet.GetComponentsInChildren<Renderer>();
         Bounds bounds = renderers[0].bounds;
@@ -172,7 +180,7 @@ public static class FlightSceneBuilder
     }
 
     // Must run while the jet is still unrotated at the origin, so world bounds match its local axes.
-    static void MoveCameraToCockpit(GameObject jet)
+    private static void MoveCameraToCockpit(GameObject jet)
     {
         foreach (Renderer r in jet.GetComponentsInChildren<Renderer>().Where(r => r.name.Contains("cockpit") || r.name.Contains("canopy")))
             Debug.Log($"{r.name} bounds center {r.bounds.center} size {r.bounds.size}");
@@ -189,7 +197,7 @@ public static class FlightSceneBuilder
         cameraPoint.position = new Vector3(b.center.x - EyeForwardOfCanopyCenter, b.max.y - EyeBelowCanopyTop, b.center.z);
     }
 
-    static void SetMaterial(GameObject jet, string rendererName, string materialPath)
+    private static void SetMaterial(GameObject jet, string rendererName, string materialPath)
     {
         Renderer renderer = jet.GetComponentsInChildren<Renderer>().FirstOrDefault(r => r.name == rendererName);
         if (renderer == null)
@@ -200,7 +208,7 @@ public static class FlightSceneBuilder
         renderer.sharedMaterial = AssetDatabase.LoadAssetAtPath<Material>(materialPath);
     }
 
-    static void AddToBuildSettings(string path)
+    private static void AddToBuildSettings(string path)
     {
         var scenes = EditorBuildSettings.scenes.ToList();
         if (scenes.Any(s => s.path == path))
