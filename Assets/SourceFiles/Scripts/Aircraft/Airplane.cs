@@ -13,7 +13,8 @@ public enum WingRole
     Hull,
     RightWing,
     LeftWing,
-    Tail
+    RudderWing,
+    ElevatorWing
 }
 
 public enum ControlSurface
@@ -37,6 +38,40 @@ public enum LandingGearState
     Up
 }
 
+public class PIDController
+{
+    public float Kp, Ki, Kd;
+    public float OutputMin = -1f, OutputMax = 1f;
+
+    private float integral;
+    private float prevError;
+    private bool first = true;
+
+    public PIDController(float kp, float ki, float kd)
+    {
+        Kp = kp; Ki = ki; Kd = kd;
+    }
+
+    public float Calculate(float current, float target, float dt)
+    {
+        float error = target - current;
+        float derivative = first ? 0f : (error - prevError) / dt;
+        first = false;
+        prevError = error;
+
+        float unclamped = Kp * error + Ki * (integral + error * dt) + Kd * derivative;
+        float output = Mathf.Clamp(unclamped, OutputMin, OutputMax);
+
+        // Anti-windup: only integrate when not saturated
+        if (Mathf.Approximately(unclamped, output))
+            integral += error * dt;
+
+        return output;
+    }
+
+    public void Reset() { integral = 0f; prevError = 0f; first = true; }
+}
+
 public class Airplane
 {
     // Dependencies
@@ -53,6 +88,7 @@ public class Airplane
 
     // Flight controls
     private Vector3 controlInput;
+    private float m_throttle = 0f;
 
     // Aircraft systems
     public FlapState Flaps { get; private set; }
@@ -62,6 +98,11 @@ public class Airplane
         = LandingGearState.Down;
 
     public bool AirbrakeEnabled { get; private set; }
+
+    private PIDController pitch_control_pid;
+    private PIDController roll_control_pid;
+    private PIDController yaw_control_pid;
+
 
     // Constructor
     public Airplane(Engine engine, Gun gun, Rigidbody rigidbody)
@@ -102,6 +143,10 @@ public class Airplane
 
     public Vector3 ControlInput => controlInput;
 
+    public void SetThrottle(float throttle){
+        m_throttle = throttle;
+    }
+
     // Aircraft systems
     public void SetFlaps(FlapState state)
     {
@@ -124,20 +169,20 @@ public class Airplane
         if (rigidbody == null)
             return;
 
+        float propulsionForce = (float)engine.computePropulsionForce();
+        float thrust = propulsionForce * Mathf.Clamp01(m_throttle);
+
+        rigidbody.AddForce(rigidbody.rotation * Vector3.right * thrust);
+
+        foreach (Wing wing in wings.Values)
+        {
+            wing.Apply(rigidbody);
+        }
+
         // Engine thrust
         // Wing lift
         // Aerodynamic drag
         // Additional forces from aircraft systems
-    }
-
-    public void ComputeTorques()
-    {
-        if (rigidbody == null)
-            return;
-
-        // Pitch torque
-        // Roll torque
-        // Yaw torque
     }
 
     // Visual updates
@@ -149,11 +194,62 @@ public class Airplane
         AnimateControlSurface(ControlSurface.RightAileron);
     }
 
+
+    private readonly Dictionary<ControlSurface, float> maxDeflection = new()
+    {
+        { ControlSurface.LeftAileron,  20f },
+        { ControlSurface.RightAileron, 20f },
+        { ControlSurface.Rudder,       25f },
+        { ControlSurface.Elevator,     25f },
+    };
+
+    public void SetMaxDeflection(ControlSurface surface, float degrees)
+    {
+        maxDeflection[surface] = degrees;
+    }
+
+    public float GetMaxDeflection(ControlSurface surface)
+    {
+        return maxDeflection.TryGetValue(surface, out float deg) ? deg : 0f;
+    }
+
+    private readonly Dictionary<ControlSurface, Quaternion> restRotations = new();
+
+
     private void AnimateControlSurface(ControlSurface surface)
     {
-        if (!controlSurfaces.TryGetValue(surface, out Transform transform))
+        if (!controlSurfaces.TryGetValue(surface, out Transform t))
             return;
 
-        // Apply the appropriate rotation based on controlInput.
+        float max = GetMaxDeflection(surface);
+        float angle;
+
+        Vector3 hingeAxis = Vector3.right;
+
+        switch (surface)
+        {
+            case ControlSurface.LeftAileron:
+                angle = controlInput.z * max;
+                break;
+
+            case ControlSurface.RightAileron:
+                angle = -controlInput.z * max;   // opposite to the left one
+                break;
+
+            case ControlSurface.Rudder:
+                angle = controlInput.y * max;
+                hingeAxis = Vector3.up;
+                break;
+
+            case ControlSurface.Elevator:
+                angle = controlInput.x * max;
+                break;
+
+            default:
+                return;
+        }
+
+        Quaternion target = restRotations[surface] * Quaternion.AngleAxis(angle, hingeAxis);
+        t.localRotation = Quaternion.RotateTowards(t.localRotation, target, 180f * Time.deltaTime);
     }
 }
