@@ -298,6 +298,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4191786535201901274, guid: 277bd2383f6129c43a5db2600498245c, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e2fc942a83599f8419e9dd1d7b4d222d, type: 2}
     - target: {fileID: 919132149155446097, guid: 277bd2383f6129c43a5db2600498245c, type: 3}
       propertyPath: m_Name
       value: F2_with_interactive_cockpit
