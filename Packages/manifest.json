@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.coplaydev.unity-mcp": "https://github.com/CoplayDev/unity-mcp.git?path=/MCPForUnity#main",
     "com.cesium.unity": "1.26.0",
     "com.unity.cinemachine": "3.1.7",
     "com.unity.inputsystem": "1.20.0",
