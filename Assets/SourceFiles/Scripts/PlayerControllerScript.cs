@@ -108,8 +108,8 @@ public class PlayerControllerScript : MonoBehaviour
         // Local frame: X = forward, Y = up, Z = LEFT (Unity is left-handed).
         // Wings sit 1 m behind the origin (0.3 m behind the COM at x = -0.7: stable),
         // tail surfaces 6.6 m behind.
-        float wingOffset = -1.0f;
-        float tailOffset = -6.6f;
+        float wingOffset = -0.6f;
+        float tailOffset = -4.4f;
         float inc = elevatorIncidenceDeg * Mathf.Deg2Rad;
         Vector3 elevatorNormal = new Vector3(-Mathf.Sin(inc), Mathf.Cos(inc), 0f);
 
