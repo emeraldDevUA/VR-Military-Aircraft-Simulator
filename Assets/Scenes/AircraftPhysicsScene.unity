@@ -570,7 +570,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 5000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -649,8 +649,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 874155056}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: -0, w: -0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0.017110776, y: 0.7526065, z: -0.019572219, w: -0.6579572}
+  m_LocalPosition: {x: -0.00005340576, y: 0.00000071525574, z: -0.00005054474}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1134,19 +1134,13 @@ MonoBehaviour:
   cameraPoint: {fileID: 2025868246}
   playerCamera: {fileID: 874155057}
   rb: {fileID: 1325423608}
-  mouseSensitivity: 3
-  orbitDistance: 12
-  minOrbitDistance: 3
-  maxOrbitDistance: 40
-  zoomSensitivity: 4
-  cameraSmoothTime: 12
-  invertOrbitY: 0
   mass: 9500
   centerOfMass: {x: -0.7, y: 0, z: 0}
   inertiaTensor: {x: 35174.2, y: 182376, z: 152167}
   engineThrust: 75000
   elevatorIncidenceDeg: -7
   initialTrim: 0
+  initialThrottle: 0.2
   rateDamping: 1
   rollDamping: 50000
   pitchDamping: 300000
@@ -1158,6 +1152,13 @@ MonoBehaviour:
   applyAero: 1
   drawDebugRays: 1
   debugRayScale: 0.0002
+  mouseSensitivity: 3
+  orbitDistance: 12
+  minOrbitDistance: 3
+  maxOrbitDistance: 40
+  zoomSensitivity: 4
+  cameraSmoothTime: 12
+  invertOrbitY: 0
 --- !u!54 &1325423608
 Rigidbody:
   m_ObjectHideFlags: 0

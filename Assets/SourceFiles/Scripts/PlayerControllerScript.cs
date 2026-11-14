@@ -15,7 +15,7 @@ public class PlayerControllerScript : MonoBehaviour
     [Header("Aircraft")]
     public float mass = 9500f;
     public Vector3 centerOfMass = new Vector3(-0.7f, 0f, 0f);       // local; X = forward
-    public Vector3 inertiaTensor = new Vector3(35174.2f, 182376f, 152167f); // X = roll, Y = yaw, Z = pitch
+    public Vector3 inertiaTensor = new Vector3(51068.2f, 142238f, 105310f); // X = roll, Y = yaw, Z = pitch
     public float engineThrust = 75000f;
     public float elevatorIncidenceDeg = -7f;   // stabilizer mounting angle; negative = leading edge down
     public float initialTrim = 0f;       // elevator trim at start; negative = nose up (the -7 deg stabilizer incidence already trims level flight)
@@ -58,6 +58,10 @@ public class PlayerControllerScript : MonoBehaviour
 
     private int step;
     private float lastThrust;
+
+
+    private Gun gun = new Gun(new Vector3(0.1f, 0.1f, -2.0f), new Vector3(0, 0, 1), 125);
+    private Airplane plane;
 
     // Wing indices
     const int LeftWing = 0, RightWing = 1, Elevator = 2, Rudder = 3;
@@ -109,21 +113,38 @@ public class PlayerControllerScript : MonoBehaviour
         // Wings sit 1 m behind the origin (0.3 m behind the COM at x = -0.7: stable),
         // tail surfaces 6.6 m behind.
         float wingOffset = -0.6f;
-        float tailOffset = -4.4f;
+        float tailOffset = -4.2f;
         float inc = elevatorIncidenceDeg * Mathf.Deg2Rad;
         Vector3 elevatorNormal = new Vector3(-Mathf.Sin(inc), Mathf.Cos(inc), 0f);
 
-        wings = new List<Wing>
-        {
-            new Wing(area: 6.96f, controlInput: 0f, span: 2.50f, flapRatio: 0.10f,
-                     wingNormal: Vector3.up,   displacement: new Vector3(wingOffset, 0f, +2.35f), airfoil: naca2412),   // left
-            new Wing(area: 6.96f, controlInput: 0f, span: 2.50f, flapRatio: 0.10f,
-                     wingNormal: Vector3.up,   displacement: new Vector3(wingOffset, 0f, -2.35f), airfoil: naca2412),   // right
-            new Wing(area: 6.54f, controlInput: 0f, span: 2.70f, flapRatio: 1.00f,
-                     wingNormal: elevatorNormal, displacement: new Vector3(tailOffset, -0.1f, 0f),  airfoil: naca64a204), // elevator
-            new Wing(area: 5.31f, controlInput: 0f, span: 3.10f, flapRatio: 0.15f,
-                     wingNormal: Vector3.back, displacement: new Vector3(tailOffset, 0f, 0f),     airfoil: naca0012),   // rudder
-        };
+//         wings = new List<Wing>
+//         {
+//             new Wing(area: 6.96f, controlInput: 0f, span: 2.50f, flapRatio: 0.10f,
+//                      wingNormal: Vector3.up,   displacement: new Vector3(wingOffset, 0f, +2.35f), airfoil: naca2412),   // left
+//             new Wing(area: 6.96f, controlInput: 0f, span: 2.50f, flapRatio: 0.10f,
+//                      wingNormal: Vector3.up,   displacement: new Vector3(wingOffset, 0f, -2.35f), airfoil: naca2412),   // right
+//             new Wing(area: 6.54f, controlInput: 0f, span: 2.70f, flapRatio: 1.00f,
+//                      wingNormal: elevatorNormal, displacement: new Vector3(tailOffset, -0.1f, 0f),  airfoil: naca64a204), // elevator
+//             new Wing(area: 5.31f, controlInput: 0f, span: 3.10f, flapRatio: 0.15f,
+//                      wingNormal: Vector3.back, displacement: new Vector3(tailOffset, 0f, 0f),     airfoil: naca0012),   // rudder
+//         };
+        plane = new Airplane(engine, gun, rb);
+
+        plane.AddWing(WingRole.RightWing, new Wing(area: 6.96f, controlInput: 0f, span: 2.50f, flapRatio: 0.10f,
+              wingNormal: Vector3.up,   displacement: new Vector3(wingOffset, 0f, -2.35f), airfoil: naca2412));
+
+        plane.AddWing(WingRole.LeftWing, new Wing(area: 6.96f, controlInput: 0f, span: 2.50f, flapRatio: 0.10f,
+              wingNormal: Vector3.up,   displacement: new Vector3(wingOffset, 0f, +2.35f), airfoil: naca2412));
+
+        plane.AddWing(WingRole.ElevatorWing, new Wing(area: 6.54f, controlInput: 0f, span: 2.70f, flapRatio: 1.00f,
+              wingNormal: elevatorNormal, displacement: new Vector3(tailOffset, -0.1f, 0f),  airfoil: naca64a204));
+
+        plane.AddWing(WingRole.RudderWing,  new Wing(area: 5.31f, controlInput: 0f, span: 3.10f, flapRatio: 0.15f,
+              wingNormal: Vector3.back, displacement: new Vector3(tailOffset, 0f, 0f), airfoil: naca0012));
+
+        plane.AddWing(WingRole.Hull,  new Wing(area: 15.0f/3, controlInput: 0f, span:  4.8f/3f, flapRatio: 0f,
+              wingNormal: Vector3.up, displacement: new Vector3(0.0f, 0f, -0.0f), airfoil: naca0012));
+
 
 
         if (playerCamera != null)
@@ -204,41 +225,19 @@ void LateUpdate()
         Vector3.up
     );
 
-    // Existing debug rays.
-    if (!drawDebugRays || wings == null || rb == null) return;
 
-    Debug.DrawRay(rb.transform.position, rb.transform.right * 10f, Color.white);
-
-    foreach (var wing in wings)
-        wing.DrawDebug(rb, debugRayScale);
 }
     void FixedUpdate()
     {
-        if (source == null || wings == null || rb == null) return;
 
-        // Pitch rate BEFORE any aero force this step: shows whether something else spins the plane
-        if (step < 6)
-            Debug.Log($"step {step} start: q={transform.InverseTransformDirection(rb.angularVelocity).z:F3} " +
-                      $"pos={transform.position} comWorld={rb.worldCenterOfMass} (expect x = pos.x - 0.7)");
-
-        // Feed the latest input into the control surfaces every physics step
-        FlightInput inp = source.input;
-        wings[LeftWing].ControlInput  =  inp.aileron;
-        wings[RightWing].ControlInput = -inp.aileron;
-        wings[Elevator].ControlInput  =  inp.elevator + inp.trim;
-        wings[Rudder].ControlInput    =  inp.rudder;
-
+         FlightInput inp = source.input;
         // Thrust along the aircraft's forward axis (local +X)
         if (applyAero)
         {
             float thrust = Mathf.Abs((float)engine.computePropulsionForce()) * Mathf.Clamp01(source.input.throttle);   // forward only, scaled by throttle
             lastThrust = thrust;
-            rb.AddForce(rb.rotation * Vector3.right * thrust);
-            foreach (var wing in wings)
-            {
-                wing.Apply(rb);
-            }
 
+            plane.ComputeForces(inp);
             if (rateDamping)
             {
                 // local angular velocity: x = roll, y = yaw, z = pitch
@@ -248,39 +247,8 @@ void LateUpdate()
             }
         }
 
-        step++;
-        // every 5th physics step (0.1 s) for the first 3 s, then once per second
-        if (logState && (step <= 150 ? step % 5 == 0 : step % 50 == 0)) LogState();
+
     }
 
-    void LogState()
-    {
-        Vector3 vLocal = transform.InverseTransformDirection(rb.linearVelocity);
-        Vector3 wLocal = transform.InverseTransformDirection(rb.angularVelocity);
-        float pitchDeg = Mathf.Asin(Mathf.Clamp(transform.right.y, -1f, 1f)) * Mathf.Rad2Deg;   // nose above horizon
-        float bankDeg = Mathf.Asin(Mathf.Clamp(transform.forward.y, -1f, 1f)) * Mathf.Rad2Deg;   // + = right bank
 
-        float liftY = 0f;
-        foreach (var w in wings) liftY += w.LastLift.y;
-        float dragX = 0f;
-        foreach (var w in wings) dragX += transform.InverseTransformDirection(w.LastDrag).x;
-
-        // Pitch moment about the COM, local Z component, per surface [Nm]
-        float[] mz = new float[wings.Count];
-        for (int i = 0; i < wings.Count; i++)
-        {
-            Vector3 arm = transform.TransformPoint(wings[i].Displacement) - rb.worldCenterOfMass;
-            Vector3 torque = Vector3.Cross(arm, wings[i].LastLift + wings[i].LastDrag);
-            mz[i] = transform.InverseTransformDirection(torque).z;
-        }
-
-        Debug.Log($"t={Time.fixedTime:F2} pitch={pitchDeg:F1}deg p={wLocal.x:F2} q={wLocal.z:F2} r={wLocal.y:F2} bank={bankDeg:F0} |v|={rb.linearVelocity.magnitude:F1} vmax={rb.maxLinearVelocity:F0} vLocal={vLocal}\n" +
-                  $"AoA wingL={wings[LeftWing].LastAoA:F1} wingR={wings[RightWing].LastAoA:F1} " +
-                  $"elev={wings[Elevator].LastAoA:F1} rudder={wings[Rudder].LastAoA:F1}\n" +
-                  $"Mz wings={mz[LeftWing] + mz[RightWing]:F0} elev={mz[Elevator]:F0}  " +
-                  $"liftY={liftY:F0} weight={rb.mass * Physics.gravity.magnitude:F0}\n" +
-                  $"in: ail={source.input.aileron:F2} ele={source.input.elevator:F2} rud={source.input.rudder:F2} trim={source.input.trim:F2} thr={source.input.throttle:F2}\n" +
-                  $"thrust={lastThrust:F0} dragX={dragX:F0} CL wing={wings[LeftWing].LastCl:F2} " +
-                  $"CD wing={wings[LeftWing].LastCd:F3} CD elev={wings[Elevator].LastCd:F3}");
-    }
 }
