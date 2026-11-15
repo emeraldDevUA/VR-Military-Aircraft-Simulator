@@ -53,7 +53,6 @@ public class Airplane
     // Physics
     private Rigidbody rigidbody;
 
-
     // Aircraft systems
     public FlapState Flaps { get; private set; }
         = FlapState.Retracted;
@@ -66,7 +65,6 @@ public class Airplane
     private PIDController pitch_control_pid;
     private PIDController roll_control_pid;
     private PIDController yaw_control_pid;
-
 
     // Constructor
     public Airplane(Engine engine, Gun gun, Rigidbody rigidbody)
@@ -101,7 +99,6 @@ public class Airplane
 
     // Flight controls
 
-
     public void SetThrottle(float throttle){
         engine.innerThrottle = throttle;
     }
@@ -128,15 +125,15 @@ public class Airplane
         if (rigidbody == null)
             return;
 
+        SetThrottle(input.throttle);
         float propulsionForce = (float)engine.computePropulsionForce();
         rigidbody.AddForce(rigidbody.rotation * Vector3.right * propulsionForce);
-
 
         wings[WingRole.LeftWing].ControlInput  =  input.aileron;
         wings[WingRole.RightWing].ControlInput = -input.aileron;
         wings[WingRole.ElevatorWing].ControlInput  =  input.elevator + input.trim;
         wings[WingRole.RudderWing].ControlInput    =  input.rudder;
-        SetThrottle(input.throttle);
+
 
         foreach (Wing wing in wings.Values)
         {

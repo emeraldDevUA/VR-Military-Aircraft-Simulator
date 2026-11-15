@@ -1140,14 +1140,14 @@ MonoBehaviour:
   engineThrust: 75000
   elevatorIncidenceDeg: -7
   initialTrim: 0
-  initialThrottle: 0.2
+  initialThrottle: 0.5
   rateDamping: 1
   rollDamping: 50000
   pitchDamping: 300000
   yawDamping: 300000
   startAltitude: 100
   startAoADeg: 4.5
-  startSpeed: 150
+  startSpeed: 250
   logState: 1
   applyAero: 1
   drawDebugRays: 1
@@ -1159,6 +1159,8 @@ MonoBehaviour:
   zoomSensitivity: 4
   cameraSmoothTime: 12
   invertOrbitY: 0
+  showHud: 1
+  hudToggleKey: 284
 --- !u!54 &1325423608
 Rigidbody:
   m_ObjectHideFlags: 0

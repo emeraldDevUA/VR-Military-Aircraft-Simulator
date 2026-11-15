@@ -30,7 +30,7 @@ public class PlayerControllerScript : MonoBehaviour
     [Header("Start state")]
     public float startAltitude = 100f;
     public float startAoADeg = 4.5f;     // nose-up angle of attack at start (about trim for 120 m/s)
-    public float startSpeed = 120f;      // m/s along the plane's forward axis (local +X)
+    public float startSpeed = 320f;      // m/s along the plane's forward axis (local +X)
 
     [Header("Debug")]
     public bool logState = true;
@@ -59,12 +59,20 @@ public class PlayerControllerScript : MonoBehaviour
     private int step;
     private float lastThrust;
 
-
     private Gun gun = new Gun(new Vector3(0.1f, 0.1f, -2.0f), new Vector3(0, 0, 1), 125);
     private Airplane plane;
 
     // Wing indices
     const int LeftWing = 0, RightWing = 1, Elevator = 2, Rudder = 3;
+
+
+    [Header("Debug HUD")]
+    public bool showHud = true;
+    public KeyCode hudToggleKey = KeyCode.F3;
+
+    private Vector3 hudWorldVel, hudLocalVel, hudLocalAngVelDeg;
+    private Vector3 hudAccel, hudLastVel;
+    private float hudSpeed, hudG, hudGSmooth, hudAoA, hudSideslip;
 
     void Awake()
     {
@@ -114,20 +122,10 @@ public class PlayerControllerScript : MonoBehaviour
         // tail surfaces 6.6 m behind.
         float wingOffset = -0.6f;
         float tailOffset = -4.2f;
+
         float inc = elevatorIncidenceDeg * Mathf.Deg2Rad;
         Vector3 elevatorNormal = new Vector3(-Mathf.Sin(inc), Mathf.Cos(inc), 0f);
 
-//         wings = new List<Wing>
-//         {
-//             new Wing(area: 6.96f, controlInput: 0f, span: 2.50f, flapRatio: 0.10f,
-//                      wingNormal: Vector3.up,   displacement: new Vector3(wingOffset, 0f, +2.35f), airfoil: naca2412),   // left
-//             new Wing(area: 6.96f, controlInput: 0f, span: 2.50f, flapRatio: 0.10f,
-//                      wingNormal: Vector3.up,   displacement: new Vector3(wingOffset, 0f, -2.35f), airfoil: naca2412),   // right
-//             new Wing(area: 6.54f, controlInput: 0f, span: 2.70f, flapRatio: 1.00f,
-//                      wingNormal: elevatorNormal, displacement: new Vector3(tailOffset, -0.1f, 0f),  airfoil: naca64a204), // elevator
-//             new Wing(area: 5.31f, controlInput: 0f, span: 3.10f, flapRatio: 0.15f,
-//                      wingNormal: Vector3.back, displacement: new Vector3(tailOffset, 0f, 0f),     airfoil: naca0012),   // rudder
-//         };
         plane = new Airplane(engine, gun, rb);
 
         plane.AddWing(WingRole.RightWing, new Wing(area: 6.96f, controlInput: 0f, span: 2.50f, flapRatio: 0.10f,
@@ -144,7 +142,6 @@ public class PlayerControllerScript : MonoBehaviour
 
         plane.AddWing(WingRole.Hull,  new Wing(area: 15.0f/3, controlInput: 0f, span:  4.8f/3f, flapRatio: 0f,
               wingNormal: Vector3.up, displacement: new Vector3(0.0f, 0f, -0.0f), airfoil: naca0012));
-
 
 
         if (playerCamera != null)
@@ -171,10 +168,14 @@ public class PlayerControllerScript : MonoBehaviour
             cameraYaw = Mathf.Atan2(direction.x, -direction.z) * Mathf.Rad2Deg;
             cameraPitch = Mathf.Asin(direction.y) * Mathf.Rad2Deg;
         }
+
+        hudLastVel = rb.linearVelocity;
     }
 
 void Update()
 {
+    if (Input.GetKeyDown(hudToggleKey)) showHud = !showHud;
+
     if (playerCamera == null) return;
 
     if (Input.GetKeyDown(KeyCode.C))
@@ -229,9 +230,8 @@ void LateUpdate()
 }
     void FixedUpdate()
     {
-
          FlightInput inp = source.input;
-        // Thrust along the aircraft's forward axis (local +X)
+
         if (applyAero)
         {
             float thrust = Mathf.Abs((float)engine.computePropulsionForce()) * Mathf.Clamp01(source.input.throttle);   // forward only, scaled by throttle
@@ -246,9 +246,75 @@ void LateUpdate()
                 rb.AddTorque(rb.rotation * damp);
             }
         }
-
+         UpdateHudData();
 
     }
 
+void UpdateHudData()
+{
+    float dt = Time.fixedDeltaTime;
+    Quaternion inv = Quaternion.Inverse(rb.rotation);
 
+    hudWorldVel = rb.linearVelocity;
+    hudLocalVel = inv * hudWorldVel;
+    hudSpeed = hudWorldVel.magnitude;
+
+    // world rad/s -> local deg/s (x = roll, y = yaw, z = pitch)
+    hudLocalAngVelDeg = inv * rb.angularVelocity * Mathf.Rad2Deg;
+
+    // G-load as felt by the pilot (includes gravity), in body axes
+    hudAccel = (hudWorldVel - hudLastVel) / dt;
+    hudLastVel = hudWorldVel;
+    Vector3 specific = inv * (hudAccel - Physics.gravity);
+    hudG = specific.y / 9.81f;                         // positive = pushed into the seat (pulling up)
+    hudGSmooth = Mathf.Lerp(hudGSmooth, hudG, 0.1f);
+
+    // Local +X is forward. AoA positive = nose above the flight path.
+    if (hudLocalVel.x > 0.1f)
+    {
+        hudAoA      = Mathf.Atan2(-hudLocalVel.y, hudLocalVel.x) * Mathf.Rad2Deg;
+        hudSideslip = Mathf.Atan2(-hudLocalVel.z, hudLocalVel.x) * Mathf.Rad2Deg; // +Z is left, so positive = drifting right
+    }
+    else hudAoA = hudSideslip = 0f;
+}
+
+static string Fmt(Vector3 v) => $"({v.x,7:F1}, {v.y,7:F1}, {v.z,7:F1})";
+
+void OnGUI()
+{
+    if (!showHud || rb == null) return;
+
+    string text =
+        $"Speed:      {hudSpeed,7:F1} m/s  ({hudSpeed * 3.6f:F0} km/h)\n" +
+        $"Altitude:   {rb.position.y,7:F1} m\n" +
+        $"Vel world:  {Fmt(hudWorldVel)}\n" +
+        $"Vel local:  {Fmt(hudLocalVel)}\n" +
+        $"AngVel local (deg/s)\n" +
+        $"  roll {hudLocalAngVelDeg.x,7:F1}  yaw {hudLocalAngVelDeg.y,7:F1}  pitch {hudLocalAngVelDeg.z,7:F1}\n" +
+        $"Accel world: {Fmt(hudAccel)}\n" +
+        $"G-load:     {hudGSmooth,7:F2} g\n" +
+        $"AoA / Slip: {hudAoA,6:F1}° / {hudSideslip,6:F1}°\n" +
+        $"Throttle:   {source.input.throttle,5:F2}   Trim: {source.input.trim,5:F2}\n" +
+        $"Thrust:     {lastThrust,8:F0} N\n" +
+        $"Mass {rb.mass:F0} kg  LinDamp {rb.linearDamping:F2}  AngDamp {rb.angularDamping:F2}";
+
+    GUI.Box(new Rect(10, 10, 400, 235), GUIContent.none);
+    GUI.Label(new Rect(18, 14, 385, 230), text);
+}
+
+void OnDrawGizmos()
+{
+    if (!drawDebugRays || rb == null || !Application.isPlaying) return;
+
+    Vector3 com = rb.worldCenterOfMass;
+
+    Gizmos.color = Color.green;                       // velocity
+    Gizmos.DrawRay(com, hudWorldVel * 0.1f);
+
+    Gizmos.color = Color.red;                         // angular velocity axis
+    Gizmos.DrawRay(com, rb.angularVelocity * 3f);
+
+    Gizmos.color = Color.yellow;                      // center of mass
+    Gizmos.DrawSphere(com, 0.1f);
+}
 }
