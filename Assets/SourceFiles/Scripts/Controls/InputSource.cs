@@ -13,7 +13,7 @@ public class InputSource : MonoBehaviour
     public FlightInput input = new FlightInput();
 
     [Header("Mode")]
-    public Mode mode = Mode.Keyboard;
+    public Mode mode = Mode.Joystick;
 
     [Header("Joystick axis names (must exist in Edit > Project Settings > Input Manager)")]
     public string aileronAxis  = "Aileron";

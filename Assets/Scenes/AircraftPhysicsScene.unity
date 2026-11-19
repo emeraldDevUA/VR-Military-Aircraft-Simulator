@@ -1209,7 +1209,7 @@ MonoBehaviour:
     numAxes: 0
     numHats: 0
     numButtons: 0
-  mode: 0
+  mode: 1
   aileronAxis: Aileron
   elevatorAxis: Elevator
   rudderAxis: Rudder
