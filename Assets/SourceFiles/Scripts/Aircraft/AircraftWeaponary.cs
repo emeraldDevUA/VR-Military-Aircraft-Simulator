@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-abstract class HomingSystem
+public abstract class HomingSystem
 {
     private string m_homingMode = "";
 
