@@ -59,7 +59,7 @@ public class PlayerControllerScript : MonoBehaviour
     private int step;
     private float lastThrust;
 
-    private Gun gun = new Gun(new Vector3(0.1f, 0.1f, -2.0f), new Vector3(0, 0, 1), 125);
+    private Gun gun = new Gun(new Vector3(4.58f, 0.2f, 0.691f), new Vector3(0, 0, 1), 125);
     private Airplane plane;
 
     // Wing indices

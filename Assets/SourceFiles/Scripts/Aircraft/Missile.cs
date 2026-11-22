@@ -24,11 +24,11 @@ public class Missile
 {
     // expose parameters
     private Rigidbody m_rigidBody;
+
     private readonly Dictionary<MissileControlSurface, Wing> wings = new();
     private readonly Dictionary<MissileControlSurface, Transform> controlSurfaces = new();
 
     private Engine engine;
-    private List<float> controlInputs = new List<float>();
 
     private HomingSystem m_homingSystem;
     // warhead
