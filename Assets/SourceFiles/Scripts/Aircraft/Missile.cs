@@ -46,11 +46,16 @@ public class Missile
     public void computeForces(MissileInput input){
 
 
+        // EXtract control values from the input class
 
+        foreach (Wing wing in wings.Values)
+        {
+            wing.Apply(m_rigidBody);
+        }
     }
     
     // Called when the pilot tries to lock the missile onto the target
-    public void TryLock(/*Target target*/) {
+    public void TryLock(Target target) {
         m_homingSystem.TryLock();
     }
 

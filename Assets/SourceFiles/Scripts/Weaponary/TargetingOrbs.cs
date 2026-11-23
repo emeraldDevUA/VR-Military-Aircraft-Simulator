@@ -1,11 +1,11 @@
 using UnityEngine;
 
-enum OrbType{
+public enum OrbType{
     UniDirectional,
     MultiDirectional
 }
 
-class HeatOrb{
+public class HeatOrb{
     float m_intensity{get; set;} = 0;
 
     Vector3 m_position{get; set;} = new Vector3(0,0,0);
@@ -49,7 +49,7 @@ class HeatOrb{
 
 
 
-class RadarOrb{
+public class RadarOrb{
     float m_area{get; set;} = 0;
 
     Vector3 m_position{get; set;} = new Vector3(0,0,0);
