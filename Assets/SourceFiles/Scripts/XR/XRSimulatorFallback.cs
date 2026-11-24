@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit.Inputs.Simulation;
 
@@ -7,9 +8,13 @@ public class XRSimulatorFallback : MonoBehaviour
 {
     public GameObject simulatorPrefab;
 
+#if UNITY_EDITOR
+    private XRDeviceSimulator simulator;
+    private float rotateX;
+    private float rotateY;
+
     void Start()
     {
-#if UNITY_EDITOR
         var displays = new List<XRDisplaySubsystem>();
         SubsystemManager.GetSubsystems(displays);
         foreach (XRDisplaySubsystem display in displays)
@@ -21,7 +26,7 @@ public class XRSimulatorFallback : MonoBehaviour
         if (simulatorPrefab == null)
             return;
 
-        var simulator = Instantiate(simulatorPrefab).GetComponentInChildren<XRDeviceSimulator>();
+        simulator = Instantiate(simulatorPrefab).GetComponentInChildren<XRDeviceSimulator>();
         if (simulator == null)
             return;
 
@@ -31,6 +36,18 @@ public class XRSimulatorFallback : MonoBehaviour
         simulator.manipulateLeftAction = null;
         simulator.rotateModeOverrideAction = null;
         simulator.toggleMouseTransformationModeAction = null;
-#endif
+        rotateX = simulator.mouseXRotateSensitivity;
+        rotateY = simulator.mouseYRotateSensitivity;
     }
+
+    void Update()
+    {
+        if (simulator == null || Mouse.current == null)
+            return;
+
+        bool look = Mouse.current.rightButton.isPressed;
+        simulator.mouseXRotateSensitivity = look ? rotateX : 0f;
+        simulator.mouseYRotateSensitivity = look ? rotateY : 0f;
+    }
+#endif
 }
