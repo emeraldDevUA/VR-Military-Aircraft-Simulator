@@ -120,32 +120,131 @@ public class Airplane
     }
 
     // Physics
-    public void ComputeForces(FlightInput input)
+
+
+[Header("AoA limits")]
+[SerializeField] float aoaLimitDeg  = 26f;    // upper
+[SerializeField] float aoaMinDeg    = -20f;   // lower (negative)
+[SerializeField] float aoaMarginDeg = 2f;
+[SerializeField] float elevatorSign = -1f;    // +1 if positive elevator INCREASES AoA
+
+[Header("Pitch hold (no input)")]
+[SerializeField] float holdDeadzone   = 0.02f; // |elevator input| below this = "no input"
+[SerializeField] float holdMaxPitch   = 80f;   // hold disabled beyond this pitch (deg)
+
+PIDController aoaLimiter      = new PIDController(0.095f, 0.05f, 0.005f);
+PIDController aoaLowerLimiter = new PIDController(0.06f, 0.05f, 0.005f);
+PIDController pitchHold       = new PIDController(0.05f, 0.01f, 0.01f);
+
+bool  holdActive;
+float holdTargetPitch;
+
+public void ResetControllers()   // call on respawn
+{
+    aoaLimiter.Reset();
+    aoaLowerLimiter.Reset();
+    pitchHold.Reset();
+    holdActive = false;
+}
+
+public void ComputeForces(FlightInput input)
+{
+    if (rigidbody == null) return;
+    float dt = Time.fixedDeltaTime;
+
+    Quaternion rot = rigidbody.rotation;
+
+    // ---------- Measurements ----------
+    // AoA, identical to UpdateHudData
+    Vector3 localVel = Quaternion.Inverse(rot) * rigidbody.linearVelocity;
+    float aoaDeg = localVel.x > 0.1f
+        ? Mathf.Atan2(-localVel.y, localVel.x) * Mathf.Rad2Deg
+        : 0f;
+
+    // Pitch attitude (nose above horizon) and inverted check
+    Vector3 fwd = rot * Vector3.right;
+    float pitchDeg = Mathf.Asin(Mathf.Clamp(fwd.y, -1f, 1f)) * Mathf.Rad2Deg;
+    bool inverted = (rot * Vector3.up).y < 0f;
+
+    // ---------- Stage 0: pilot command / pitch hold ----------
+    // Everything below works in the "AoA-increasing" direction.
+    float manualCmd  = Mathf.Clamp(elevatorSign * (input.elevator + input.trim), -1f, 1f);
+    bool pilotActive = Mathf.Abs(input.elevator) > holdDeadzone;
+    bool holdAllowed = Mathf.Abs(pitchDeg) < holdMaxPitch;
+
+    float pilotCmd;
+    if (pilotActive || !holdAllowed)
     {
-        if (rigidbody == null)
-            return;
-
-        SetThrottle(input.throttle);
-        float propulsionForce = (float)engine.computePropulsionForce();
-        rigidbody.AddForce(rigidbody.rotation * Vector3.right * propulsionForce);
-
-        wings[WingRole.LeftWing].ControlInput  =  input.aileron;
-        wings[WingRole.RightWing].ControlInput = -input.aileron;
-        wings[WingRole.ElevatorWing].ControlInput  =  input.elevator + input.trim;
-        wings[WingRole.RudderWing].ControlInput    =  input.rudder;
-
-
-        foreach (Wing wing in wings.Values)
+        // Manual flight. Hold PID follows the command -> bumpless handover.
+        holdActive = false;
+        pitchHold.Calculate(pitchDeg, pitchDeg, dt);   // error = 0, updates internal state
+        pitchHold.TrackOutput(manualCmd);
+        pilotCmd = manualCmd;
+    }
+    else
+    {
+        if (!holdActive)
         {
-            wing.Apply(rigidbody);
+            holdActive = true;
+            holdTargetPitch = pitchDeg;                // remember attitude at release
         }
-
-        // Engine thrust
-        // Wing lift
-        // Aerodynamic drag
-        // Additional forces from aircraft systems
+        // positive error (nose too low) -> AoA-increasing command
+        pilotCmd = pitchHold.Calculate(pitchDeg, holdTargetPitch, dt);
     }
 
+    // ---------- Stage 1: upper AoA limit ----------
+    float limitCmd = aoaLimiter.Calculate(aoaDeg, aoaLimitDeg - aoaMarginDeg, dt);
+    float finalCmd;
+    if (limitCmd >= pilotCmd)
+    {
+        finalCmd = pilotCmd;
+        aoaLimiter.TrackOutput(pilotCmd);
+    }
+    else
+    {
+        finalCmd = limitCmd;
+    }
+
+    // ---------- Stage 2: lower AoA limit (skipped when inverted) ----------
+    if (!inverted)
+    {
+        float lowerCmd = aoaLowerLimiter.Calculate(aoaDeg, aoaMinDeg + aoaMarginDeg, dt);
+        if (lowerCmd <= finalCmd)
+        {
+            aoaLowerLimiter.TrackOutput(finalCmd);
+        }
+        else
+        {
+            finalCmd = lowerCmd;
+        }
+    }
+    else
+    {
+        aoaLowerLimiter.Reset();
+    }
+
+    float elevator = elevatorSign * finalCmd;
+
+    // ---------- Apply ----------
+    SetThrottle(input.throttle);
+    float propulsionForce = (float)engine.computePropulsionForce();
+    rigidbody.AddForce(rot * Vector3.right * propulsionForce);
+
+    wings[WingRole.LeftWing].ControlInput     =  input.aileron;
+    wings[WingRole.RightWing].ControlInput    = -input.aileron;
+    wings[WingRole.ElevatorWing].ControlInput =  elevator;
+    wings[WingRole.RudderWing].ControlInput   =  input.rudder;
+
+    foreach (Wing wing in wings.Values)
+    {
+        wing.Apply(rigidbody);
+    }
+
+    // Engine thrust
+    // Wing lift
+    // Aerodynamic drag
+    // Additional forces from aircraft systems
+}
     // Visual updates
     public void UpdateAnimations(FlightInput input)
     {

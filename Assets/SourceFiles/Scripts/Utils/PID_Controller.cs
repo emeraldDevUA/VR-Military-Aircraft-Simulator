@@ -5,6 +5,8 @@ public class PIDController
 {
     public float Kp, Ki, Kd;
     public float OutputMin = -1f, OutputMax = 1f;
+    private float lastP, lastD;
+
 
     private float integral;
     private float prevError;
@@ -19,6 +21,10 @@ public class PIDController
     {
         float error = target - current;
         float derivative = first ? 0f : (error - prevError) / dt;
+
+        lastP = Kp * error;
+        lastD = Kd * derivative;
+
         first = false;
         prevError = error;
 
@@ -33,4 +39,15 @@ public class PIDController
     }
 
     public void Reset() { integral = 0f; prevError = 0f; first = true; }
+
+
+    /// Make the integrator follow an external output (bumpless override / anti-windup
+    /// for a controller that is not currently selected).
+    public void TrackOutput(float desiredOutput)
+    {
+        if (Mathf.Abs(Ki) < 1e-6f) return;
+        float desired = Mathf.Clamp(desiredOutput, OutputMin, OutputMax);
+        integral = (desired - lastP - lastD) / Ki;
+    }
+
 }
