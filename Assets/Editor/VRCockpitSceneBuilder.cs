@@ -55,6 +55,7 @@ public static class VRCockpitSceneBuilder
 
         GameObject rig = CreateRig(rigPrefab, model.transform, eye, forward);
         Camera xrCamera = rig.GetComponent<XROrigin>().Camera;
+        xrCamera.gameObject.AddComponent<SeatedHeadRange>();
         MoveTestCameraInputs(xrCamera);
         PointHudAt(xrCamera);
 

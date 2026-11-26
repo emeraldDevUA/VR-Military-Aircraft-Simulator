@@ -6,11 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/AircraftPhysicsScene.unity
-    guid: 6888813f2bd9e4521b9b1343abf0c60f
-  - enabled: 1
     path: Assets/Scenes/VR_Cockpit_Test.unity
     guid: 3c17879b7477d413890f76c713f804d9
+  - enabled: 1
+    path: Assets/Scenes/AircraftPhysicsScene.unity
+    guid: 6888813f2bd9e4521b9b1343abf0c60f
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: e813515eb138a49dd9083c7469abf3e3, type: 2}

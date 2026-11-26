@@ -30,9 +30,6 @@ public class XRSimulatorFallback : MonoBehaviour
         if (simulator == null)
             return;
 
-        simulator.keyboardXTranslateSpeed = 0f;
-        simulator.keyboardYTranslateSpeed = 0f;
-        simulator.keyboardZTranslateSpeed = 0f;
         simulator.manipulateLeftAction = null;
         simulator.rotateModeOverrideAction = null;
         simulator.toggleMouseTransformationModeAction = null;
