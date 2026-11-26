@@ -135,7 +135,8 @@ public class Airplane
 PIDController aoaLimiter      = new PIDController(0.095f, 0.05f, 0.005f);
 PIDController aoaLowerLimiter = new PIDController(0.06f, 0.05f, 0.005f);
 PIDController pitchHold       = new PIDController(0.05f, 0.01f, 0.01f);
-
+PIDController aoaHold = new PIDController(0.05f, 0.02f, 0.01f);
+[SerializeField] float holdAoaTarget = 0f;
 bool  holdActive;
 float holdTargetPitch;
 
@@ -144,6 +145,7 @@ public void ResetControllers()   // call on respawn
     aoaLimiter.Reset();
     aoaLowerLimiter.Reset();
     pitchHold.Reset();
+    aoaHold.Reset();
     holdActive = false;
 }
 
@@ -172,24 +174,33 @@ public void ComputeForces(FlightInput input)
     bool pilotActive = Mathf.Abs(input.elevator) > holdDeadzone;
     bool holdAllowed = Mathf.Abs(pitchDeg) < holdMaxPitch;
 
+    // 1 = wings roughly level (bank < ~45°), 0 = bank > ~72° or inverted
+    float upY    = (rot * Vector3.up).y;
+    float wPitch = Mathf.Clamp01((upY - 0.3f) / 0.4f);
+
     float pilotCmd;
     if (pilotActive || !holdAllowed)
     {
-        // Manual flight. Hold PID follows the command -> bumpless handover.
         holdActive = false;
-        pitchHold.Calculate(pitchDeg, pitchDeg, dt);   // error = 0, updates internal state
+        pitchHold.Calculate(pitchDeg, pitchDeg, dt);
         pitchHold.TrackOutput(manualCmd);
+        aoaHold.Calculate(aoaDeg, aoaDeg, dt);
+        aoaHold.TrackOutput(manualCmd);
         pilotCmd = manualCmd;
     }
     else
     {
-        if (!holdActive)
-        {
-            holdActive = true;
-            holdTargetPitch = pitchDeg;                // remember attitude at release
-        }
-        // positive error (nose too low) -> AoA-increasing command
-        pilotCmd = pitchHold.Calculate(pitchDeg, holdTargetPitch, dt);
+        if (!holdActive) { holdActive = true; holdTargetPitch = pitchDeg; }
+        if (wPitch < 0.5f) holdTargetPitch = pitchDeg;   // while banked, keep re-capturing
+
+        float pitchOut = pitchHold.Calculate(pitchDeg, holdTargetPitch, dt);
+        float aoaOut   = aoaHold.Calculate(aoaDeg, holdAoaTarget, dt);
+
+        pilotCmd = wPitch * pitchOut + (1f - wPitch) * aoaOut;
+
+        // The inactive PID follows the blended command so its integrator can't wind up
+        if (wPitch < 0.05f) pitchHold.TrackOutput(pilotCmd);
+        if (wPitch > 0.95f) aoaHold.TrackOutput(pilotCmd);
     }
 
     // ---------- Stage 1: upper AoA limit ----------
