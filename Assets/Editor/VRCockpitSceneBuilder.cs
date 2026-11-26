@@ -55,9 +55,10 @@ public static class VRCockpitSceneBuilder
 
         GameObject rig = CreateRig(rigPrefab, model.transform, eye, forward);
         Camera xrCamera = rig.GetComponent<XROrigin>().Camera;
-        xrCamera.gameObject.AddComponent<SeatedHeadRange>();
+        xrCamera.gameObject.AddComponent<SeatedHeadRange>().enabled = false;
         MoveTestCameraInputs(xrCamera);
         PointHudAt(xrCamera);
+        CockpitInteractionSetup.SetUp();
 
         var fallback = new GameObject("XR Simulator Fallback").AddComponent<XRSimulatorFallback>();
         fallback.simulatorPrefab = simulatorPrefab;

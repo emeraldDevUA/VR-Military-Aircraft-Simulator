@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48a0aa3d91a33469f98c6e2c0b9a9184, type: 3}
+  m_Name: CockpitButtonFeel
+  m_EditorClassIdentifier: Assembly-CSharp::CockpitButtonFeel
+  travel: 0.003
+  hoverDepth: 0.006
+  edgePadding: 0.0015
+  capSpeed: 40
+  debounce: 0.08
+  releaseEdgeMargin: 0.004
+  pressAmplitude: 0.5
+  pressDuration: 0.02
+  releaseAmplitude: 0.25
+  releaseDuration: 0.015
+  pressClip: {fileID: 8300000, guid: 0a45335a2f95b4818865e6ee63bc33c7, type: 3}
+  releaseClip: {fileID: 8300000, guid: e2873496c614c4002b5eb9995aff7e33, type: 3}
+  volume: 0.8

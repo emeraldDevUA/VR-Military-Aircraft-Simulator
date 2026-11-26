@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary>
 /// Reusable physical MFD key. Input sources call Press/Release; the optional action is
@@ -11,6 +12,12 @@ public sealed class CockpitMfdButton : MonoBehaviour
     [SerializeField] private Color hoverTint = new Color(0.25f, 0.9f, 0.82f, 1f);
     [SerializeField] private Color pressedTint = new Color(1f, 0.72f, 0.28f, 1f);
     [SerializeField, Range(0f, 1f)] private float tintStrength = 0.8f;
+
+    [Header("Events")]
+    public UnityEvent onPressed = new UnityEvent();
+    public UnityEvent onReleased = new UnityEvent();
+    public UnityEvent onCancelled = new UnityEvent();
+    public UnityEvent<bool> onHoverChanged = new UnityEvent<bool>();
 
     private Renderer targetRenderer;
     private Material[] sharedMaterials;
@@ -63,6 +70,7 @@ public sealed class CockpitMfdButton : MonoBehaviour
             return;
         isHovered = hovered;
         ApplyVisualState();
+        onHoverChanged.Invoke(hovered);
     }
 
     /// <summary>Begin a press. Safe to call from mouse, XR, or another input adapter.</summary>
@@ -72,6 +80,7 @@ public sealed class CockpitMfdButton : MonoBehaviour
             return;
         isPressed = true;
         ApplyVisualState();
+        onPressed.Invoke();
     }
 
     /// <summary>End a press and invoke the configured action once if the press was active.</summary>
@@ -87,8 +96,14 @@ public sealed class CockpitMfdButton : MonoBehaviour
             return;
         isPressed = false;
         ApplyVisualState();
-        if (invokeAction && action != null)
+        if (!invokeAction)
+        {
+            onCancelled.Invoke();
+            return;
+        }
+        if (action != null)
             action.InvokeAction();
+        onReleased.Invoke();
     }
 
     /// <summary>Cancel a press without executing the mapped action.</summary>
@@ -98,6 +113,7 @@ public sealed class CockpitMfdButton : MonoBehaviour
             return;
         isPressed = false;
         ApplyVisualState();
+        onCancelled.Invoke();
     }
 
     private void OnDisable()

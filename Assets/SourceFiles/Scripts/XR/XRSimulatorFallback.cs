@@ -30,9 +30,6 @@ public class XRSimulatorFallback : MonoBehaviour
         if (simulator == null)
             return;
 
-        simulator.manipulateLeftAction = null;
-        simulator.rotateModeOverrideAction = null;
-        simulator.toggleMouseTransformationModeAction = null;
         rotateX = simulator.mouseXRotateSensitivity;
         rotateY = simulator.mouseYRotateSensitivity;
     }
