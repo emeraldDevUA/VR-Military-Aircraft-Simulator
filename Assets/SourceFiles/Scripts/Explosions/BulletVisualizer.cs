@@ -26,6 +26,14 @@ public class BulletVisualizer : MonoBehaviour
         GameObject tmp = GameObject.CreatePrimitive(PrimitiveType.Cube);
         m_mesh = tmp.GetComponent<MeshFilter>().sharedMesh;
         Destroy(tmp);
+
+        if (muzzleFlash != null)
+        {
+            var emission = muzzleFlash.emission;
+            emission.enabled = false;   // Emit() still works with the module disabled
+            muzzleFlash.Play();         // keep the system running so emitted particles simulate
+        }
+
     }
 
     public void Bind(Gun gun)

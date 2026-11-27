@@ -255,7 +255,7 @@ void LateUpdate()
             }
         }
          UpdateHudData();
-         gun.Tick(Time.fixedDeltaTime, false, rb.linearVelocity);
+         gun.Tick(Time.fixedDeltaTime, Input.GetMouseButton(2), rb.linearVelocity);
     }
 
 void UpdateHudData()
