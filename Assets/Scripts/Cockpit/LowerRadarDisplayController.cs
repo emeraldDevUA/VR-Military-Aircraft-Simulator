@@ -26,6 +26,7 @@ public sealed class LowerRadarDisplayController : MonoBehaviour
     private IFlightDataSource flightDataSource;
     private INavigationDataSource navigationDataSource;
     private IRadarContactDataSource radarDataSource;
+    private CockpitDisplayVisualLayer visualLayer;
     private RadarScopeGraphic scopeGraphic;
     private RectTransform[] contactLabels;
     private TextMeshProUGUI headingLabel;
@@ -42,6 +43,22 @@ public sealed class LowerRadarDisplayController : MonoBehaviour
 
     /// <summary>Current selected radar range in nautical miles.</summary>
     public float RadarRangeNm => radarRangeNm;
+
+    /// <summary>Optional graphic layer drawn behind the radar symbology.</summary>
+    public CockpitDisplayVisualLayer VisualLayer => visualLayer;
+
+    /// <summary>Load a PNG, JPG/JPEG, or SVG file into the optional display graphic layer.</summary>
+    public bool LoadVisualFile(string path, float opacity = 1f) =>
+        visualLayer != null && visualLayer.LoadFromFile(path, opacity);
+
+    /// <summary>Show an imported Sprite asset behind the radar symbology.</summary>
+    public void SetVisual(Sprite sprite, float opacity = 1f) => visualLayer?.SetSprite(sprite, opacity);
+
+    /// <summary>Show a Texture2D asset behind the radar symbology.</summary>
+    public void SetVisual(Texture2D texture, float opacity = 1f) => visualLayer?.SetTexture(texture, opacity);
+
+    /// <summary>Clear the optional graphic layer.</summary>
+    public void ClearVisual() => visualLayer?.Clear();
 
     /// <summary>Stable identifier of the selected in-range track, or an empty string.</summary>
     public string SelectedTargetIdentifier
@@ -170,6 +187,7 @@ public sealed class LowerRadarDisplayController : MonoBehaviour
         GameObject panel = CreateImage("Panel", canvasRect, Vector2.zero, new Vector2(958f, 958f),
             new Color32(2, 12, 14, 255));
         AddBorder(panel.GetComponent<RectTransform>(), 958f, new Color32(29, 121, 107, 255), 3f);
+        visualLayer = CockpitDisplayVisualLayer.Create(panel.transform, new Vector2(958f, 958f));
         CreateLabel("Header", panel.transform, "F2  /  AIR RADAR", new Vector2(0f, 426f),
             new Vector2(780f, 48f), 37f, Cyan, FontStyles.Bold);
         CreateLine("HeaderRule", panel.transform, new Vector2(0f, 392f), new Vector2(860f, 3f), GridColor);

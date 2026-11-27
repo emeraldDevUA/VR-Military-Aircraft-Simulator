@@ -26,12 +26,29 @@ public sealed class CentralAvionicsControlPanelController : MonoBehaviour
     private TextMeshPro feedbackLabel;
     private Transform textRoot;
     private Material displayTextMaterial;
+    private CockpitDisplayVisualLayer visualLayer;
     private string inputBuffer = string.Empty;
     private string feedback = "READY";
     private float nextRefreshTime;
 
     public float DisplayBrightness => displayBrightness;
     public string InputBuffer => inputBuffer;
+
+    /// <summary>Optional graphic layer drawn behind the central avionics content.</summary>
+    public CockpitDisplayVisualLayer VisualLayer => visualLayer;
+
+    /// <summary>Load a PNG, JPG/JPEG, or SVG file into the optional display graphic layer.</summary>
+    public bool LoadVisualFile(string path, float opacity = 1f) =>
+        visualLayer != null && visualLayer.LoadFromFile(path, opacity);
+
+    /// <summary>Show an imported Sprite asset behind the central avionics text.</summary>
+    public void SetVisual(Sprite sprite, float opacity = 1f) => visualLayer?.SetSprite(sprite, opacity);
+
+    /// <summary>Show a Texture2D asset behind the central avionics text.</summary>
+    public void SetVisual(Texture2D texture, float opacity = 1f) => visualLayer?.SetTexture(texture, opacity);
+
+    /// <summary>Clear the optional graphic layer.</summary>
+    public void ClearVisual() => visualLayer?.Clear();
 
     private void Awake()
     {
@@ -209,6 +226,7 @@ public sealed class CentralAvionicsControlPanelController : MonoBehaviour
 
         GameObject panel = CreateImage("Panel", canvasRect, new Vector2(CanvasWidth, CanvasHeight), new Color32(2, 12, 15, 255));
         AddBorder(panel.GetComponent<RectTransform>(), CanvasWidth, CanvasHeight, new Color32(29, 122, 111, 255), 3f);
+        visualLayer = CockpitDisplayVisualLayer.Create(panel.transform, new Vector2(CanvasWidth, CanvasHeight));
         modeLabel = CreateLabel("Mode", "F2  /  CENTRAL AVIONICS", new Vector2(0f, 150f),
             new Vector2(1120f, 48f), 38f, Cyan, FontStyles.Bold);
         CreateLine(panel.transform, new Vector2(0f, 116f), new Vector2(1100f, 3f), DimLine);

@@ -18,6 +18,7 @@ public sealed class RightMfdHsdController : MonoBehaviour
     private static readonly float[] SupportedRanges = { 10f, 20f, 40f, 80f };
     private INavigationDataSource navigationDataSource;
     private IFlightDataSource flightDataSource;
+    private CockpitDisplayVisualLayer visualLayer;
     private HsdMapGraphic mapGraphic;
     private RectTransform[] waypointLabels;
     private TextMeshProUGUI headingLabel;
@@ -33,6 +34,22 @@ public sealed class RightMfdHsdController : MonoBehaviour
 
     /// <summary>Current map range, one of 10, 20, 40, or 80 nautical miles.</summary>
     public float MapRangeNm => mapRangeNm;
+
+    /// <summary>Optional graphic layer drawn behind the HSD symbology.</summary>
+    public CockpitDisplayVisualLayer VisualLayer => visualLayer;
+
+    /// <summary>Load a PNG, JPG/JPEG, or SVG file into the optional display graphic layer.</summary>
+    public bool LoadVisualFile(string path, float opacity = 1f) =>
+        visualLayer != null && visualLayer.LoadFromFile(path, opacity);
+
+    /// <summary>Show an imported Sprite asset behind the HSD symbology.</summary>
+    public void SetVisual(Sprite sprite, float opacity = 1f) => visualLayer?.SetSprite(sprite, opacity);
+
+    /// <summary>Show a Texture2D asset behind the HSD symbology.</summary>
+    public void SetVisual(Texture2D texture, float opacity = 1f) => visualLayer?.SetTexture(texture, opacity);
+
+    /// <summary>Clear the optional graphic layer.</summary>
+    public void ClearVisual() => visualLayer?.Clear();
 
     private void Awake()
     {
@@ -133,6 +150,7 @@ public sealed class RightMfdHsdController : MonoBehaviour
         GameObject panel = CreateImage("Panel", canvasRect, Vector2.zero, new Vector2(958f, 958f),
             new Color32(2, 12, 15, 255));
         AddBorder(panel.GetComponent<RectTransform>(), 958f, new Color32(29, 122, 111, 255), 3f);
+        visualLayer = CockpitDisplayVisualLayer.Create(panel.transform, new Vector2(958f, 958f));
         CreateLabel("Header", panel.transform, "F2  /  HORIZONTAL SITUATION", new Vector2(0f, 426f),
             new Vector2(850f, 48f), 34f, Cyan, FontStyles.Bold);
         CreateLine("HeaderRule", panel.transform, new Vector2(0f, 392f), new Vector2(860f, 3f), DimLine);
@@ -214,11 +232,18 @@ public sealed class RightMfdHsdController : MonoBehaviour
         {
             Vector2 p = MapPoint(waypoints[i].NorthNm - nav.PositionNorthNm,
                 waypoints[i].EastNm - nav.PositionEastNm, flight.HeadingDegrees, scale);
-            waypointLabels[i].anchoredPosition = p + new Vector2(0f, 22f);
+            Vector2 labelPosition = p + new Vector2(0f, 22f);
+            // Keep the full label inside the circular map area, not just inside
+            // the rectangular RectMask2D viewport.
+            const float labelHalfDiagonal = 61f;
+            float labelCenterLimit = Mathf.Max(0f, mapRadius - labelHalfDiagonal);
+            if (labelPosition.sqrMagnitude > labelCenterLimit * labelCenterLimit)
+                labelPosition = labelPosition.normalized * labelCenterLimit;
+            waypointLabels[i].anchoredPosition = labelPosition;
             TextMeshProUGUI tmp = waypointLabels[i].GetComponent<TextMeshProUGUI>();
             tmp.text = waypoints[i].Label;
             tmp.color = i == activeWaypointIndex ? Amber : Green;
-            waypointLabels[i].gameObject.SetActive(p.sqrMagnitude <= mapRadius * mapRadius * 1.08f);
+            waypointLabels[i].gameObject.SetActive(p.sqrMagnitude <= mapRadius * mapRadius);
         }
     }
 
@@ -329,7 +354,7 @@ public sealed class HsdMapGraphic : MaskableGraphic
             {
                 Vector2 next = RightMfdHsdController.MapPoint(waypoints[i].NorthNm - nav.PositionNorthNm,
                     waypoints[i].EastNm - nav.PositionEastNm, heading, scale);
-                DrawLine(vh, previous, next, i - 1 == activeWaypoint ? 5f : 4f,
+                DrawClippedLine(vh, previous, next, i - 1 == activeWaypoint ? 5f : 4f, Radius,
                     i - 1 == activeWaypoint ? new Color32(255, 195, 83, 255) : new Color32(74, 205, 128, 255));
                 previous = next;
             }
@@ -338,6 +363,10 @@ public sealed class HsdMapGraphic : MaskableGraphic
                 Vector2 p = RightMfdHsdController.MapPoint(waypoints[i].NorthNm - nav.PositionNorthNm,
                     waypoints[i].EastNm - nav.PositionEastNm, heading, scale);
                 float marker = i == activeWaypoint ? 11f : 8f;
+                // Waypoints outside the selected range have no marker. Their
+                // route legs are clipped at the range circle above.
+                if (p.sqrMagnitude > (Radius - marker) * (Radius - marker))
+                    continue;
                 DrawLine(vh, p + new Vector2(-marker, 0f), p + new Vector2(marker, 0f), 4f,
                     i == activeWaypoint ? new Color32(255, 195, 83, 255) : new Color32(95, 240, 158, 255));
                 DrawLine(vh, p + new Vector2(0f, -marker), p + new Vector2(0f, marker), 4f,
@@ -376,6 +405,34 @@ public sealed class HsdMapGraphic : MaskableGraphic
             return;
         Vector2 side = new Vector2(-delta.y, delta.x).normalized * (thickness * 0.5f);
         AddQuad(vh, a - side, a + side, b + side, b - side, color);
+    }
+
+    private static void DrawClippedLine(VertexHelper vh, Vector2 a, Vector2 b, float thickness,
+        float clipRadius, Color color)
+    {
+        // Clip route segments to the circular range area. RectMask2D only clips
+        // to the square viewport, so it cannot keep HSD symbology inside the dial.
+        float usableRadius = clipRadius - thickness * 0.5f - 1f;
+        Vector2 direction = b - a;
+        float quadraticA = Vector2.Dot(direction, direction);
+        if (quadraticA < 0.0001f)
+            return;
+
+        float quadraticB = 2f * Vector2.Dot(a, direction);
+        float quadraticC = Vector2.Dot(a, a) - usableRadius * usableRadius;
+        float discriminant = quadraticB * quadraticB - 4f * quadraticA * quadraticC;
+        if (discriminant < 0f)
+            return;
+
+        float root = Mathf.Sqrt(discriminant);
+        float tEnter = (-quadraticB - root) / (2f * quadraticA);
+        float tExit = (-quadraticB + root) / (2f * quadraticA);
+        float clippedStart = Mathf.Max(0f, tEnter);
+        float clippedEnd = Mathf.Min(1f, tExit);
+        if (clippedStart > clippedEnd)
+            return;
+
+        DrawLine(vh, a + direction * clippedStart, a + direction * clippedEnd, thickness, color);
     }
 
     private static void DrawTriangle(VertexHelper vh, Vector2 a, Vector2 b, Vector2 c, Color color)

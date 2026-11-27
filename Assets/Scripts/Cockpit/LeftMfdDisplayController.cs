@@ -18,6 +18,7 @@ public sealed class LeftMfdDisplayController : MonoBehaviour
 
     private const float CanvasUnits = 1000f;
     private IFlightDataSource flightDataSource;
+    private CockpitDisplayVisualLayer visualLayer;
     private RectTransform attitudeContent;
     private TextMeshProUGUI airspeedValue;
     private TextMeshProUGUI altitudeValue;
@@ -29,6 +30,22 @@ public sealed class LeftMfdDisplayController : MonoBehaviour
     private TextMeshProUGUI gLoadValue;
     private TextMeshProUGUI engineValue;
     private float nextRefreshTime;
+
+    /// <summary>Optional graphic layer drawn behind the flight symbology.</summary>
+    public CockpitDisplayVisualLayer VisualLayer => visualLayer;
+
+    /// <summary>Load a PNG, JPG/JPEG, or SVG file into the optional display graphic layer.</summary>
+    public bool LoadVisualFile(string path, float opacity = 1f) =>
+        visualLayer != null && visualLayer.LoadFromFile(path, opacity);
+
+    /// <summary>Show an imported Sprite asset behind the flight symbology.</summary>
+    public void SetVisual(Sprite sprite, float opacity = 1f) => visualLayer?.SetSprite(sprite, opacity);
+
+    /// <summary>Show a Texture2D asset behind the flight symbology.</summary>
+    public void SetVisual(Texture2D texture, float opacity = 1f) => visualLayer?.SetTexture(texture, opacity);
+
+    /// <summary>Clear the optional graphic layer.</summary>
+    public void ClearVisual() => visualLayer?.Clear();
 
     private void Awake()
     {
@@ -91,6 +108,7 @@ public sealed class LeftMfdDisplayController : MonoBehaviour
         GameObject panel = CreateImage("Panel", canvasRect, Vector2.zero, new Vector2(958f, 958f),
             new Color32(3, 13, 15, 255));
         AddBorder(panel.GetComponent<RectTransform>(), 958f, new Color32(28, 110, 103, 255), 3f);
+        visualLayer = CockpitDisplayVisualLayer.Create(panel.transform, new Vector2(958f, 958f));
 
         CreateLabel("Header", panel.transform, "F2  /  FLIGHT", new Vector2(0f, 421f),
             new Vector2(700f, 54f), 38f, new Color32(111, 255, 213, 255), FontStyles.Bold);
