@@ -74,10 +74,17 @@ public class PlayerControllerScript : MonoBehaviour
     private Vector3 hudAccel, hudLastVel;
     private float hudSpeed, hudG, hudGSmooth, hudAoA, hudSideslip;
 
+    [SerializeField] BulletVisualizer bulletVisualizer;
     void Awake()
     {
         source = GetComponent<InputSource>();
         if (rb == null) rb = GetComponent<Rigidbody>();
+
+
+        gun.HitMask = ~LayerMask.GetMask("Player");   // don't shoot yourself
+        gun.OnHit += (bullet, hit) => { /* damage, impact FX */ };
+        GetComponent<BulletVisualizer>().Bind(gun);
+
     }
 
     void Start()
@@ -193,6 +200,7 @@ void Update()
         cameraPitch = Mathf.Clamp(cameraPitch, -85f, 85f);
     }
 
+
     float scroll = Input.GetAxis("Mouse ScrollWheel");
 
     targetOrbitDistance = Mathf.Clamp(
@@ -247,7 +255,7 @@ void LateUpdate()
             }
         }
          UpdateHudData();
-
+         gun.Tick(Time.fixedDeltaTime, false, rb.linearVelocity);
     }
 
 void UpdateHudData()
