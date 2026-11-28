@@ -218,7 +218,7 @@ void LateUpdate()
         0f
     );
 
-    Vector3 orbitDirection = orbitRotation * Vector3.back;
+    Vector3 orbitDirection = orbitRotation * Vector3.forward;
 
     // Fixed distance from the aircraft origin.
     playerCamera.transform.position =
@@ -230,7 +230,7 @@ void LateUpdate()
         Vector3.up
     );
 
-float a = Input.GetAxisRaw(source.aileronAxis);
+    float a = Input.GetAxisRaw(source.aileronAxis);
     float r = Input.GetAxisRaw(source.rudderAxis);
     aMin = Mathf.Min(aMin, a); aMax = Mathf.Max(aMax, a);
     rMin = Mathf.Min(rMin, r); rMax = Mathf.Max(rMax, r);
