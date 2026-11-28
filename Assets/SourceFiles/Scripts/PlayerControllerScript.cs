@@ -200,7 +200,11 @@ void Update()
         minOrbitDistance,
         maxOrbitDistance
     );
+    Debug.Log($"InputSource mode = {source.mode}");
 }
+
+
+float aMin, aMax, rMin, rMax;
 
 void LateUpdate()
 {
@@ -214,7 +218,7 @@ void LateUpdate()
         0f
     );
 
-    Vector3 orbitDirection = orbitRotation * Vector3.back;
+    Vector3 orbitDirection = orbitRotation * Vector3.forward;
 
     // Fixed distance from the aircraft origin.
     playerCamera.transform.position =
@@ -226,7 +230,12 @@ void LateUpdate()
         Vector3.up
     );
 
-
+    float a = Input.GetAxisRaw(source.aileronAxis);
+    float r = Input.GetAxisRaw(source.rudderAxis);
+    aMin = Mathf.Min(aMin, a); aMax = Mathf.Max(aMax, a);
+    rMin = Mathf.Min(rMin, r); rMax = Mathf.Max(rMax, r);
+    if (Time.frameCount % 30 == 0)
+        Debug.Log($"ail raw {a:F2} [{aMin:F2}..{aMax:F2}]  rud raw {r:F2} [{rMin:F2}..{rMax:F2}]");
 }
     void FixedUpdate()
     {
