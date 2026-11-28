@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-abstract class HomingSystem
+public abstract class HomingSystem
 {
     private string m_homingMode = "";
 
@@ -20,21 +20,21 @@ abstract class HomingSystem
 }
 
 // Heat-seeking homing system stub
-class InfraredHomingSystem : HomingSystem
+public class InfraredHomingSystem : HomingSystem
 {
     public override bool TryLock() { return false; }
     public override Vector3 GetUpdatedDirection() { return Vector3.zero; }
 }
 
 // Radar-guided (semi-active) homing system stub
-class SemiActiveHomingSystem : HomingSystem
+public class SemiActiveHomingSystem : HomingSystem
 {
     public override bool TryLock() { return false; }
     public override Vector3 GetUpdatedDirection() { return Vector3.zero; }
 }
 
 // Radar-guided (active) homing system stub
-class ActiveHomingSystem : HomingSystem
+public class ActiveHomingSystem : HomingSystem
 {
     public override bool TryLock() { return false; }
     public override Vector3 GetUpdatedDirection() { return Vector3.zero; }
