@@ -87,7 +87,7 @@ public class Airplane
         controlSurfaces[surface] = transform;
     }
 
-    internal void AttachMissile(Pylon pylon, Missile missile)
+    public void AttachMissile(Pylon pylon, Missile missile)
     {
         missiles[pylon] = missile;
     }
